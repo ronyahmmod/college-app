@@ -15,7 +15,8 @@ export const User = {
     mobile: 'string',
     lastLoggedIn: 'Timestamp',
     lastLoggedOut: 'Timestamp',
-    locked: false,
+    locked: false, 
+
     inId: 'string', /* Institution Id Only for Admin and Super */
 }
 
