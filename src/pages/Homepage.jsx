@@ -21,6 +21,7 @@ const Homepage = () => {
           alignItems: "center",
           flexDirection: "column",
           p: 2,
+          borderRadius: 2,
         }}
       >
         <Typography

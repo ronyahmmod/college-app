@@ -9,8 +9,10 @@ import {
 } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import GoogleIcon from "@mui/icons-material/Google";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -31,6 +33,7 @@ const Login = () => {
           minHeight: 400,
           alignItems: "center",
           p: 2,
+          borderRadius: 2,
         })}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -104,7 +107,9 @@ const Login = () => {
             },
           }}
         >
-          <Link>Don't have an account? Please register.</Link>
+          <Link onClick={() => navigate("/register")}>
+            Don't have an account? Please register.
+          </Link>
           <Link>Forgot my password.</Link>
         </Box>
       </Box>
