@@ -10,9 +10,35 @@ import {
 import LockIcon from "@mui/icons-material/Lock";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { setError } from "../feature/error/errorSlice";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: (values, { resetForm }) => {
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, values.email, values.password)
+        .then((userCredential) => {
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 1000);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          dispatch(setError({ errorCode, errorMessage }));
+        });
+      resetForm();
+    },
+  });
   return (
     <Box
       sx={{
@@ -58,12 +84,15 @@ const Login = () => {
             rowGap: 2,
             mt: 2,
           }}
+          onSubmit={formik.handleSubmit}
         >
           <TextField
             name="email"
             type="email"
             placeholder="Enter login email"
             label="Email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
             required
             fullWidth
           />
@@ -72,6 +101,8 @@ const Login = () => {
             type="password"
             placeholder="Enter login password"
             label="Password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
             required
             fullWidth
           />

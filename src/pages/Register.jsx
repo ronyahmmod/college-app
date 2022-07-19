@@ -9,9 +9,40 @@ import {
 } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { setError } from "../feature/error/errorSlice";
 
 const Register = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      confirmedPassword: "",
+    },
+    onSubmit: (values) => {
+      const { email, password, confirmedPassword } = values;
+      if (password !== confirmedPassword) {
+        alert("Password and Confirmed Password is not matched");
+        return;
+      }
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 1000);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          dispatch(setError({ errorCode, errorMessage }));
+        });
+    },
+  });
   return (
     <Box
       sx={{
@@ -57,12 +88,15 @@ const Register = () => {
             rowGap: 2,
             mt: 2,
           }}
+          onSubmit={formik.handleSubmit}
         >
           <TextField
             name="email"
             type="email"
             placeholder="Enter email"
             label="Email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
             required
             fullWidth
           />
@@ -71,6 +105,8 @@ const Register = () => {
             type="password"
             placeholder="Enter password"
             label="Password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
             required
             fullWidth
           />
@@ -79,6 +115,8 @@ const Register = () => {
             type="password"
             placeholder="Enter password again"
             label="Confirmed Password"
+            value={formik.values.confirmedPassword}
+            onChange={formik.handleChange}
             required
             fullWidth
           />
