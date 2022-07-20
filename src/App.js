@@ -10,6 +10,7 @@ import Overview from "./pages/Overview";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { setLoggedInUser } from "./feature/user/userSlice";
+import Applications from "./pages/Applications";
 
 function App() {
   const dispatch = useDispatch();
@@ -51,6 +52,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index element={<Overview />} />
+          <Route path="applications" element={<Applications />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
