@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AppConfig from "../app.config";
 import { styled } from "@mui/material/styles";
 import { Box, Avatar } from "@mui/material";
@@ -33,6 +33,7 @@ const SidebarWrapper = styled("div")(({ theme }) => ({
 const Sidebar = () => {
   const loggedInUser = useSelector(selectLoggedInUser);
   const navigate = useNavigate();
+  const [activeMenu, setActiveMenu] = useState("home");
 
   const logoutHandler = () => () => {
     const auth = getAuth();
@@ -42,6 +43,7 @@ const Sidebar = () => {
 
   const openApplicationsHandler = () => () => {
     navigate("applications");
+    setActiveMenu("applications");
   };
   return (
     <SidebarWrapper>
@@ -80,12 +82,20 @@ const Sidebar = () => {
 
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {/* Menu */}
-            <SidebarMenuItem isActive Icon={HomeIcon} />
+            <SidebarMenuItem
+              isActive={activeMenu === "home"}
+              Icon={HomeIcon}
+              clickHandler={() => {
+                navigate("/dashboard/");
+                setActiveMenu("home");
+              }}
+            />
             <SidebarMenuItem Icon={NotificationsIcon} notifications={4} />
             <SidebarMenuItem Icon={WhatsAppIcon} notifications={2} />
             <SidebarMenuItem
               Icon={ArticleIcon}
               clickHandler={openApplicationsHandler()}
+              isActive={activeMenu === "applications"}
             />
             <SidebarMenuItem Icon={AttachMoneyIcon} />
             <SidebarMenuItem Icon={GroupIcon} />
