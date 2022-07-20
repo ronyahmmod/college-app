@@ -11,30 +11,34 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { setLoggedInUser } from "./feature/user/userSlice";
 import Applications from "./pages/Applications";
+import { createUser } from "./firebase/auth/auth";
+import AllreadyLoggedIn from "./components/AllreadyLoggedIn";
 
 function App() {
   const dispatch = useDispatch();
   const auth = getAuth();
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        dispatch(
-          setLoggedInUser({
-            uid: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            emailVerified: user.emailVerified,
-            isAnonymous: user.isAnonymous,
-            phoneNumber: user.phoneNumber,
-            photoURL: user.photoURL,
-            metadata: {
-              createdAt: user.metadata.createdAt,
-              creationTime: user.metadata.creationTime,
-              lastLoginAt: user.metadata.lastLoginAt,
-              lastSignInTime: user.metadata.lastSignInTime,
-            },
-          })
-        );
+        const newUser = {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          emailVerified: user.emailVerified,
+          isAnonymous: user.isAnonymous,
+          phoneNumber: user.phoneNumber,
+          photoURL: user.photoURL,
+          role: user.role || "user",
+          metadata: {
+            createdAt: user.metadata.createdAt,
+            creationTime: user.metadata.creationTime,
+            lastLoginAt: user.metadata.lastLoginAt,
+            lastSignInTime: user.metadata.lastSignInTime,
+          },
+        };
+        const savedUser = await createUser(newUser);
+        dispatch(setLoggedInUser(savedUser));
       } else {
         dispatch(setLoggedInUser(null));
       }
@@ -48,8 +52,22 @@ function App() {
     <Box sx={{ backgroundColor: "inherit" }}>
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/login"
+          element={
+            <AllreadyLoggedIn>
+              <Login />
+            </AllreadyLoggedIn>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <AllreadyLoggedIn>
+              <Register />
+            </AllreadyLoggedIn>
+          }
+        />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index element={<Overview />} />
           <Route path="applications" element={<Applications />} />

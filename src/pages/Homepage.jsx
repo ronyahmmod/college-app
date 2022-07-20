@@ -1,8 +1,12 @@
 import React from "react";
 import { Box, Button, Divider, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectLoggedInUser } from "../feature/user/userSlice";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 const Homepage = () => {
   const navigate = useNavigate();
+  const loggedInUser = useSelector(selectLoggedInUser);
   return (
     <Box
       sx={{
@@ -46,18 +50,31 @@ const Homepage = () => {
           JIBANNAGAR DEGREE COLLEGE
         </Typography>
         <Divider sx={{ width: "100%", my: 1 }} />
-        <Box sx={{ display: "flex", gap: 2, mt: 1 }}>
+        {loggedInUser ? (
           <Button
-            variant="standard"
+            variant="contained"
+            aria-label="dashboard"
             color="primary"
-            onClick={() => navigate("/login")}
+            sx={{ display: "flex", alignItems: "center" }}
+            onClick={() => navigate("dashboard")}
           >
-            Login
+            <DashboardIcon /> <Box component="span" sx={{ mr: 1 }} /> Goto
+            Dashboard
           </Button>
-          <Button variant="standard" onClick={() => navigate("/register")}>
-            Register
-          </Button>
-        </Box>
+        ) : (
+          <Box sx={{ display: "flex", gap: 2, mt: 1 }}>
+            <Button
+              variant="standard"
+              color="primary"
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </Button>
+            <Button variant="standard" onClick={() => navigate("/register")}>
+              Register
+            </Button>
+          </Box>
+        )}
       </Box>
     </Box>
   );

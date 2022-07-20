@@ -37,8 +37,9 @@ const Sidebar = () => {
 
   const logoutHandler = () => () => {
     const auth = getAuth();
-    auth.signOut();
-    navigate("/login");
+    auth.signOut().then(() => {
+      navigate("/login");
+    });
   };
 
   const openApplicationsHandler = () => () => {
@@ -90,16 +91,21 @@ const Sidebar = () => {
                 setActiveMenu("home");
               }}
             />
-            <SidebarMenuItem Icon={NotificationsIcon} notifications={4} />
-            <SidebarMenuItem Icon={WhatsAppIcon} notifications={2} />
+            {loggedInUser && loggedInUser.role !== "user" && (
+              <>
+                <SidebarMenuItem Icon={NotificationsIcon} />
+                <SidebarMenuItem Icon={WhatsAppIcon} />
+                <SidebarMenuItem Icon={AttachMoneyIcon} />
+                <SidebarMenuItem Icon={GroupIcon} />
+                <SidebarMenuItem Icon={PatternIcon} />
+              </>
+            )}
+
             <SidebarMenuItem
               Icon={ArticleIcon}
               clickHandler={openApplicationsHandler()}
-              isActive={activeMenu === "applications"}
+              isActive={Boolean(activeMenu === "applications")}
             />
-            <SidebarMenuItem Icon={AttachMoneyIcon} />
-            <SidebarMenuItem Icon={GroupIcon} />
-            <SidebarMenuItem Icon={PatternIcon} />
             <SidebarMenuItem Icon={DarkModeIcon} />
             <SidebarMenuItem Icon={SettingsIcon} />
             <SidebarMenuItem Icon={LogoutIcon} clickHandler={logoutHandler()} />
