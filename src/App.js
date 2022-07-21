@@ -13,6 +13,7 @@ import { setLoggedInUser } from "./feature/user/userSlice";
 import Applications from "./pages/Applications";
 import { createUser } from "./firebase/auth/auth";
 import AllreadyLoggedIn from "./components/AllreadyLoggedIn";
+import ApplicationForm from "./components/ApplicationForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -71,6 +72,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index element={<Overview />} />
           <Route path="applications" element={<Applications />} />
+          <Route path="newapplication" element={<ApplicationForm />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

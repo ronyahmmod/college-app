@@ -11,13 +11,20 @@ import LockIcon from "@mui/icons-material/Lock";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { setError } from "../feature/error/errorSlice";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const provider = new GoogleAuthProvider();
+  const auth = getAuth();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -110,7 +117,23 @@ const Login = () => {
             Login
           </Button>
 
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              signInWithPopup(auth, provider)
+                .then((result) => {
+                  setTimeout(() => {
+                    navigate("/dashboard");
+                  }, 1000);
+                })
+                .catch((error) => {
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                  dispatch(setError({ errorCode, errorMessage }));
+                });
+            }}
+          >
             Login with G-mail{" "}
             <Divider
               orientation="vertical"

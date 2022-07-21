@@ -75,7 +75,7 @@ const Sidebar = () => {
               {/* Profile */}
 
               <Avatar
-                src={loggedInUser.photoUrl}
+                src={loggedInUser.photoURL}
                 alt={loggedInUser.displayName}
               />
             </Box>
