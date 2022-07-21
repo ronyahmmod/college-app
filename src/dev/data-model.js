@@ -17,3 +17,18 @@ export const User = {
   lastLoggedOut: "Timestamp",
   locked: false,
 };
+
+const application = {
+  roll: "",
+  registration: "",
+  board: "",
+  passingYear: "",
+  date: "Timestamp",
+  releaseDate: "Timestamp",
+  studentId: "",
+  status: "",
+  remarks: "",
+  approvedBy: "admin",
+  category: "testimonial",
+  files: [],
+};
