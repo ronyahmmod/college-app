@@ -1,8 +1,9 @@
 import React from "react";
 import { SpeedDial, SpeedDialIcon, SpeedDialAction } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-
+import { useNavigate } from "react-router-dom";
 const CustomSpeedDial = () => {
+  const navigate = useNavigate();
   return (
     <SpeedDial
       ariaLabel="Application Spped Dial"
@@ -13,7 +14,7 @@ const CustomSpeedDial = () => {
         icon={<AddIcon />}
         tooltipTitle="Create a application"
         onClick={() => {
-          alert("Implement Latter");
+          navigate("newapplication");
         }}
       />
     </SpeedDial>
