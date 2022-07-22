@@ -54,6 +54,10 @@ const ApplicationForm = () => {
       passingYear: "",
       board: "",
       admitCard: "",
+      applicationType: "",
+      classRoll: "",
+      lastExamName: "",
+      group: "",
     },
     onSubmit: async (values, { resetForm }) => {
       // console.log(file);
@@ -86,7 +90,16 @@ const ApplicationForm = () => {
         });
     },
   });
-  const { name, roll, registration, passingYear, board } = formik.values;
+  const {
+    name,
+    roll,
+    registration,
+    passingYear,
+    board,
+    applicationType,
+    classRoll,
+    lastExamName,
+  } = formik.values;
   const { handleChange, handleSubmit, resetForm } = formik;
   const canSave = [
     name,
@@ -95,6 +108,9 @@ const ApplicationForm = () => {
     passingYear,
     board,
     file.file,
+    applicationType,
+    classRoll,
+    lastExamName,
   ].every(Boolean);
   return (
     <Layout>
@@ -199,10 +215,90 @@ const ApplicationForm = () => {
                             <MenuItem value="Madrasa">Madrasa</MenuItem>
                           </Select>
                         </FormControl>
+                        <FormControl fullWidth required>
+                          <InputLabel id="application-type">
+                            Application Type
+                          </InputLabel>
+                          <Select
+                            labelId="application-type"
+                            label="Application Type"
+                            name="applicationType"
+                            required
+                            value={applicationType}
+                            onChange={handleChange}
+                          >
+                            <MenuItem value="certificate">Certificate</MenuItem>
+                            <MenuItem value="testimonial">Testimonial</MenuItem>
+                            <MenuItem value="prottoion">Prottoion</MenuItem>
+                          </Select>
+                        </FormControl>
                       </Box>
                     </Grid>
 
                     <Grid item xs={12} md={6}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          width: "100%",
+                          gap: 2,
+                          mb: 2,
+                        }}
+                      >
+                        <TextField
+                          name="classRoll"
+                          type="text"
+                          required
+                          label="Class Roll"
+                          value={classRoll}
+                          onChange={handleChange}
+                          placeholder="Enter your class roll"
+                          fullWidth
+                        />
+                        <FormControl fullWidth required>
+                          <InputLabel id="last-exam">Last Exam Name</InputLabel>
+                          <Select
+                            labelId="last-exam"
+                            label="Last Exam Name"
+                            name="lastExamName"
+                            required
+                            value={lastExamName}
+                            onChange={handleChange}
+                          >
+                            <MenuItem value="ssc">SSC</MenuItem>
+                            <MenuItem value="hsc">HSC</MenuItem>
+                            <MenuItem value="degree">DEGREE</MenuItem>
+                            <MenuItem value="honours">HONOURS</MenuItem>
+                            <MenuItem value="bm">HSC BM</MenuItem>
+                            <MenuItem value="bou">OPEN UNIVERSITY</MenuItem>
+                          </Select>
+                        </FormControl>
+
+                        {/* <FormControl fullWidth required>
+                          <InputLabel id="group">Group</InputLabel>
+                          <Select
+                            labelId="group"
+                            label="Group"
+                            name="group"
+                            required
+                            value={group}
+                            onChange={handleChange}
+                            fullWidth
+                          >
+                            {Boolean(lastExamName === "hsc") && (
+                              <Box>
+                                <MenuItem value="science">SCIENCE</MenuItem>
+                                <MenuItem value="humanities">
+                                  HUMANITIES
+                                </MenuItem>
+                                <MenuItem value="businessStudies">
+                                  BUSINESS STUDIES
+                                </MenuItem>
+                              </Box>
+                            )}
+                          </Select>
+                        </FormControl> */}
+                      </Box>
                       <Box
                         sx={{
                           display: "flex",
