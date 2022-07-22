@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Box, Button, Container, Grid, Paper } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "../components/Layout";
 import Title from "../components/Title";
@@ -14,6 +14,8 @@ import {
 } from "../feature/application/applicationSlice";
 import ReplayIcon from "@mui/icons-material/Replay";
 import ApprovalIcon from "@mui/icons-material/Approval";
+import BlockIcon from "@mui/icons-material/Block";
+import InfoIcon from "@mui/icons-material/Info";
 import { selectLoggedInUser } from "../feature/user/userSlice";
 
 // const Rows = [
@@ -22,37 +24,99 @@ import { selectLoggedInUser } from "../feature/user/userSlice";
 //   { id: 3, col1: "MUI", col2: "is Amazing" },
 // ];
 
-const Columns = [
-  { field: "id", headerName: "Application Id", width: 200 },
-  {
-    field: "name",
-    headerName: "Applicant Name",
-    width: 200,
-    valueGetter: (params) => params.row.name?.toUpperCase(),
-  },
-  { field: "date", headerName: "Application Date", width: 200 },
-  { field: "roll", headerName: "Roll Number", width: 150 },
-  { field: "registration", headerName: "Registration Number", width: 150 },
-  { field: "passingYear", headerName: "Passing Year", width: 150 },
-  {
-    field: "board",
-    headerName: "Board",
-    width: 150,
-    valueGetter: (params) => params.row.board.toUpperCase(),
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    width: 150,
-    valueGetter: (params) => params.row.status.toUpperCase(),
-  },
-  { field: "remarks", headerName: "Remarks", width: 150 },
-];
-
 const Applications = () => {
   const dispatch = useDispatch();
-
   const loggedInUser = useSelector(selectLoggedInUser);
+
+  const columnDefiner = () => {
+    if (loggedInUser && loggedInUser.role !== "user") {
+      return [
+        {
+          field: "name",
+          headerName: "Applicant Name",
+          width: 200,
+          valueGetter: (params) => params.row.name?.toUpperCase(),
+        },
+        { field: "date", headerName: "Application Date", width: 200 },
+        { field: "roll", headerName: "Roll Number", width: 100 },
+        {
+          field: "registration",
+          headerName: "Registration Number",
+          width: 150,
+        },
+        { field: "passingYear", headerName: "Passing Year", width: 100 },
+        {
+          field: "board",
+          headerName: "Board",
+          width: 100,
+          valueGetter: (params) => params.row.board.toUpperCase(),
+        },
+        {
+          field: "status",
+          headerName: "Status",
+          width: 100,
+          valueGetter: (params) => params.row.status.toUpperCase(),
+        },
+        { field: "remarks", headerName: "Remarks", width: 300 },
+        {
+          field: "actions",
+          type: "actions",
+          width: 150,
+          getActions: (params) => [
+            <GridActionsCellItem
+              icon={<InfoIcon />}
+              label="Details"
+              onClick={() => alert(params.id)}
+              color="secondary"
+            />,
+            <GridActionsCellItem
+              icon={<BlockIcon />}
+              label="Reject"
+              onClick={() => alert(params.id)}
+              color="error"
+            />,
+            <GridActionsCellItem
+              icon={<ApprovalIcon />}
+              label="Approve"
+              onClick={() => alert(params.id)}
+              color="primary"
+            />,
+          ],
+        },
+      ];
+    } else {
+      return [
+        {
+          field: "name",
+          headerName: "Applicant Name",
+          width: 200,
+          valueGetter: (params) => params.row.name?.toUpperCase(),
+        },
+        { field: "date", headerName: "Application Date", width: 200 },
+        { field: "roll", headerName: "Roll Number", width: 100 },
+        {
+          field: "registration",
+          headerName: "Registration Number",
+          width: 150,
+        },
+        { field: "passingYear", headerName: "Passing Year", width: 100 },
+        {
+          field: "board",
+          headerName: "Board",
+          width: 100,
+          valueGetter: (params) => params.row.board.toUpperCase(),
+        },
+        {
+          field: "status",
+          headerName: "Status",
+          width: 100,
+          valueGetter: (params) => params.row.status.toUpperCase(),
+        },
+        { field: "remarks", headerName: "Remarks", width: 300 },
+      ];
+    }
+  };
+  const Columns = columnDefiner();
   const allApplications = useSelector(selectAllApplications);
   const [stableUser, setStableUser] = useState(null);
   const userApplications = useSelector(
@@ -69,85 +133,105 @@ const Applications = () => {
     }
     setStableUser(loggedInUser);
   }, [status, dispatch, loggedInUser]);
+  if (Boolean(loggedInUser))
+    return (
+      <Layout>
+        <Box
+          sx={{
+            display: "flex",
+            flexGrow: 1,
+            flexDirection: "column",
+            alignItems: "center",
+            p: 2,
+          }}
+        >
+          <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                  {error && <Alert security="error">{error}</Alert>}
+                  <Title>Applications</Title>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      my: 1,
+                      justifyContent: "flex-end",
+                      alignItems: "center",
+                      gap: 2,
+                    }}
+                  >
+                    {/* Actions */}
+                    {loggedInUser.role !== "user" && (
+                      <>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          endIcon={<ApprovalIcon />}
+                          onClick={() => alert(JSON.stringify(selectionModel))}
+                          disabled={selectionModel.length <= 0}
+                        >
+                          Approve
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          endIcon={<BlockIcon />}
+                          onClick={() => alert(JSON.stringify(selectionModel))}
+                          disabled={selectionModel.length <= 0}
+                        >
+                          Reject
+                        </Button>
+                      </>
+                    )}
 
-  return (
-    <Layout>
-      <Box
-        sx={{
-          display: "flex",
-          flexGrow: 1,
-          flexDirection: "column",
-          alignItems: "center",
-          p: 2,
-        }}
-      >
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                {error && <Alert security="error">{error}</Alert>}
-                <Title>Applications</Title>
-                <Box
-                  sx={{
-                    display: "flex",
-                    my: 1,
-                    justifyContent: "flex-end",
-                    px: 2,
-                    alignItems: "center",
-                    gap: 2,
-                  }}
-                >
-                  {/* Actions */}
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    endIcon={<ApprovalIcon />}
-                    onClick={() => alert(JSON.stringify(selectionModel))}
-                    disabled={selectionModel.length <= 0}
-                  >
-                    Approve
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    endIcon={<ReplayIcon />}
-                    onClick={() => dispatch(setStatus("idle"))}
-                    disabled={status === "loading"}
-                  >
-                    Reload
-                  </Button>
-                </Box>
-                <Box sx={{ height: 600, width: "100%" }}>
-                  {(status === "succeded") & Boolean(loggedInUser) && (
-                    <DataGrid
-                      rows={
-                        loggedInUser.role === "user"
-                          ? userApplications
-                          : allApplications
-                      }
-                      columns={Columns}
-                      checkboxSelection={true}
-                      loading={status === "loading"}
-                      selectionModel={selectionModel}
-                      onSelectionModelChange={(newSelectionModel) => {
-                        setSelectionModel(newSelectionModel);
-                      }}
-                      pageSize={pageSize}
-                      onPageSizeChange={(newPageSize) =>
-                        setPageSize(newPageSize)
-                      }
-                      rowsPerPageOptions={[5, 10, 20]}
-                      pagination
-                    />
-                  )}
-                </Box>
-              </Paper>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      endIcon={<ReplayIcon />}
+                      onClick={() => dispatch(setStatus("idle"))}
+                      disabled={status === "loading"}
+                    >
+                      Reload
+                    </Button>
+                  </Box>
+                  <Box sx={{ height: 600, width: "100%" }}>
+                    {(status === "succeded") & Boolean(loggedInUser) && (
+                      <DataGrid
+                        initialState={{
+                          sorting: {
+                            sortModel: [{ field: "date", sort: "desc" }],
+                          },
+                        }}
+                        rows={
+                          loggedInUser.role === "user"
+                            ? userApplications
+                            : allApplications
+                        }
+                        columns={Columns}
+                        checkboxSelection={
+                          loggedInUser && loggedInUser.role !== "user"
+                        }
+                        loading={status === "loading"}
+                        selectionModel={selectionModel}
+                        onSelectionModelChange={(newSelectionModel) => {
+                          setSelectionModel(newSelectionModel);
+                        }}
+                        pageSize={pageSize}
+                        onPageSizeChange={(newPageSize) =>
+                          setPageSize(newPageSize)
+                        }
+                        rowsPerPageOptions={[5, 10, 20]}
+                        pagination
+                      />
+                    )}
+                  </Box>
+                </Paper>
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
-      </Box>
-    </Layout>
-  );
+          </Container>
+        </Box>
+      </Layout>
+    );
 };
 
 export default Applications;
