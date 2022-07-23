@@ -1,15 +1,15 @@
 import {
-  Button,
   Container,
   Dialog,
-  DialogTitle,
   Grid,
   Paper,
   Typography,
   Box,
+  IconButton,
 } from "@mui/material";
 import React from "react";
 import ApplicationDetails from "./ApplicationDetails";
+import CloseIcon from "@mui/icons-material/Close";
 
 const ServiceDialog = ({ id, handleClose, open, serviceName }) => {
   const renderingComponent = (serviceName, id) => {
@@ -30,7 +30,21 @@ const ServiceDialog = ({ id, handleClose, open, serviceName }) => {
       maxWidth="lg"
       fullWidth
     >
-      <DialogTitle>Please take some attention before go.</DialogTitle>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          p: 3,
+        }}
+      >
+        <Typography variant="h5" color="error">
+          Please pay some attention before go. Action can not reversabl.
+        </Typography>
+        <IconButton onClick={handleClose}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
 
       <Container maxWidth="lg" sx={{ mb: 2 }}>
         <Grid container spacing={3}>
@@ -46,11 +60,6 @@ const ServiceDialog = ({ id, handleClose, open, serviceName }) => {
               {renderingComponent(serviceName, id)}
             </Paper>
           </Grid>
-          <Box sx={{ p: 3 }}>
-            <Button variant="contained" color="primary" onClick={handleClose}>
-              Close
-            </Button>
-          </Box>
         </Grid>
       </Container>
     </Dialog>

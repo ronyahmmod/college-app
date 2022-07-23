@@ -59,6 +59,7 @@ const ApplicationForm = () => {
       lastExamName: "",
       group: "",
       mobile: "",
+      address: "",
     },
     onSubmit: async (values, { resetForm }) => {
       // console.log(file);
@@ -101,6 +102,7 @@ const ApplicationForm = () => {
     classRoll,
     lastExamName,
     mobile,
+    address,
   } = formik.values;
   const { handleChange, handleSubmit, resetForm } = formik;
   const canSave = [
@@ -114,6 +116,7 @@ const ApplicationForm = () => {
     classRoll,
     lastExamName,
     mobile,
+    address,
   ].every(Boolean);
   return (
     <Layout>
@@ -285,6 +288,18 @@ const ApplicationForm = () => {
                           value={mobile}
                           onChange={handleChange}
                           placeholder="Enter your current mobile number"
+                          fullWidth
+                        />
+                        <TextField
+                          name="address"
+                          type="text"
+                          required
+                          multiline
+                          rows={4}
+                          label="Pressent address"
+                          value={address}
+                          onChange={handleChange}
+                          placeholder="Enter your present address with this format: [Village, Post Office, UP/Thana, Pouro/City/Metro, District]"
                           fullWidth
                         />
 
