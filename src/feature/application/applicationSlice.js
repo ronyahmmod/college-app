@@ -56,5 +56,7 @@ export const selectApplicationStatus = (state) => state.application.status;
 export const selectApplicationError = (state) => state.application.error;
 export const selectApplicationsByUserId = (id) => (state) =>
   state.application.applications.filter((app) => app.studentId === id);
+export const selectApplicationById = (id) => (state) =>
+  state.application.applications.filter((app) => app.id === id);
 export const { setStatus } = applicationSlice.actions;
 export default applicationSlice.reducer;

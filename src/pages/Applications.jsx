@@ -17,6 +17,7 @@ import ApprovalIcon from "@mui/icons-material/Approval";
 import BlockIcon from "@mui/icons-material/Block";
 import InfoIcon from "@mui/icons-material/Info";
 import { selectLoggedInUser } from "../feature/user/userSlice";
+import ServiceDialog from "../components/ServiceDialog";
 
 // const Rows = [
 //   { id: 1, col1: "Hello", col2: "World" },
@@ -27,6 +28,10 @@ import { selectLoggedInUser } from "../feature/user/userSlice";
 const Applications = () => {
   const dispatch = useDispatch();
   const loggedInUser = useSelector(selectLoggedInUser);
+  const [serviceOpen, setServiceOpen] = useState(false);
+  const handleServiceClose = () => setServiceOpen(false);
+  const [serviceName, setServiceName] = useState("");
+  const [id, setId] = useState(null);
 
   const columnDefiner = () => {
     if (loggedInUser && loggedInUser.role !== "user") {
@@ -66,7 +71,11 @@ const Applications = () => {
             <GridActionsCellItem
               icon={<InfoIcon />}
               label="Details"
-              onClick={() => alert(params.id)}
+              onClick={() => {
+                setId(params.id);
+                setServiceOpen(true);
+                setServiceName("details");
+              }}
               color="secondary"
             />,
             <GridActionsCellItem
@@ -145,6 +154,13 @@ const Applications = () => {
             p: 2,
           }}
         >
+          {/* Service Dialog */}
+          <ServiceDialog
+            open={serviceOpen}
+            handleClose={handleServiceClose}
+            serviceName={serviceName}
+            id={id}
+          />
           <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item xs={12}>

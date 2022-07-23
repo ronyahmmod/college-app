@@ -58,6 +58,7 @@ const ApplicationForm = () => {
       classRoll: "",
       lastExamName: "",
       group: "",
+      mobile: "",
     },
     onSubmit: async (values, { resetForm }) => {
       // console.log(file);
@@ -99,6 +100,7 @@ const ApplicationForm = () => {
     applicationType,
     classRoll,
     lastExamName,
+    mobile,
   } = formik.values;
   const { handleChange, handleSubmit, resetForm } = formik;
   const canSave = [
@@ -111,6 +113,7 @@ const ApplicationForm = () => {
     applicationType,
     classRoll,
     lastExamName,
+    mobile,
   ].every(Boolean);
   return (
     <Layout>
@@ -274,6 +277,17 @@ const ApplicationForm = () => {
                           </Select>
                         </FormControl>
 
+                        <TextField
+                          name="mobile"
+                          type="text"
+                          required
+                          label="Current Mobile Number"
+                          value={mobile}
+                          onChange={handleChange}
+                          placeholder="Enter your current mobile number"
+                          fullWidth
+                        />
+
                         {/* <FormControl fullWidth required>
                           <InputLabel id="group">Group</InputLabel>
                           <Select
@@ -325,7 +339,7 @@ const ApplicationForm = () => {
                             <input
                               type="file"
                               hidden
-                              accept="image/*,.pdf"
+                              accept="image/*"
                               name="admitCard"
                               required
                               onChange={handleFileChange}
