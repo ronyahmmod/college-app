@@ -54,12 +54,19 @@ const ApplicationDetails = ({ id }) => {
         return;
       }
       const docRef = doc(db, "applications", applicationDetails.id);
-
-      await updateDoc(docRef, {
-        ...values,
-        status: "Done",
-        approvedBy: loggedInUser,
-      });
+      if (canUpadate) {
+        await updateDoc(docRef, {
+          ...values,
+          status: "Done",
+          approvedBy: loggedInUser,
+        });
+      } else if (canReject) {
+        await updateDoc(docRef, {
+          ...values,
+          status: "Rejected",
+          approvedBy: loggedInUser,
+        });
+      }
       setUpdated(true);
       dispatch(setStatus("idle"));
     },
@@ -70,7 +77,7 @@ const ApplicationDetails = ({ id }) => {
   const canReject = [remarks, !payslip, !payslipDate].every(Boolean);
   //   const canPostPaySlip = [applicationAlreadyPaidByPayslip].every(Boolean);
 
-  const { handleSubmit, handleChange, resetForm, setFieldValue } = formik;
+  const { handleSubmit, handleChange, setFieldValue } = formik;
   useEffect(() => {
     const storage = getStorage();
     const imageRef = ref(
@@ -170,6 +177,15 @@ const ApplicationDetails = ({ id }) => {
                 admin for your job. [Principal, JDC]
               </Alert>
             </Grid>
+          ) : applicationDetails && applicationDetails.status === "Rejected" ? (
+            <Grid item xs={12}>
+              <Alert severity="error">
+                This application allready rejected by{" "}
+                <strong>{applicationDetails.approvedBy.email}</strong> for{" "}
+                <strong>{applicationDetails.remarks}</strong>. Thanks admin for
+                your job. [Principal, JDC]
+              </Alert>
+            </Grid>
           ) : (
             <Grid item xs={12}>
               <Stack
@@ -217,8 +233,8 @@ const ApplicationDetails = ({ id }) => {
                 <Button
                   variant="contained"
                   color="error"
+                  type="submit"
                   disabled={!canReject}
-                  onClick={() => resetForm()}
                 >
                   Reject
                 </Button>
