@@ -8,16 +8,30 @@ export const fetchApplications = createAsyncThunk(
     const querySnapshot = await getDocs(collection(db, "applications"));
     const data = [];
     querySnapshot.forEach((doc) => {
-      data.push({
-        id: doc.id,
-        ...doc.data(),
-        date: new Timestamp(
-          doc.data().date.seconds,
-          doc.data().date.nanoseconds
-        )
-          .toDate()
-          .toLocaleString(),
-      });
+      if (doc.data().payslipDate) {
+        data.push({
+          id: doc.id,
+          ...doc.data(),
+          date: new Timestamp(
+            doc.data().date.seconds,
+            doc.data().date.nanoseconds
+          )
+            .toDate()
+            .toLocaleString(),
+          payslipDate: new Date(doc.data().payslipDate).toLocaleString(),
+        });
+      } else {
+        data.push({
+          id: doc.id,
+          ...doc.data(),
+          date: new Timestamp(
+            doc.data().date.seconds,
+            doc.data().date.nanoseconds
+          )
+            .toDate()
+            .toLocaleString(),
+        });
+      }
     });
     return data;
   }
@@ -58,5 +72,9 @@ export const selectApplicationsByUserId = (id) => (state) =>
   state.application.applications.filter((app) => app.studentId === id);
 export const selectApplicationById = (id) => (state) =>
   state.application.applications.filter((app) => app.id === id);
+export const selectApplicationByPayslip = (payslip) => {
+  return (state) =>
+    state.application.applications.filter((app) => app.payslip === payslip);
+};
 export const { setStatus } = applicationSlice.actions;
 export default applicationSlice.reducer;

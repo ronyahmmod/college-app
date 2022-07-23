@@ -215,7 +215,7 @@ const Applications = () => {
                       <DataGrid
                         initialState={{
                           sorting: {
-                            sortModel: [{ field: "date", sort: "desc" }],
+                            sortModel: [{ field: "date", sort: "asc" }],
                           },
                         }}
                         rows={

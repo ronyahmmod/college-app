@@ -35,6 +35,9 @@ const ApplicationForm = () => {
     thumb: null,
   });
   const [saveStatus, setSaveStatus] = useState(false);
+  const handleCloseSnackbar = () => {
+    setSaveStatus(false);
+  };
   const handleFileChange = (e) => {
     const fileReader = new FileReader();
     fileReader.onloadend = () => {
@@ -62,7 +65,7 @@ const ApplicationForm = () => {
       address: "",
     },
     onSubmit: async (values, { resetForm }) => {
-      // console.log(file);
+      console.log(file);
       const newAppRef = doc(collection(db, "applications"));
 
       await setDoc(newAppRef, {
@@ -70,14 +73,15 @@ const ApplicationForm = () => {
         date: Timestamp.fromDate(new Date()),
         studentId: loggedInUser.id,
         status: "submitted",
+        fileExtension: file.file.name.split(".").pop(),
         remarks: "",
       });
 
       const storageRef = ref(
         storage,
-        `app-attachements/${loggedInUser.id}-${newAppRef.id}.jpg`
+        `app-attachements/${newAppRef.id}.${file.file.name.split(".").pop()}`
       );
-      uploadBytes(storageRef, file)
+      uploadBytes(storageRef, file.file)
         .then((snapshot) => {
           setSaveStatus(true);
           resetForm();
@@ -132,6 +136,7 @@ const ApplicationForm = () => {
         <Snackbar
           open={saveStatus}
           autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
           message="Application save successfully. You see status of this application on list."
         />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -218,7 +223,10 @@ const ApplicationForm = () => {
                             <MenuItem value="barisal">Barisal</MenuItem>
                             <MenuItem value="sylhet">Sylhet</MenuItem>
                             <MenuItem value="dinajpur">Dinajpur</MenuItem>
-                            <MenuItem value="Madrasa">Madrasa</MenuItem>
+                            <MenuItem value="madrasa">Madrasa</MenuItem>
+                            <MenuItem value="national">
+                              National University
+                            </MenuItem>
                           </Select>
                         </FormControl>
                         <FormControl fullWidth required>
