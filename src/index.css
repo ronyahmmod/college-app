@@ -9,6 +9,12 @@ body {
   overflow-x: hidden;
   font-family: 'Roboto', sans-serif;
 }
+@media print and (min-width: 780px) {
+  body {
+    background-color: transparent;
+
+  }
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

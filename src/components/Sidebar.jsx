@@ -47,7 +47,7 @@ const Sidebar = () => {
     setActiveMenu("applications");
   };
   return (
-    <SidebarWrapper>
+    <SidebarWrapper sx={{ displayPrint: "none" }}>
       <Box
         sx={{
           display: "flex",
