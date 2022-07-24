@@ -161,10 +161,10 @@ const Applications = () => {
             serviceName={serviceName}
             id={id}
           />
-          <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4, mx: 2 }}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                <Paper sx={{ p: 4, display: "flex", flexDirection: "column" }}>
                   {error && <Alert security="error">{error}</Alert>}
                   <Title>Applications</Title>
                   <Box
@@ -210,7 +210,7 @@ const Applications = () => {
                       Reload
                     </Button>
                   </Box>
-                  <Box sx={{ height: 600, width: "100%" }}>
+                  <Box sx={{ height: 400, maxWidth: "100%" }}>
                     {(status === "succeded") & Boolean(loggedInUser) && (
                       <DataGrid
                         initialState={{
