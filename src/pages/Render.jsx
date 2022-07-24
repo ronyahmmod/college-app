@@ -92,7 +92,6 @@ const Render = () => {
                   opacity: 0.97,
                   px: 4,
                   py: 4,
-                  pt: 8,
                   fontFamily: "monospace",
                   border: "10px solid transparent",
                   borderImage: `URL(${TestimonialPatternURL})`,
