@@ -14,6 +14,8 @@ import {
   Stack,
   TextField,
   Typography,
+  Backdrop,
+  CircularProgress,
 } from "@mui/material";
 import Layout from "../components/Layout";
 import { useSelector } from "react-redux";
@@ -29,6 +31,7 @@ import { storage } from "../firebase.config";
 const ApplicationForm = () => {
   const loggedInUser = useSelector(selectLoggedInUser);
   const theme = useTheme();
+  const [loading, setLoading] = useState(false);
   const [file, setFile] = useState({
     file: null,
     fileName: "",
@@ -52,6 +55,8 @@ const ApplicationForm = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
+      fatherName: "",
+      motherName: "",
       roll: "",
       registration: "",
       passingYear: "",
@@ -63,9 +68,14 @@ const ApplicationForm = () => {
       group: "",
       mobile: "",
       address: "",
+      result: "",
+      resultType: "",
+      gender: "",
+      session: "",
     },
     onSubmit: async (values, { resetForm }) => {
-      console.log(file);
+      // console.log(file);
+      setLoading(true);
       const newAppRef = doc(collection(db, "applications"));
 
       await setDoc(newAppRef, {
@@ -90,14 +100,18 @@ const ApplicationForm = () => {
             fileName: "",
             thumb: null,
           });
+          setLoading(false);
         })
         .catch((error) => {
           console.log(error);
+          setLoading(false);
         });
     },
   });
   const {
     name,
+    fatherName,
+    motherName,
     roll,
     registration,
     passingYear,
@@ -107,10 +121,17 @@ const ApplicationForm = () => {
     lastExamName,
     mobile,
     address,
+    result,
+    resultType,
+    group,
+    gender,
+    session,
   } = formik.values;
   const { handleChange, handleSubmit, resetForm } = formik;
   const canSave = [
     name,
+    fatherName,
+    motherName,
     roll,
     registration,
     passingYear,
@@ -121,6 +142,11 @@ const ApplicationForm = () => {
     lastExamName,
     mobile,
     address,
+    result,
+    resultType,
+    group,
+    gender,
+    session,
   ].every(Boolean);
   return (
     <Layout>
@@ -139,6 +165,12 @@ const ApplicationForm = () => {
           onClose={handleCloseSnackbar}
           message="Application save successfully. You see status of this application on list."
         />
+        <Backdrop
+          open={loading}
+          sx={{ color: "#fff", zIndex: theme.zIndex.drawer + 4000 }}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Grid container spacing={3}>
             {loggedInUser && (
@@ -175,6 +207,41 @@ const ApplicationForm = () => {
                           required
                         />
                         <TextField
+                          name="fatherName"
+                          type="text"
+                          placeholder="Place your father name"
+                          label="Students father name"
+                          value={fatherName}
+                          onChange={handleChange}
+                          fullWidth
+                          required
+                        />
+                        <TextField
+                          name="motherName"
+                          type="text"
+                          placeholder="Place your mother name"
+                          label="Students mother name"
+                          value={motherName}
+                          onChange={handleChange}
+                          fullWidth
+                          required
+                        />
+                        <FormControl fullWidth required>
+                          <InputLabel id="gender">Gender</InputLabel>
+                          <Select
+                            labelId="gender"
+                            label="Gender"
+                            name="gender"
+                            required
+                            value={gender}
+                            onChange={handleChange}
+                          >
+                            <MenuItem value="male">MALE</MenuItem>
+                            <MenuItem value="female">FEMALE</MenuItem>
+                            <MenuItem value="other">OTHER</MenuItem>
+                          </Select>
+                        </FormControl>
+                        <TextField
                           name="roll"
                           type="text"
                           placeholder="Place your final exam roll number"
@@ -204,6 +271,16 @@ const ApplicationForm = () => {
                           fullWidth
                           required
                         />
+                        <TextField
+                          name="session"
+                          type="text"
+                          placeholder="Place your session"
+                          label="Exam session"
+                          value={session}
+                          onChange={handleChange}
+                          fullWidth
+                          required
+                        />
                         <FormControl fullWidth required>
                           <InputLabel id="board-name">Board</InputLabel>
                           <Select
@@ -229,6 +306,50 @@ const ApplicationForm = () => {
                             </MenuItem>
                           </Select>
                         </FormControl>
+                        <FormControl>
+                          <InputLabel id="result-type">Result Type</InputLabel>
+                          <Select
+                            labelId="result-type"
+                            label="Result Type"
+                            name="resultType"
+                            required
+                            value={resultType}
+                            onChange={handleChange}
+                          >
+                            <MenuItem value="cgpaOfFour">
+                              CGPA (out of 4)
+                            </MenuItem>
+                            <MenuItem value="gpaOfFive">
+                              GPA (out of 5)
+                            </MenuItem>
+                            <MenuItem value="class">CLASS</MenuItem>
+                            <MenuItem value="division">DIVISION</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Box>
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          width: "100%",
+                          gap: 2,
+                          mb: 2,
+                        }}
+                      >
+                        <TextField
+                          name="result"
+                          type="text"
+                          placeholder="Place your result"
+                          label="Exam result"
+                          value={result}
+                          onChange={handleChange}
+                          fullWidth
+                          required
+                        />
+
                         <FormControl fullWidth required>
                           <InputLabel id="application-type">
                             Application Type
@@ -246,19 +367,6 @@ const ApplicationForm = () => {
                             <MenuItem value="prottoion">Prottoion</MenuItem>
                           </Select>
                         </FormControl>
-                      </Box>
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          width: "100%",
-                          gap: 2,
-                          mb: 2,
-                        }}
-                      >
                         <TextField
                           name="classRoll"
                           type="text"
@@ -285,6 +393,32 @@ const ApplicationForm = () => {
                             <MenuItem value="honours">HONOURS</MenuItem>
                             <MenuItem value="bm">HSC BM</MenuItem>
                             <MenuItem value="bou">OPEN UNIVERSITY</MenuItem>
+                          </Select>
+                        </FormControl>
+                        <FormControl fullWidth required>
+                          <InputLabel id="group">
+                            Last Group/Subject/Trade
+                          </InputLabel>
+                          <Select
+                            labelId="group"
+                            label="Last Group/Subject/Trade Name"
+                            name="group"
+                            required
+                            value={group}
+                            onChange={handleChange}
+                          >
+                            <MenuItem value="sc">SCIENCE</MenuItem>
+                            <MenuItem value="hu">HUMANITIES</MenuItem>
+                            <MenuItem value="bs">BUSINESS STUDIES</MenuItem>
+                            <MenuItem value="ba">BA</MenuItem>
+                            <MenuItem value="bss">BSS</MenuItem>
+                            <MenuItem value="bbs">BBS</MenuItem>
+                            <MenuItem value="pol">POLITICAL SCIENCE</MenuItem>
+                            <MenuItem value="ban">BANGLA</MenuItem>
+                            <MenuItem value="hrm">
+                              HUMAN RESOURCE MANAGEMENT
+                            </MenuItem>
+                            <MenuItem value="co">COMPUTER OPERATION</MenuItem>
                           </Select>
                         </FormControl>
 

@@ -9,6 +9,8 @@ import {
   TextField,
   Tooltip,
   Typography,
+  Backdrop,
+  CircularProgress,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,8 +26,7 @@ import { useFormik } from "formik";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { selectLoggedInUser } from "../feature/user/userSlice";
-// import { format } from "date-fns/esm";
-
+import { format } from "date-fns";
 const ApplicationDetails = ({ id }) => {
   const applicationDetails = useSelector(selectApplicationById(id))[0];
   const allApplications = useSelector(selectAllApplications);
@@ -33,6 +34,7 @@ const ApplicationDetails = ({ id }) => {
 
   const [loadedImage, setLoadedImage] = useState(null);
   const [updated, setUpdated] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const theme = useTheme();
@@ -45,6 +47,7 @@ const ApplicationDetails = ({ id }) => {
     },
     onSubmit: async (values, { resetForm }) => {
       //   alert(values.payslipDate.toString());
+
       const { payslip } = values;
       const foundedApplication = allApplications.filter(
         (app) => app.payslip === payslip
@@ -68,13 +71,14 @@ const ApplicationDetails = ({ id }) => {
         });
       }
       setUpdated(true);
+
       dispatch(setStatus("idle"));
     },
   });
   const { payslip, payslipDate, remarks } = formik.values;
 
   const canUpadate = [payslip, payslipDate, remarks].every(Boolean);
-  const canReject = [remarks, !payslip, !payslipDate].every(Boolean);
+  const canReject = [remarks, !payslip, payslipDate].every(Boolean);
   //   const canPostPaySlip = [applicationAlreadyPaidByPayslip].every(Boolean);
 
   const { handleSubmit, handleChange, setFieldValue } = formik;
@@ -84,9 +88,11 @@ const ApplicationDetails = ({ id }) => {
       storage,
       `app-attachements/${applicationDetails.id}.${applicationDetails.fileExtension}`
     );
+    setLoading(true);
     getDownloadURL(imageRef)
       .then((url) => {
         setLoadedImage(url);
+        setLoading(false);
       })
       .catch((error) => {
         setLoadedImage(null);
@@ -160,6 +166,12 @@ const ApplicationDetails = ({ id }) => {
                 },
               }}
             >
+              <Backdrop
+                sx={{ color: "#fff", zIndex: theme.zIndex.drawer + 1 }}
+                open={loading}
+              >
+                <CircularProgress color="inherit" />
+              </Backdrop>
               <Link href={loadedImage} target="_blank">
                 <Tooltip title="Click to view new tab" arrow>
                   <img src={loadedImage} alt={applicationDetails.name} />
@@ -209,7 +221,7 @@ const ApplicationDetails = ({ id }) => {
                     name="payslipDate"
                     value={payslipDate}
                     onChange={(newValue) =>
-                      setFieldValue("payslipDate", newValue)
+                      setFieldValue("payslipDate", format(newValue, "P"))
                     }
                     renderInput={(params) => <TextField {...params} />}
                   />

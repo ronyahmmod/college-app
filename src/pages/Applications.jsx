@@ -18,6 +18,7 @@ import BlockIcon from "@mui/icons-material/Block";
 import InfoIcon from "@mui/icons-material/Info";
 import { selectLoggedInUser } from "../feature/user/userSlice";
 import ServiceDialog from "../components/ServiceDialog";
+import { useNavigate } from "react-router-dom";
 
 // const Rows = [
 //   { id: 1, col1: "Hello", col2: "World" },
@@ -32,6 +33,7 @@ const Applications = () => {
   const handleServiceClose = () => setServiceOpen(false);
   const [serviceName, setServiceName] = useState("");
   const [id, setId] = useState(null);
+  const navigate = useNavigate();
 
   const columnDefiner = () => {
     if (loggedInUser && loggedInUser.role !== "user") {
@@ -87,7 +89,18 @@ const Applications = () => {
             <GridActionsCellItem
               icon={<ApprovalIcon />}
               label="Approve"
-              onClick={() => alert(params.id)}
+              onClick={() => {
+                if (
+                  params.row.status === "Done" &&
+                  params.row.applicationType === "testimonial"
+                ) {
+                  navigate(`/dashboard/render/${params.id}/testimonial`);
+                } else if (params.row.status !== "Done") {
+                  alert(
+                    "This application is either under process nor rejected!"
+                  );
+                }
+              }}
               color="primary"
             />,
           ],
@@ -211,7 +224,7 @@ const Applications = () => {
                     </Button>
                   </Box>
                   <Box sx={{ height: 400, maxWidth: "100%" }}>
-                    {(status === "succeded") & Boolean(loggedInUser) && (
+                    {status === "succeded" && Boolean(loggedInUser) && (
                       <DataGrid
                         initialState={{
                           sorting: {

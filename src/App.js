@@ -14,6 +14,7 @@ import Applications from "./pages/Applications";
 import { createUser } from "./firebase/auth/auth";
 import AllreadyLoggedIn from "./components/AllreadyLoggedIn";
 import ApplicationForm from "./components/ApplicationForm";
+import Render from "./pages/Render";
 
 function App() {
   const dispatch = useDispatch();
@@ -73,6 +74,7 @@ function App() {
           <Route index element={<Overview />} />
           <Route path="applications" element={<Applications />} />
           <Route path="newapplication" element={<ApplicationForm />} />
+          <Route path="render/:id/:type" element={<Render />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
