@@ -70,6 +70,7 @@ const ApplicationForm = () => {
       address: "",
       result: "",
       resultType: "",
+      gender: "",
     },
     onSubmit: async (values, { resetForm }) => {
       // console.log(file);
@@ -122,6 +123,7 @@ const ApplicationForm = () => {
     result,
     resultType,
     group,
+    gender,
   } = formik.values;
   const { handleChange, handleSubmit, resetForm } = formik;
   const canSave = [
@@ -141,6 +143,7 @@ const ApplicationForm = () => {
     result,
     resultType,
     group,
+    gender,
   ].every(Boolean);
   return (
     <Layout>
@@ -220,6 +223,21 @@ const ApplicationForm = () => {
                           fullWidth
                           required
                         />
+                        <FormControl fullWidth required>
+                          <InputLabel id="gender">Gender</InputLabel>
+                          <Select
+                            labelId="gender"
+                            label="Gender"
+                            name="gender"
+                            required
+                            value={gender}
+                            onChange={handleChange}
+                          >
+                            <MenuItem value="male">MALE</MenuItem>
+                            <MenuItem value="female">FEMALE</MenuItem>
+                            <MenuItem value="other">OTHER</MenuItem>
+                          </Select>
+                        </FormControl>
                         <TextField
                           name="roll"
                           type="text"

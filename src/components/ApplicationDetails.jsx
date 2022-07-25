@@ -78,7 +78,7 @@ const ApplicationDetails = ({ id }) => {
   const { payslip, payslipDate, remarks } = formik.values;
 
   const canUpadate = [payslip, payslipDate, remarks].every(Boolean);
-  const canReject = [remarks, !payslip, !payslipDate].every(Boolean);
+  const canReject = [remarks, !payslip, payslipDate].every(Boolean);
   //   const canPostPaySlip = [applicationAlreadyPaidByPayslip].every(Boolean);
 
   const { handleSubmit, handleChange, setFieldValue } = formik;
