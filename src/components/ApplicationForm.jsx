@@ -71,6 +71,7 @@ const ApplicationForm = () => {
       result: "",
       resultType: "",
       gender: "",
+      session: "",
     },
     onSubmit: async (values, { resetForm }) => {
       // console.log(file);
@@ -124,6 +125,7 @@ const ApplicationForm = () => {
     resultType,
     group,
     gender,
+    session,
   } = formik.values;
   const { handleChange, handleSubmit, resetForm } = formik;
   const canSave = [
@@ -144,6 +146,7 @@ const ApplicationForm = () => {
     resultType,
     group,
     gender,
+    session,
   ].every(Boolean);
   return (
     <Layout>
@@ -268,6 +271,16 @@ const ApplicationForm = () => {
                           fullWidth
                           required
                         />
+                        <TextField
+                          name="session"
+                          type="text"
+                          placeholder="Place your session"
+                          label="Exam session"
+                          value={session}
+                          onChange={handleChange}
+                          fullWidth
+                          required
+                        />
                         <FormControl fullWidth required>
                           <InputLabel id="board-name">Board</InputLabel>
                           <Select
@@ -313,7 +326,19 @@ const ApplicationForm = () => {
                             <MenuItem value="division">DIVISION</MenuItem>
                           </Select>
                         </FormControl>
+                      </Box>
+                    </Grid>
 
+                    <Grid item xs={12} md={6}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          width: "100%",
+                          gap: 2,
+                          mb: 2,
+                        }}
+                      >
                         <TextField
                           name="result"
                           type="text"
@@ -342,19 +367,6 @@ const ApplicationForm = () => {
                             <MenuItem value="prottoion">Prottoion</MenuItem>
                           </Select>
                         </FormControl>
-                      </Box>
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          width: "100%",
-                          gap: 2,
-                          mb: 2,
-                        }}
-                      >
                         <TextField
                           name="classRoll"
                           type="text"

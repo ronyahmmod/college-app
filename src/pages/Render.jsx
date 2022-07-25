@@ -12,6 +12,7 @@ import {
 } from "../feature/application/applicationSlice";
 import TestimonialPatternURL from "../assets/logos/testimonial-pat.jpg";
 import QRCode from "react-qr-code";
+import { format } from "date-fns";
 
 const renderResultType = (type) => {
   switch (type) {
@@ -55,17 +56,35 @@ const renderGroup = (group) => {
   }
 };
 
-const renderGenderText = (gender) => {
-  switch (gender) {
-    case "male":
-      return "He";
-    case "female":
-      return "She";
-    case "other":
-      return "He";
-    default:
-      return "He";
+const renderGenderText = (gender, str) => {
+  console.log(gender, str);
+  if (gender === "male" && Boolean(!str)) {
+    return "He";
+  } else if (gender === "female" && !str) {
+    return "She";
+  } else if (gender === "other" && !str) {
+    return "He";
+  } else if (gender === "male" && Boolean(str === true)) {
+    return "him";
+  } else if (gender === "female" && str) {
+    return "her";
+  } else {
+    return "He/Her";
   }
+  // switch (gender, str) {
+  //   case "male":
+  //     return "He";
+  //   case "female":
+  //     return "She";
+  //   case "other":
+  //     return "He";
+  //   case 'male':
+  //   case str: return 'him'
+  //   case 'female':
+  //   case str: return 'her'
+  //   default:
+  //     return "He";
+  // }
 };
 
 const renderGroupText = (group) => {
@@ -143,7 +162,7 @@ const Render = () => {
                   left: 0,
                   right: 0,
                   backgroundColor: "background.paper",
-                  opacity: 0.97,
+                  opacity: 0.87,
                   px: 4,
                   py: 4,
                   fontFamily: "monospace",
@@ -160,14 +179,22 @@ const Render = () => {
                     <Typography
                       textAlign="center"
                       variant="h3"
-                      sx={{ fontStyle: "italic", fontFamily: "inherit" }}
+                      sx={{
+                        fontStyle: "italic",
+                        fontFamily: "inherit",
+                        color: "primary.main",
+                        fontWeight: 700,
+                      }}
                     >
                       Jibannagar Degree College
                     </Typography>
                     <Typography
                       textAlign="center"
                       variant="h5"
-                      sx={{ fontStyle: "italic", fontFamily: "inherit" }}
+                      sx={{
+                        fontStyle: "italic",
+                        fontFamily: "inherit",
+                      }}
                     >
                       Jibannagar, Chuadanga
                     </Typography>
@@ -180,20 +207,25 @@ const Render = () => {
                     </Typography>
                     <Typography
                       textAlign="center"
-                      variant="h5"
-                      sx={{ fontFamily: "inherit", mt: 2 }}
+                      variant="body1"
+                      sx={{ fontFamily: "inherit", mt: 1, px: 12 }}
                     >
                       EIIN: <strong>115461</strong>, NU-COLLEGE CODE: 0807,
                       JESSORE BOARD COLLEGE CODE: 115623, TELEPHONE:
                       +880762475047, EMAIL:{" "}
                       <strong>jdcjibannagar@gmail.com</strong>
                     </Typography>
+                    <Box>
+                      <Typography variant="body1" textAlign="right">
+                        Printed Date: <strong>{format(Date.now(), "P")}</strong>
+                      </Typography>
+                    </Box>
                   </Box>
 
                   <Box
                     sx={{
-                      mt: 4,
-                      mx: 4,
+                      mt: 1,
+                      mx: 1,
                       display: "flex",
                       flexDirection: "column",
                     }}
@@ -205,7 +237,7 @@ const Render = () => {
                           p: 1,
                           borderRadius: 5,
                           color: "#fff",
-                          px: 2,
+                          px: 1,
                         }}
                       >
                         <Typography variant="h4" sx={{ fontWeight: 500 }}>
@@ -216,27 +248,42 @@ const Render = () => {
                     <Typography
                       textAlign="justify"
                       variant="h5"
-                      sx={{ fontStyle: "italic", fontFamily: "inherit", mt: 2 }}
+                      sx={{
+                        fontStyle: "italic",
+                        fontFamily: "inherit",
+                        mt: 2,
+                        fontSize: "22px",
+                      }}
                     >
-                      It is to certify that{" "}
-                      <strong>{application.name.toUpperCase()}</strong>, father
-                      name:{" "}
+                      This is to certify that{" "}
+                      <strong>{application.name.toUpperCase()}</strong>,
+                      Father's Name:{" "}
                       <strong>{application.fatherName.toUpperCase()}</strong>,
-                      mother name:{" "}
-                      <strong>{application.motherName.toUpperCase()}</strong>.{" "}
-                      {renderGenderText(application.gender)} has been passed{" "}
+                      Mother's Name:{" "}
+                      <strong>{application.motherName.toUpperCase()}</strong>{" "}
+                      was a student of this college in the session:{" "}
+                      <strong>
+                        {application.session ? application.session : "N/A"}
+                      </strong>
+                      . {renderGenderText(application.gender, false)} took part
+                      in{" "}
                       <strong>{application.lastExamName.toUpperCase()}</strong>{" "}
-                      on <strong>{application.passingYear}</strong>.{" "}
-                      {renderGenderText(application.gender)} bearing roll:{" "}
-                      <strong>{application.roll}</strong>, registration:{" "}
-                      <strong>{application.registration}</strong>.{" "}
-                      {renderGenderText(application.gender)} has gained{" "}
+                      in the year <strong>{application.passingYear}</strong>{" "}
+                      from <strong>{renderGroup(application.group)}</strong>{" "}
+                      {renderGroupText(application.group)} and passed obtaining{" "}
                       <strong>{application.result}</strong>{" "}
-                      {renderResultType(application.resultType)} on{" "}
-                      <strong>{renderGroup(application.group)}</strong>{" "}
-                      {renderGroupText(application.group)}.
-                      <br />
-                      <br />I wish your long life.
+                      {renderResultType(application.resultType)}.{" "}
+                      {renderGenderText(application.gender, false)} bears the
+                      roll number: <strong>{application.roll}</strong> and
+                      registration number:{" "}
+                      <strong>{application.registration}</strong>.{" "}
+                      {renderGenderText(application.gender)} was very well
+                      behaved. {renderGenderText(application.gender, false)} did
+                      not take part in any activity subversive of the state or
+                      of discipline.
+                      <Box sx={{ mb: 1.5 }} />I wish{" "}
+                      {renderGenderText(application.gender, true)} every success
+                      in life.
                     </Typography>
                     <Box
                       sx={{
@@ -248,7 +295,7 @@ const Render = () => {
                       <Box sx={{ height: 30 }}>
                         <QRCode
                           value={generateQRCodeText(application)}
-                          size={100}
+                          size={120}
                           title={type.toUpperCase()}
                         />
                       </Box>
@@ -268,7 +315,7 @@ const Render = () => {
                     <Typography
                       variant="body2"
                       sx={{
-                        mt: 2,
+                        mt: 4,
                         textAlign: "center",
                         textDecoration: "underline",
                       }}
