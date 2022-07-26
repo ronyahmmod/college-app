@@ -6,11 +6,11 @@ import { Navigate, useLocation } from "react-router-dom";
 const AllreadyLoggedIn = ({ children }) => {
   const loggedInUser = useSelector(selectLoggedInUser);
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
   if (loggedInUser) {
     return (
       <Navigate
-        to={location.state.from.pathname}
+        to={location.state ? location.state.from.pathname : "/dashboard"}
         state={{ from: location }}
         replace
       />

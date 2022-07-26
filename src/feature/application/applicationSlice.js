@@ -3,6 +3,7 @@ import {
   createAsyncThunk,
   createSelector,
 } from "@reduxjs/toolkit";
+import { format } from "date-fns";
 // import { getMilliseconds, toDate } from "date-fns";
 import { collection, getDocs, Timestamp } from "firebase/firestore";
 import { db } from "../../firebase.config";
@@ -73,8 +74,8 @@ export const applicationSlice = createSlice({
 export const selectAllApplications = (state) => state.application.applications;
 export const selectApplicationStatus = (state) => state.application.status;
 export const selectApplicationError = (state) => state.application.error;
-export const selectApplicationsByUserId = (id) => (state) =>
-  state.application.applications.filter((app) => app.studentId === id);
+// export const selectApplicationsByUserId = (id) => (state) =>
+//   state.application.applications.filter((app) => app.studentId === id);
 export const selectApplicationById = (id) => (state) =>
   state.application.applications.filter((app) => app.id === id);
 export const selectApplicationByPayslip = (payslip) => {
@@ -88,6 +89,25 @@ export const selectSortedApplicationByAppDate = createSelector(
   (allApplications) =>
     allApplications.slice().sort((a, b) => b.date.localeCompare(a.date))
 );
+export const selectApplicationsByUserId = (id) =>
+  createSelector(selectSortedApplicationByAppDate, (applications) =>
+    applications.filter((app) => app.studentId === id)
+  );
+
+export const selectTodaysApplications = createSelector(
+  selectSortedApplicationByAppDate,
+  (applications) =>
+    applications.filter(
+      (app) =>
+        format(new Date(app.date), "yyyy-MM-dd") ===
+        format(new Date(), "yyyy-MM-dd")
+    )
+);
+
+export const selectTodaysApplicationsByUserId = (id) =>
+  createSelector(selectTodaysApplications, (applications) =>
+    applications.filter((app) => app.studentId === id)
+  );
 
 export const { setStatus } = applicationSlice.actions;
 export default applicationSlice.reducer;
