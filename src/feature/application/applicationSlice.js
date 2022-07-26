@@ -1,4 +1,9 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  createSelector,
+} from "@reduxjs/toolkit";
+// import { getMilliseconds, toDate } from "date-fns";
 import { collection, getDocs, Timestamp } from "firebase/firestore";
 import { db } from "../../firebase.config";
 
@@ -76,5 +81,13 @@ export const selectApplicationByPayslip = (payslip) => {
   return (state) =>
     state.application.applications.filter((app) => app.payslip === payslip);
 };
+
+// sorted applications by application date
+export const selectSortedApplicationByAppDate = createSelector(
+  selectAllApplications,
+  (allApplications) =>
+    allApplications.slice().sort((a, b) => b.date.localeCompare(a.date))
+);
+
 export const { setStatus } = applicationSlice.actions;
 export default applicationSlice.reducer;
