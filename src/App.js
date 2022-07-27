@@ -16,6 +16,7 @@ import AllreadyLoggedIn from "./components/AllreadyLoggedIn";
 import ApplicationForm from "./components/ApplicationForm";
 import Render from "./pages/Render";
 import RequireAuth from "./components/RequireAuth";
+import Users from "./pages/Users";
 
 function App() {
   const dispatch = useDispatch();
@@ -83,6 +84,7 @@ function App() {
           <Route path="applications" element={<Applications />} />
           <Route path="newapplication" element={<ApplicationForm />} />
           <Route path="render/:id/:type" element={<Render />} />
+          <Route path="users" element={<Users />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

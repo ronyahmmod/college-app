@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
@@ -8,14 +9,14 @@ import { selectLoggedInUser } from "../feature/user/userSlice";
 const Dashboard = () => {
   const loggedInUser = useSelector(selectLoggedInUser);
   return (
-    <div>
+    <Box sx={{ minHeight: "100vh" }}>
       <Sidebar />
       {loggedInUser && loggedInUser.role === "user" && <CustomSpeedDial />}
 
       <div>
         <Outlet />
       </div>
-    </div>
+    </Box>
   );
 };
 
