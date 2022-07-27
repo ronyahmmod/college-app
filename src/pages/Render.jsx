@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Alert, Box, Typography } from "@mui/material";
+import { Alert, Avatar, Box, Typography } from "@mui/material";
 import Layout from "../components/Layout";
 import { Container } from "@mui/system";
 import { useParams } from "react-router-dom";
@@ -56,6 +56,24 @@ const renderGroup = (group) => {
   }
 };
 
+const renderExamination = (exam) => {
+  switch (exam) {
+    case "ssc":
+      return "SECONDARY SCHOOL CERTIFICATION";
+    case "hsc":
+      return "HIGHER SECONDARY CERTIFICATE";
+    case "degree":
+      return "DEGREE PASS & CERTIFICATE COURSE";
+    case "honours":
+      return "BACHELOR OF HONOURS";
+    case "bm":
+      return "BUSINESS MANAGEMENT";
+    case "bou":
+      return "BANGLADESH OPEN UNIVERSITY";
+    default:
+      return exam.toUpperCase();
+  }
+};
 const renderGenderText = (gender, str) => {
   console.log(gender, str);
   if (gender === "male" && Boolean(!str)) {
@@ -175,49 +193,58 @@ const Render = () => {
                 }}
               >
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  <Box>
-                    <Typography
-                      textAlign="center"
-                      variant="h3"
-                      sx={{
-                        fontStyle: "italic",
-                        fontFamily: "inherit",
-                        color: "primary.main",
-                        fontWeight: 700,
-                      }}
-                    >
-                      Jibannagar Degree College
-                    </Typography>
-                    <Typography
-                      textAlign="center"
-                      variant="h5"
-                      sx={{
-                        fontStyle: "italic",
-                        fontFamily: "inherit",
-                      }}
-                    >
-                      Jibannagar, Chuadanga
-                    </Typography>
-                    <Typography
-                      textAlign="center"
-                      variant="h5"
-                      sx={{ fontStyle: "italic", fontFamily: "inherit" }}
-                    >
-                      ESTD: 1984
-                    </Typography>
-                    <Typography
-                      textAlign="center"
-                      variant="body1"
-                      sx={{ fontFamily: "inherit", mt: 1, px: 12 }}
-                    >
-                      EIIN: <strong>115461</strong>, NU-COLLEGE CODE: 0807,
-                      JESSORE BOARD COLLEGE CODE: 115623, TELEPHONE:
-                      +880762475047, EMAIL:{" "}
-                      <strong>jdcjibannagar@gmail.com</strong>
-                    </Typography>
+                  <Box sx={{ display: "flex", flexWrap: "nowrap" }}>
                     <Box>
-                      <Typography variant="body1" textAlign="right">
-                        Printed Date: <strong>{format(Date.now(), "P")}</strong>
+                      <Avatar src={CollegeLogoURL} alt={CollegeLogoURL} />
+                    </Box>
+                    <Box sx={{ justifySelf: "center" }}>
+                      <Typography
+                        textAlign="center"
+                        variant="h3"
+                        sx={{
+                          fontStyle: "italic",
+                          fontFamily: "inherit",
+                          color: "primary.main",
+                          fontWeight: 700,
+                        }}
+                      >
+                        Jibannagar Degree College
+                      </Typography>
+                      <Typography
+                        textAlign="center"
+                        variant="h5"
+                        sx={{
+                          fontStyle: "italic",
+                          fontFamily: "inherit",
+                        }}
+                      >
+                        Jibannagar, Chuadanga
+                      </Typography>
+                      <Typography
+                        textAlign="center"
+                        variant="h5"
+                        sx={{ fontStyle: "italic", fontFamily: "inherit" }}
+                      >
+                        ESTD: 1984
+                      </Typography>
+                      <Typography
+                        textAlign="center"
+                        variant="body1"
+                        sx={{ fontFamily: "inherit", mt: 1, px: 12 }}
+                      >
+                        EIIN: <strong>115461</strong>, NU-COLLEGE CODE: 0807,
+                        JESSORE BOARD COLLEGE CODE: 115623, TELEPHONE:
+                        +880762475047, EMAIL:{" "}
+                        <strong>jdcjibannagar@gmail.com</strong>
+                      </Typography>
+                    </Box>
+
+                    <Box sx={{ flexGrow: 1, width: 160 }}>
+                      <Typography variant="title" textAlign="left">
+                        <Typography sx={{ textDecoration: "underline" }}>
+                          Printed Date:{" "}
+                        </Typography>
+                        <strong>{format(Date.now(), "PP")}</strong>
                       </Typography>
                     </Box>
                   </Box>
@@ -267,9 +294,12 @@ const Render = () => {
                       </strong>
                       . {renderGenderText(application.gender, false)} took part
                       in{" "}
-                      <strong>{application.lastExamName.toUpperCase()}</strong>{" "}
-                      in the year <strong>{application.passingYear}</strong>{" "}
-                      from <strong>{renderGroup(application.group)}</strong>{" "}
+                      <strong>
+                        {renderExamination(application.lastExamName)}
+                      </strong>{" "}
+                      examination in the year{" "}
+                      <strong>{application.passingYear}</strong> from{" "}
+                      <strong>{renderGroup(application.group)}</strong>{" "}
                       {renderGroupText(application.group)} and passed obtaining{" "}
                       <strong>{application.result}</strong>{" "}
                       {renderResultType(application.resultType)}.{" "}

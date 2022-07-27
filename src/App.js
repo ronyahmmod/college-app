@@ -15,6 +15,7 @@ import { createUser } from "./firebase/auth/auth";
 import AllreadyLoggedIn from "./components/AllreadyLoggedIn";
 import ApplicationForm from "./components/ApplicationForm";
 import Render from "./pages/Render";
+import RequireAuth from "./components/RequireAuth";
 
 function App() {
   const dispatch = useDispatch();
@@ -70,7 +71,14 @@ function App() {
             </AllreadyLoggedIn>
           }
         />
-        <Route path="/dashboard" element={<Dashboard />}>
+        <Route
+          path="/dashboard"
+          element={
+            <RequireAuth>
+              <Dashboard />
+            </RequireAuth>
+          }
+        >
           <Route index element={<Overview />} />
           <Route path="applications" element={<Applications />} />
           <Route path="newapplication" element={<ApplicationForm />} />

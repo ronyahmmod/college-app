@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import Link from "@mui/material/Link";
 import Table from "@mui/material/Table";
@@ -7,6 +7,15 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Title from "./Title";
+import { useSelector } from "react-redux";
+import {
+  fetchApplications,
+  // selectTodaysApplications,
+  selectTodaysApplicationsByUserId,
+} from "../feature/application/applicationSlice";
+import { useDispatch } from "react-redux";
+import { format } from "date-fns";
+import { selectLoggedInUser } from "../feature/user/userSlice";
 
 // Generate Order Data
 function createData(id, date, name, serviceName, paymentStatus, charge) {
@@ -47,6 +56,15 @@ function preventDefault(event) {
 }
 
 export default function RecentApplications() {
+  const loggedInUser = useSelector(selectLoggedInUser);
+  const todaysApplications = useSelector(
+    selectTodaysApplicationsByUserId(loggedInUser && loggedInUser.id)
+  );
+  console.log(todaysApplications);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchApplications());
+  }, []);
   return (
     <React.Fragment>
       <Title>Recent Applications</Title>
@@ -61,15 +79,19 @@ export default function RecentApplications() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.serviceName}</TableCell>
-              <TableCell>{row.paymentStatus}</TableCell>
-              <TableCell align="right">{`$${row.charge}`}</TableCell>
-            </TableRow>
-          ))}
+          {todaysApplications
+            ? todaysApplications.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell>
+                    {format(new Date(row.date), "yyyy-MM-dd")}
+                  </TableCell>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.applicationType}</TableCell>
+                  <TableCell>{row.status}</TableCell>
+                  <TableCell align="right">200</TableCell>
+                </TableRow>
+              ))
+            : "You have no application today"}
         </TableBody>
       </Table>
       <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>

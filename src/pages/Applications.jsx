@@ -6,10 +6,11 @@ import Layout from "../components/Layout";
 import Title from "../components/Title";
 import {
   fetchApplications,
-  selectAllApplications,
+  // selectAllApplications,
   selectApplicationError,
   selectApplicationsByUserId,
   selectApplicationStatus,
+  selectSortedApplicationByAppDate,
   setStatus,
 } from "../feature/application/applicationSlice";
 import ReplayIcon from "@mui/icons-material/Replay";
@@ -139,7 +140,7 @@ const Applications = () => {
     }
   };
   const Columns = columnDefiner();
-  const allApplications = useSelector(selectAllApplications);
+  const allApplications = useSelector(selectSortedApplicationByAppDate);
   const [stableUser, setStableUser] = useState(null);
   const userApplications = useSelector(
     selectApplicationsByUserId(stableUser && stableUser.id)
@@ -226,11 +227,11 @@ const Applications = () => {
                   <Box sx={{ height: 400, maxWidth: "100%" }}>
                     {status === "succeded" && Boolean(loggedInUser) && (
                       <DataGrid
-                        initialState={{
-                          sorting: {
-                            sortModel: [{ field: "date", sort: "asc" }],
-                          },
-                        }}
+                        // initialState={{
+                        //   sorting: {
+                        //     sortModel: [{ field: "date", sort: "asc" }],
+                        //   },
+                        // }}
                         rows={
                           loggedInUser.role === "user"
                             ? userApplications

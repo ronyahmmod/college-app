@@ -49,11 +49,17 @@ const ApplicationDetails = ({ id }) => {
       //   alert(values.payslipDate.toString());
 
       const { payslip } = values;
-      const foundedApplication = allApplications.filter(
-        (app) => app.payslip === payslip
-      )[0];
+      let foundedApplication = null;
+      console.log(payslip);
+      if (payslip) {
+        foundedApplication = allApplications.filter(
+          (app) => app.payslip === payslip
+        )[0];
+      }
+
+      console.log(foundedApplication);
       if (foundedApplication) {
-        alert("This payslip already used", JSON.stringify(foundedApplication));
+        alert(`This payslip already used`);
         return;
       }
       const docRef = doc(db, "applications", applicationDetails.id);
