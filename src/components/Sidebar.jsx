@@ -77,6 +77,7 @@ const Sidebar = () => {
               <Avatar
                 src={loggedInUser.photoURL}
                 alt={loggedInUser.displayName}
+                onClick={() => navigate("/dashboard/details")}
               />
             </Box>
           )}
@@ -96,7 +97,14 @@ const Sidebar = () => {
                 <SidebarMenuItem Icon={NotificationsIcon} />
                 <SidebarMenuItem Icon={WhatsAppIcon} />
                 <SidebarMenuItem Icon={AttachMoneyIcon} />
-                <SidebarMenuItem Icon={GroupIcon} />
+                <SidebarMenuItem
+                  Icon={GroupIcon}
+                  isActive={activeMenu === "users"}
+                  clickHandler={() => {
+                    navigate("/dashboard/users");
+                    setActiveMenu("users");
+                  }}
+                />
                 <SidebarMenuItem Icon={PatternIcon} />
               </>
             )}

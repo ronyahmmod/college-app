@@ -15,6 +15,10 @@ const Copyright = styled("div")(({ theme }) => ({
   backgroundColor: alpha(green[700], 0.9),
   color: grey[100],
   padding: theme.spacing(2),
+  // position: "fixed",
+  // left: 0,
+  // bottom: 0,
+  // right: 0,
 }));
 
 const Layout = ({ children, print }) => {

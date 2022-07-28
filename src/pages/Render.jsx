@@ -75,7 +75,6 @@ const renderExamination = (exam) => {
   }
 };
 const renderGenderText = (gender, str) => {
-  console.log(gender, str);
   if (gender === "male" && Boolean(!str)) {
     return "He";
   } else if (gender === "female" && !str) {
@@ -153,7 +152,6 @@ const Render = () => {
   useEffect(() => {
     if (status === "idle") dispatch(fetchApplications());
   }, [id, status, dispatch]);
-  console.log(application);
   return (
     <Layout print>
       {application && application.status === "Done" ? (
