@@ -17,6 +17,8 @@ import ApplicationForm from "./components/ApplicationForm";
 import Render from "./pages/Render";
 import RequireAuth from "./components/RequireAuth";
 import Users from "./pages/Users";
+import Details from "./pages/Details";
+import ProttoionCategories from "./pages/ProttoionCategories";
 
 function App() {
   const dispatch = useDispatch();
@@ -85,6 +87,8 @@ function App() {
           <Route path="newapplication" element={<ApplicationForm />} />
           <Route path="render/:id/:type" element={<Render />} />
           <Route path="users" element={<Users />} />
+          <Route path="details" element={<Details />} />
+          <Route path="prottoions" element={<ProttoionCategories />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

@@ -77,6 +77,7 @@ const Sidebar = () => {
               <Avatar
                 src={loggedInUser.photoURL}
                 alt={loggedInUser.displayName}
+                onClick={() => navigate("/dashboard/details")}
               />
             </Box>
           )}

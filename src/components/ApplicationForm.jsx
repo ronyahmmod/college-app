@@ -103,7 +103,6 @@ const ApplicationForm = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log(error);
           setLoading(false);
         });
     },
@@ -185,7 +184,9 @@ const ApplicationForm = () => {
                   component="form"
                   onSubmit={handleSubmit}
                 >
-                  <Title>Create New Application</Title>
+                  <Title>
+                    Create an application for Certificate/Testimonial
+                  </Title>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={6}>
                       <Box
@@ -364,7 +365,7 @@ const ApplicationForm = () => {
                           >
                             <MenuItem value="certificate">Certificate</MenuItem>
                             <MenuItem value="testimonial">Testimonial</MenuItem>
-                            <MenuItem value="prottoion">Prottoion</MenuItem>
+                            {/* <MenuItem value="prottoion">Prottoion</MenuItem> */}
                           </Select>
                         </FormControl>
                         <TextField
@@ -387,7 +388,7 @@ const ApplicationForm = () => {
                             value={lastExamName}
                             onChange={handleChange}
                           >
-                            <MenuItem value="ssc">SSC</MenuItem>
+                            {/* <MenuItem value="ssc">SSC</MenuItem> */}
                             <MenuItem value="hsc">HSC</MenuItem>
                             <MenuItem value="degree">DEGREE</MenuItem>
                             <MenuItem value="honours">HONOURS</MenuItem>

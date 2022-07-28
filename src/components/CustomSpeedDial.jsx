@@ -1,6 +1,7 @@
 import React from "react";
 import { SpeedDial, SpeedDialIcon, SpeedDialAction } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import PostAddIcon from "@mui/icons-material/PostAdd";
 import { useNavigate } from "react-router-dom";
 const CustomSpeedDial = () => {
   const navigate = useNavigate();
@@ -12,9 +13,16 @@ const CustomSpeedDial = () => {
     >
       <SpeedDialAction
         icon={<AddIcon />}
-        tooltipTitle="Create a application"
+        tooltipTitle="Create a application for testimonial or certificate"
         onClick={() => {
           navigate("newapplication");
+        }}
+      />
+      <SpeedDialAction
+        icon={<PostAddIcon />}
+        tooltipTitle="Create a application for prottoion sonod"
+        onClick={() => {
+          navigate("prottoions");
         }}
       />
     </SpeedDial>

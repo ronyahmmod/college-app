@@ -113,7 +113,6 @@ const Users = () => {
     selectedUsers &&
     status === "succeded"
   ) {
-    console.log(users);
     return (
       <Layout>
         <Box
