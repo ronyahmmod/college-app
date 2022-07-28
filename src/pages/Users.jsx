@@ -129,9 +129,9 @@ const Users = () => {
               <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 1 }}>
                 <TextField
                   name="search"
-                  placeholder="Search user email"
+                  placeholder="Search "
                   variant="standard"
-                  sx={{ mr: 2 }}
+                  sx={{ mr: 2, flexBasis: "30%" }}
                   onChange={handleSearchChange}
                 />
                 <Button

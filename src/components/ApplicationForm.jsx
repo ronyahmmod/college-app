@@ -445,31 +445,6 @@ const ApplicationForm = () => {
                           placeholder="Enter your present address with this format: [Village, Post Office, UP/Thana, Pouro/City/Metro, District]"
                           fullWidth
                         />
-
-                        {/* <FormControl fullWidth required>
-                          <InputLabel id="group">Group</InputLabel>
-                          <Select
-                            labelId="group"
-                            label="Group"
-                            name="group"
-                            required
-                            value={group}
-                            onChange={handleChange}
-                            fullWidth
-                          >
-                            {Boolean(lastExamName === "hsc") && (
-                              <Box>
-                                <MenuItem value="science">SCIENCE</MenuItem>
-                                <MenuItem value="humanities">
-                                  HUMANITIES
-                                </MenuItem>
-                                <MenuItem value="businessStudies">
-                                  BUSINESS STUDIES
-                                </MenuItem>
-                              </Box>
-                            )}
-                          </Select>
-                        </FormControl> */}
                       </Box>
                       <Box
                         sx={{

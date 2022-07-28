@@ -96,6 +96,20 @@ const Applications = () => {
                   params.row.applicationType === "testimonial"
                 ) {
                   navigate(`/dashboard/render/${params.id}/testimonial`);
+                } else if (
+                  params.row.status === "Done" &&
+                  (params.row.applicationType === "psps" ||
+                    params.row.applicationType === "pscs" ||
+                    params.row.applicationType === "psis")
+                ) {
+                  navigate(`/dashboard/render/${params.id}/prottoion`);
+                } else if (
+                  params.row.status === "Done" &&
+                  params.row.applicationType === "certificate"
+                ) {
+                  alert(
+                    "Certificate is rendered only by consern Board/University"
+                  );
                 } else if (params.row.status !== "Done") {
                   alert(
                     "This application is either under process nor rejected!"

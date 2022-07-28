@@ -19,6 +19,7 @@ import RequireAuth from "./components/RequireAuth";
 import Users from "./pages/Users";
 import Details from "./pages/Details";
 import ProttoionCategories from "./pages/ProttoionCategories";
+import ProttoionAppForPassed from "./components/ProttoionAppForPassed";
 
 function App() {
   const dispatch = useDispatch();
@@ -89,6 +90,10 @@ function App() {
           <Route path="users" element={<Users />} />
           <Route path="details" element={<Details />} />
           <Route path="prottoions" element={<ProttoionCategories />} />
+          <Route
+            path="prottoionforpassed"
+            element={<ProttoionAppForPassed />}
+          />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

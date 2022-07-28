@@ -9,10 +9,9 @@ body {
   overflow-x: hidden;
   font-family: 'Roboto', sans-serif;
 }
-@media print and (min-width: 780px) {
+@media print and (min-width: 400px) {
   body {
     background-color: transparent;
-
   }
 }
 

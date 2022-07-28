@@ -10,6 +10,7 @@ import { Backdrop, CircularProgress } from "@mui/material";
 import Title from "./Title";
 
 import { format } from "date-fns";
+
 import { useNavigate } from "react-router-dom";
 
 export default function RecentApplications({ applications }) {

@@ -56,7 +56,7 @@ const ApplicationDetails = ({ id }) => {
         )[0];
       }
       if (foundedApplication) {
-        alert("This payslip already used", JSON.stringify(foundedApplication));
+        alert(`This payslip already used`);
         return;
       }
       const docRef = doc(db, "applications", applicationDetails.id);
