@@ -50,14 +50,11 @@ const ApplicationDetails = ({ id }) => {
 
       const { payslip } = values;
       let foundedApplication = null;
-      console.log(payslip);
       if (payslip) {
         foundedApplication = allApplications.filter(
           (app) => app.payslip === payslip
         )[0];
       }
-
-      console.log(foundedApplication);
       if (foundedApplication) {
         alert(`This payslip already used`);
         return;
