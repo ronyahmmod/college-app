@@ -20,6 +20,10 @@ import Users from "./pages/Users";
 import Details from "./pages/Details";
 import ProttoionCategories from "./pages/ProttoionCategories";
 import ProttoionAppForPassed from "./components/ProttoionAppForPassed";
+import ProttoionAppForCurrent from "./components/ProttoionAppForCurrent";
+import ProttoionAppForCorrection from "./components/ProttoionAppForCorrection";
+import AuthorizeForUser from "./components/AuthorizeForUser";
+import AuthorizeForAdmin from "./components/AuthorizeForAdmin";
 
 function App() {
   const dispatch = useDispatch();
@@ -85,14 +89,62 @@ function App() {
         >
           <Route index element={<Overview />} />
           <Route path="applications" element={<Applications />} />
-          <Route path="newapplication" element={<ApplicationForm />} />
-          <Route path="render/:id/:type" element={<Render />} />
-          <Route path="users" element={<Users />} />
+          <Route
+            path="newapplication"
+            element={
+              <AuthorizeForUser>
+                <ApplicationForm />
+              </AuthorizeForUser>
+            }
+          />
+          <Route
+            path="render/:id/:type"
+            element={
+              <AuthorizeForAdmin>
+                <Render />
+              </AuthorizeForAdmin>
+            }
+          />
+          <Route
+            path="users"
+            element={
+              <AuthorizeForAdmin>
+                <Users />
+              </AuthorizeForAdmin>
+            }
+          />
           <Route path="details" element={<Details />} />
-          <Route path="prottoions" element={<ProttoionCategories />} />
+          <Route
+            path="prottoions"
+            element={
+              <AuthorizeForUser>
+                <ProttoionCategories />
+              </AuthorizeForUser>
+            }
+          />
           <Route
             path="prottoionforpassed"
-            element={<ProttoionAppForPassed />}
+            element={
+              <AuthorizeForUser>
+                <ProttoionAppForPassed />
+              </AuthorizeForUser>
+            }
+          />
+          <Route
+            path="prottoionforcurrent"
+            element={
+              <AuthorizeForUser>
+                <ProttoionAppForCurrent />
+              </AuthorizeForUser>
+            }
+          />
+          <Route
+            path="prottoionforcorrection"
+            element={
+              <AuthorizeForUser>
+                <ProttoionAppForCorrection />
+              </AuthorizeForUser>
+            }
           />
         </Route>
         <Route path="*" element={<PageNotFound />} />

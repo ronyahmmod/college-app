@@ -116,18 +116,82 @@ const DocBody = ({ application }) => {
         <strong>{up(application.name)}</strong>, পিতার নামঃ{" "}
         <strong>{up(application.fatherName)}</strong>, মাতার নামঃ{" "}
         <strong>{up(application.motherName)}</strong>, ঠিকানাঃ{" "}
-        <strong>{up(application.address)}</strong>। সে অত্র কলেজ হতে{" "}
-        <strong>{up(renderGroup(application.group, "bn"))}</strong> বিভাগে{" "}
-        <strong>{up(renderExamination(application.lastExamName))}</strong>{" "}
-        পরীক্ষায় অংশ গ্রহণ করে{" "}
+        <strong>{up(application.address)}</strong>। সে{" "}
+        <strong>{up(renderExamination(application.lastExamName), "bn")}</strong>{" "}
+        পরীক্ষায় <strong>{up(renderGroup(application.group, "bn"))}</strong> হতে
+        অংশ গ্রহণ করে{" "}
         <strong>
           {up(renderResultType(application.resultType))} :{" "}
           {up(application.result)}
         </strong>{" "}
-        পেয়ে উত্তীর্ণ হয়েছে। তার বোর্ড/বিশ্ববিদ্যালয় রোলঃ{" "}
-        <strong>{application.roll}</strong>, রেজিস্ট্রেশন নম্বরঃ{" "}
-        <strong>{application.registration}</strong> এবং পরীক্ষার সনঃ{" "}
-        <strong>{application.passingYear}</strong>।
+        পেয়ে উত্তীর্ণ হয়েছে। তার রোল নম্বরঃ <strong>{application.roll}</strong>,
+        রেজিস্ট্রেশন নম্বরঃ <strong>{application.registration}</strong> এবং
+        পরীক্ষার সালঃ <strong>{application.passingYear}</strong>। তার শ্রেণি রোল
+        নম্বরঃ <strong>{application.classRoll}</strong>। আমার জানামতে অত্র কলেজে
+        অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত ছিল না।
+      </Typography>
+
+      <Typography
+        sx={{ mt: 2, textAlign: "justify", lineHeight: 1.8, textIndent: 40 }}
+      >
+        আমি তার সার্বিক মঙ্গল কামনা করি।
+      </Typography>
+    </Box>
+  );
+};
+
+const DocBodyPresent = ({ application }) => {
+  console.log(application);
+  return (
+    <Box sx={{ my: 3 }}>
+      <Typography
+        sx={{ textAlign: "justify", lineHeight: 1.8, textIndent: 40 }}
+      >
+        এই মর্মে প্রত্যয়ন করা যাচ্ছে যে, নামঃ{" "}
+        <strong>{up(application.name)}</strong>, পিতার নামঃ{" "}
+        <strong>{up(application.fatherName)}</strong>, মাতার নামঃ{" "}
+        <strong>{up(application.motherName)}</strong>, ঠিকানাঃ{" "}
+        <strong>{up(application.address)}</strong>। সে অত্র কলেজের{" "}
+        <strong>{renderExamination(application.readingClass, "bn")}</strong>{" "}
+        শ্রেণির <strong>{application.session}</strong> শিক্ষাবর্ষের{" "}
+        <strong>{renderGroup(application.group, "bn")}</strong> -এর একজন
+        শিক্ষার্থী। তার শ্রেণি রোল নম্বরঃ{" "}
+        <strong>{application.classRoll}</strong> এবং একাডেমিক বর্ষঃ{" "}
+        <strong>{up(application.readingYear)}</strong>। আমার জানামতে অত্র কলেজে
+        অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত ছিল না।
+      </Typography>
+
+      <Typography
+        sx={{ mt: 2, textAlign: "justify", lineHeight: 1.8, textIndent: 40 }}
+      >
+        আমি তার সার্বিক মঙ্গল কামনা করি।
+      </Typography>
+    </Box>
+  );
+};
+const DocBodyIncorrect = ({ application }) => {
+  return (
+    <Box sx={{ my: 3 }}>
+      <Typography
+        sx={{ textAlign: "justify", lineHeight: 1.8, textIndent: 40 }}
+      >
+        এই মর্মে প্রত্যয়ন করা যাচ্ছে যে, নামঃ{" "}
+        <strong>{up(application.name)}</strong>, পিতার নামঃ{" "}
+        <strong>{up(application.fatherName)}</strong>, মাতার নামঃ{" "}
+        <strong>{up(application.motherName)}</strong>, ঠিকানাঃ{" "}
+        <strong>{up(application.address)}</strong>। সে{" "}
+        <strong>{up(renderExamination(application.lastExamName), "bn")}</strong>{" "}
+        পরীক্ষায় <strong>{up(renderGroup(application.group, "bn"))}</strong> হতে
+        অংশ গ্রহণ করে{" "}
+        <strong>
+          {up(renderResultType(application.resultType))} :{" "}
+          {up(application.result)}
+        </strong>{" "}
+        পেয়ে উত্তীর্ণ হয়েছে। তার রোল নম্বরঃ <strong>{application.roll}</strong>,
+        রেজিস্ট্রেশন নম্বরঃ <strong>{application.registration}</strong> এবং
+        পরীক্ষার সালঃ <strong>{application.passingYear}</strong>। তার শ্রেণি রোল
+        নম্বরঃ <strong>{application.classRoll}</strong>। আমার জানামতে সে কলেজ
+        পরিপন্থি কোন কার্যকলাপে জড়িত নয়।
       </Typography>
 
       <Typography
@@ -186,6 +250,19 @@ const DocFooter = ({ application, type }) => {
   );
 };
 
+const DocBodyManager = (application) => {
+  switch (application.applicationType) {
+    case "psps":
+      return <DocBody application={application} />;
+    case "pscs":
+      return <DocBodyPresent application={application} />;
+    case "psis":
+      return <DocBodyIncorrect application={application} />;
+    default:
+      return <DocBody application={application} />;
+  }
+};
+
 const ProttoionRenderer = ({ application, id, type }) => {
   return (
     <Layout print>
@@ -225,7 +302,7 @@ const ProttoionRenderer = ({ application, id, type }) => {
               }}
             >
               <DocHeader />
-              <DocBody application={application} />
+              {DocBodyManager(application)}
               <DocFooter application={application} type={type} />
             </Box>
           </Box>

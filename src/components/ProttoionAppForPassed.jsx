@@ -187,7 +187,7 @@ const ProttoionAppForPassed = () => {
                   বাতিল করা হবে।
                 </Alert>
                 <Title sx={{ alignSelef: "flex-start" }}>
-                  Application for allready passed from this college.
+                  যারা এ কলেজ থেকে ইতোমধ্যে উত্তীর্ণ হয়েছে তাদের আবেদন ফরম।
                 </Title>
                 <Grid
                   container

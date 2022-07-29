@@ -58,6 +58,7 @@ const ProttoionCategories = () => {
                     variant="outlined"
                     size="large"
                     sx={{ justifyContent: "flex-start" }}
+                    onClick={() => navigate("/dashboard/prottoionforcurrent")}
                   >
                     2. For currennt students
                   </Button>
@@ -66,6 +67,9 @@ const ProttoionCategories = () => {
                     variant="contained"
                     size="large"
                     sx={{ justifyContent: "flex-start" }}
+                    onClick={() =>
+                      navigate("/dashboard/prottoionforcorrection")
+                    }
                   >
                     3. For corrections
                   </Button>

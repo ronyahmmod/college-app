@@ -1,7 +1,7 @@
 import React from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppConfig from "../app.config";
-import { green, grey } from "@mui/material/colors";
+import { green, grey, red } from "@mui/material/colors";
 import { Link, Typography } from "@mui/material";
 
 const LayoutWrapper = styled("div")(({ theme }) => ({
@@ -31,6 +31,7 @@ const Layout = ({ children, print }) => {
           <Link
             sx={{
               ml: 0.4,
+              color: red[100],
               "&:hover": {
                 color: grey[200],
               },

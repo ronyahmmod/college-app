@@ -46,18 +46,33 @@ const Applications = () => {
           valueGetter: (params) => params.row.name?.toUpperCase(),
         },
         { field: "date", headerName: "Application Date", width: 200 },
-        { field: "roll", headerName: "Roll Number", width: 100 },
+        {
+          field: "roll",
+          headerName: "Roll Number",
+          width: 100,
+          valueGetter: (params) =>
+            (params.row.roll && params.row.roll) || "N/A",
+        },
         {
           field: "registration",
           headerName: "Registration Number",
           width: 150,
+          valueGetter: (params) =>
+            (params.row.registration && params.row.registration) || "N/A",
         },
-        { field: "passingYear", headerName: "Passing Year", width: 100 },
+        {
+          field: "passingYear",
+          headerName: "Passing Year",
+          width: 100,
+          valueGetter: (params) =>
+            (params.row.passingYear && params.row.passingYear) || "N/A",
+        },
         {
           field: "board",
           headerName: "Board",
           width: 100,
-          valueGetter: (params) => params.row.board.toUpperCase(),
+          valueGetter: (params) =>
+            (params.row.board && params.row.board.toUpperCase()) || "N/A",
         },
         {
           field: "status",
@@ -130,18 +145,33 @@ const Applications = () => {
           valueGetter: (params) => params.row.name?.toUpperCase(),
         },
         { field: "date", headerName: "Application Date", width: 200 },
-        { field: "roll", headerName: "Roll Number", width: 100 },
+        {
+          field: "roll",
+          headerName: "Roll Number",
+          width: 100,
+          valueGetter: (params) =>
+            (params.row.roll && params.row.roll) || "N/A",
+        },
         {
           field: "registration",
           headerName: "Registration Number",
           width: 150,
+          valueGetter: (params) =>
+            (params.row.registration && params.row.registration) || "N/A",
         },
-        { field: "passingYear", headerName: "Passing Year", width: 100 },
+        {
+          field: "passingYear",
+          headerName: "Passing Year",
+          width: 100,
+          valueGetter: (params) =>
+            (params.row.passingYear && params.row.passingYear) || "N/A",
+        },
         {
           field: "board",
           headerName: "Board",
           width: 100,
-          valueGetter: (params) => params.row.board.toUpperCase(),
+          valueGetter: (params) =>
+            (params.row.board && params.row.board.toUpperCase()) || "N/A",
         },
         {
           field: "status",
