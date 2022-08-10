@@ -7,6 +7,11 @@ import {
   Typography,
   Avatar,
   Divider,
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
 } from "@mui/material";
 import CollegeLogoURL from "../assets/logos/college-logo.png";
 import { grey } from "@mui/material/colors";
@@ -68,7 +73,7 @@ const DocHeader = () => {
             sx={{ fontFamily: "inherit", mt: 1, px: 2 }}
           >
             EIIN: <strong>115461</strong>, জাতীয় বিশ্ববিদ্যালয় কোড: 0807, যশোর
-            বোর্ড কোড: 115623, TELEHONE: +880762475047, EMAIL:{" "}
+            বোর্ড কোড: 115623, বিএম কোডঃ ২৯০২৯, TELEHONE: +880762475047, EMAIL:{" "}
             <strong>jdcjibannagar@gmail.com</strong>।
           </Typography>
         </Box>
@@ -94,7 +99,7 @@ const DocHeader = () => {
       </Box>
 
       {/* Title */}
-      <Box sx={{ mt: 6 }}>
+      <Box sx={{ mt: 2 }}>
         <Typography
           variant="h4"
           sx={{ textAlign: "center", textDecoration: "underline" }}
@@ -179,25 +184,72 @@ const DocBodyIncorrect = ({ application }) => {
         <strong>{up(application.name)}</strong>, পিতার নামঃ{" "}
         <strong>{up(application.fatherName)}</strong>, মাতার নামঃ{" "}
         <strong>{up(application.motherName)}</strong>, ঠিকানাঃ{" "}
-        <strong>{up(application.address)}</strong>। সে{" "}
-        <strong>{up(renderExamination(application.lastExamName), "bn")}</strong>{" "}
-        পরীক্ষায় <strong>{up(renderGroup(application.group, "bn"))}</strong> হতে
-        অংশ গ্রহণ করে{" "}
-        <strong>
-          {up(renderResultType(application.resultType))} :{" "}
-          {up(application.result)}
-        </strong>{" "}
-        পেয়ে উত্তীর্ণ হয়েছে। তার রোল নম্বরঃ <strong>{application.roll}</strong>,
-        রেজিস্ট্রেশন নম্বরঃ <strong>{application.registration}</strong> এবং
-        পরীক্ষার সালঃ <strong>{application.passingYear}</strong>। তার শ্রেণি রোল
-        নম্বরঃ <strong>{application.classRoll}</strong>। আমার জানামতে সে কলেজ
-        পরিপন্থি কোন কার্যকলাপে জড়িত নয়।
+        <strong>{up(application.address)}</strong>। সে অত্র কলেজের{" "}
+        <strong>{renderExamination(application.readingClass, "bn")}</strong>{" "}
+        শ্রেণির <strong>{application.session}</strong> শিক্ষাবর্ষের{" "}
+        <strong>{renderGroup(application.group, "bn")}</strong> -এর একজন
+        শিক্ষার্থী। তার শ্রেণি রোল নম্বরঃ{" "}
+        <strong>{application.classRoll}</strong> এবং একাডেমিক বর্ষঃ{" "}
+        <strong>{up(application.readingYear)}</strong>।
+        <Typography sx={{ my: 2 }}>
+          তার ড্যকুমেন্ট সংশোধন সংক্রান্ত তথ্যাদি নিচে দেয়া হলোঃ
+        </Typography>
       </Typography>
-
-      <Typography
-        sx={{ mt: 2, textAlign: "justify", lineHeight: 1.8, textIndent: 40 }}
+      <Table
+        sx={{
+          my: 1,
+          border: "2px solid black",
+          "& td": { border: "2px solid black" },
+          "& th": { border: "2px solid black" },
+        }}
       >
-        আমি তার সার্বিক মঙ্গল কামনা করি।
+        <TableHead>
+          <TableRow>
+            <TableCell>
+              অত্র কলেজে সংরক্ষিত ড্যকুমেন্ট অনুযায়ী তথ্যাদি
+            </TableCell>
+            <TableCell>সংশোধনের পর তথ্যাদি যেমন হবে</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {application && application.nameChanged && (
+            <TableRow>
+              <TableCell>
+                NAME: <strong>{up(application.name)}</strong>
+              </TableCell>
+              <TableCell>
+                NAME: <strong>{up(application.changedName)}</strong>
+              </TableCell>
+            </TableRow>
+          )}
+          {application && application.fatherNameChanged && (
+            <TableRow>
+              <TableCell>
+                FATHER NAME: <strong>{up(application.fatherName)}</strong>
+              </TableCell>
+              <TableCell>
+                FATHER NAME:<strong>{up(application.changedFatherName)}</strong>
+              </TableCell>
+            </TableRow>
+          )}
+          {application && application.motherNameChanged && (
+            <TableRow>
+              <TableCell>
+                MOTHER NAME: <strong>{up(application.motherName)}</strong>
+              </TableCell>
+              <TableCell>
+                MOTHER NAME:{" "}
+                <strong>{up(application.changedMotherName)}</strong>
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+
+      <Typography>
+        {" "}
+        আমার জানামতে অত্র কলেজে অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত
+        ছিল না। আমি তার সার্বিক মঙ্গল কামনা করি।
       </Typography>
     </Box>
   );
@@ -210,7 +262,7 @@ const DocFooter = ({ application, type }) => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          mt: 8,
+          mt: 2,
           pr: 3,
         }}
       >
@@ -236,7 +288,7 @@ const DocFooter = ({ application, type }) => {
           </Typography>
         </Box>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "flex-start", my: 8 }}>
+      <Box sx={{ display: "flex", justifyContent: "flex-start", my: 2 }}>
         <QRCode
           value={generateQRCodeText(application)}
           size={120}
@@ -264,6 +316,7 @@ const DocBodyManager = (application) => {
 };
 
 const ProttoionRenderer = ({ application, id, type }) => {
+  console.log(application);
   return (
     <Layout print>
       {application && application.status === "Done" ? (

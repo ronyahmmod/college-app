@@ -374,6 +374,9 @@ const ProttoionAppForPassed = () => {
                           <MenuItem value="national">
                             National University
                           </MenuItem>
+                          <MenuItem value="bou">
+                            Bangladesh Open University
+                          </MenuItem>
                         </Select>
                       </FormControl>
                       <FormControl>

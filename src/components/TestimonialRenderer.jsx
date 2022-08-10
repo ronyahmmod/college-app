@@ -93,8 +93,8 @@ const TestimonialRenderer = ({ application, type, id }) => {
                         sx={{ fontFamily: "inherit", mt: 1, px: 12 }}
                       >
                         EIIN: <strong>115461</strong>, NU-COLLEGE CODE: 0807,
-                        JESSORE BOARD COLLEGE CODE: 115623, TELEPHONE:
-                        +880762475047, EMAIL:{" "}
+                        JESSORE BOARD COLLEGE CODE: 115623, BM COLLEGE CODE:
+                        29029, TELEPHONE: +880762475047, EMAIL:{" "}
                         <strong>jdcjibannagar@gmail.com</strong>
                       </Typography>
                     </Box>
