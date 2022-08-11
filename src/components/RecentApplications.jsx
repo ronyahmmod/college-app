@@ -49,7 +49,9 @@ export default function RecentApplications({ applications }) {
                 <TableCell>{row.applicationType}</TableCell>
                 <TableCell>{row.status}</TableCell>
                 <TableCell align="right">
-                  {row.status === "prottoion" ? "BDT 100.00" : "BDT 200.00"}
+                  {row.status === "psis" || "psps" || "pscs"
+                    ? "BDT 100.00"
+                    : "BDT 200.00"}
                 </TableCell>
               </TableRow>
             ))}

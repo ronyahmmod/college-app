@@ -196,7 +196,7 @@ const ProttoionAppForPassed = () => {
                   component="form"
                   onSubmit={handleSubmit}
                 >
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <Box
                       sx={{
                         display: "flex",
@@ -306,7 +306,7 @@ const ProttoionAppForPassed = () => {
                       />
                     </Box>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <Box
                       sx={{
                         display: "flex",

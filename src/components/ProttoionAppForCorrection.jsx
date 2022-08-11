@@ -480,7 +480,7 @@ const ProttoionAppForCorrection = () => {
                 ডক্যুমেন্ট কারেকশনের জন্য প্রত্যয়ন পত্র গ্রহণের আবেদন ফরম।
               </Title>
               <Grid container spacing={3}>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <Box
                     sx={{ display: "flex", flexDirection: "column", gap: 2 }}
                   >
@@ -494,7 +494,7 @@ const ProttoionAppForCorrection = () => {
                     ])}
                   </Box>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <Box
                     sx={{ display: "flex", flexDirection: "column", gap: 2 }}
                   >
@@ -539,10 +539,15 @@ const ProttoionAppForCorrection = () => {
                 )}
               </Grid>
               <Divider sx={{ my: 2 }} />
-              <Grid contianer spacing={2}>
+
+              <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Title>কি ধরণের সংশোধন করতে চান টিক দিন।</Title>
-                  <Stack direction="row" spacing={2} sx={{ my: 1 }}>
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    spacing={2}
+                    sx={{ my: { xs: 1, md: 1 } }}
+                  >
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -573,19 +578,28 @@ const ProttoionAppForCorrection = () => {
                   </Stack>
                   <Stack spacing={2}>
                     {selectName && (
-                      <Stack direction="row" spacing={2}>
+                      <Stack
+                        direction={{ xs: "column", sm: "row" }}
+                        spacing={2}
+                      >
                         {prottoion.renderSpecificFields(["name"])}
                         {prottoion.renderSpecificFields(["changedName"])}
                       </Stack>
                     )}
                     {selectFatherName && (
-                      <Stack direction="row" spacing={2}>
+                      <Stack
+                        direction={{ xs: "column", sm: "row" }}
+                        spacing={2}
+                      >
                         {prottoion.renderSpecificFields(["fatherName"])}
                         {prottoion.renderSpecificFields(["changedFatherName"])}
                       </Stack>
                     )}
                     {selectMotherName && (
-                      <Stack direction="row" spacing={2}>
+                      <Stack
+                        direction={{ xs: "column", sm: "row" }}
+                        spacing={2}
+                      >
                         {prottoion.renderSpecificFields(["motherName"])}
                         {prottoion.renderSpecificFields(["changedMotherName"])}
                       </Stack>

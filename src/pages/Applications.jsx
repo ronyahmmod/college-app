@@ -40,6 +40,11 @@ const Applications = () => {
     if (loggedInUser && loggedInUser.role !== "user") {
       return [
         {
+          field: "id",
+          headerName: "Application ID",
+          width: 200,
+        },
+        {
           field: "name",
           headerName: "Applicant Name",
           width: 200,
@@ -139,6 +144,11 @@ const Applications = () => {
     } else {
       return [
         {
+          field: "id",
+          headerName: "Application ID",
+          width: 200,
+        },
+        {
           field: "name",
           headerName: "Applicant Name",
           width: 200,
@@ -150,28 +160,36 @@ const Applications = () => {
           headerName: "Roll Number",
           width: 100,
           valueGetter: (params) =>
-            (params.row.roll && params.row.roll) || "N/A",
+            (params.row.roll && params.row.roll) ||
+            (params.row.examRoll && params.row.examRoll) ||
+            "N/A",
         },
         {
           field: "registration",
           headerName: "Registration Number",
           width: 150,
           valueGetter: (params) =>
-            (params.row.registration && params.row.registration) || "N/A",
+            (params.row.registration && params.row.registration) ||
+            (params.row.examRegistration && params.row.examRegistration) ||
+            "N/A",
         },
         {
           field: "passingYear",
           headerName: "Passing Year",
           width: 100,
           valueGetter: (params) =>
-            (params.row.passingYear && params.row.passingYear) || "N/A",
+            (params.row.passingYear && params.row.passingYear) ||
+            (params.row.examYear && params.row.examYear) ||
+            "N/A",
         },
         {
           field: "board",
           headerName: "Board",
           width: 100,
           valueGetter: (params) =>
-            (params.row.board && params.row.board.toUpperCase()) || "N/A",
+            (params.row.board && params.row.board.toUpperCase()) ||
+            (params.row.examBoard && params.row.examBoard.toUpperCase()) ||
+            "N/A",
         },
         {
           field: "status",

@@ -43,7 +43,7 @@ const DocHeader = () => {
         <Box sx={{ justifySelf: "center" }}>
           <Typography
             textAlign="center"
-            variant="h5"
+            variant="h6"
             sx={{
               fontFamily: "inherit",
               fontWeight: 700,
@@ -70,7 +70,7 @@ const DocHeader = () => {
           <Typography
             textAlign="center"
             variant="body1"
-            sx={{ fontFamily: "inherit", mt: 1, px: 2 }}
+            sx={{ fontFamily: "inherit", mt: 1, px: 2, fontSize: 12 }}
           >
             EIIN: <strong>115461</strong>, জাতীয় বিশ্ববিদ্যালয় কোড: 0807, যশোর
             বোর্ড কোড: 115623, বিএম কোডঃ ২৯০২৯, TELEHONE: +880762475047, EMAIL:{" "}
@@ -199,36 +199,51 @@ const DocBodyIncorrect = ({ application }) => {
         sx={{
           my: 1,
           border: "2px solid black",
-          "& td": { border: "2px solid black" },
-          "& th": { border: "2px solid black" },
+
+          "& td": { border: "2px solid black", fontSize: 13 },
+          "& th": { border: "2px solid black", fontSize: 13 },
         }}
       >
         <TableHead>
           <TableRow>
             <TableCell>
-              অত্র কলেজে সংরক্ষিত ড্যকুমেন্ট অনুযায়ী তথ্যাদি
+              <strong>অত্র কলেজে সংরক্ষিত ড্যকুমেন্ট অনুযায়ী তথ্যাদি</strong>
             </TableCell>
-            <TableCell>সংশোধনের পর তথ্যাদি যেমন হবে</TableCell>
+            <TableCell>
+              <strong>সংশোধনের পর তথ্যাদি যেমন হবে</strong>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {application && application.nameChanged && (
             <TableRow>
               <TableCell>
-                NAME: <strong>{up(application.name)}</strong>
+                NAME:{" "}
+                <strong>
+                  <u>{up(application.name)}</u>
+                </strong>
               </TableCell>
               <TableCell>
-                NAME: <strong>{up(application.changedName)}</strong>
+                NAME:{" "}
+                <strong>
+                  <u>{up(application.changedName)}</u>
+                </strong>
               </TableCell>
             </TableRow>
           )}
           {application && application.fatherNameChanged && (
             <TableRow>
               <TableCell>
-                FATHER NAME: <strong>{up(application.fatherName)}</strong>
+                FATHER NAME:{" "}
+                <strong>
+                  <u>{up(application.fatherName)}</u>
+                </strong>
               </TableCell>
               <TableCell>
-                FATHER NAME:<strong>{up(application.changedFatherName)}</strong>
+                FATHER NAME:{" "}
+                <strong>
+                  <u>{up(application.changedFatherName)}</u>
+                </strong>
               </TableCell>
             </TableRow>
           )}
@@ -239,14 +254,18 @@ const DocBodyIncorrect = ({ application }) => {
               </TableCell>
               <TableCell>
                 MOTHER NAME:{" "}
-                <strong>{up(application.changedMotherName)}</strong>
+                <strong>
+                  <u>{up(application.changedMotherName)}</u>
+                </strong>
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
 
-      <Typography>
+      <Typography
+        sx={{ textAlign: "justify", lineHeight: 1.8, textIndent: 40 }}
+      >
         {" "}
         আমার জানামতে অত্র কলেজে অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত
         ছিল না। আমি তার সার্বিক মঙ্গল কামনা করি।
@@ -316,7 +335,7 @@ const DocBodyManager = (application) => {
 };
 
 const ProttoionRenderer = ({ application, id, type }) => {
-  console.log(application);
+  // console.log(application);
   return (
     <Layout print>
       {application && application.status === "Done" ? (

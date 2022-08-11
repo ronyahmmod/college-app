@@ -27,6 +27,7 @@ import { collection, doc, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "../firebase.config";
+import { grey } from "@mui/material/colors";
 
 const ApplicationForm = () => {
   const loggedInUser = useSelector(selectLoggedInUser);
@@ -184,8 +185,14 @@ const ApplicationForm = () => {
                   component="form"
                   onSubmit={handleSubmit}
                 >
-                  <Title>
-                    Create an application for Certificate/Testimonial
+                  <Alert severity="warning" sx={{ color: grey[700], mb: 3 }}>
+                    আবেদন করার পূর্বে অবশ্যই সকল তথ্য যাচাই-বাছাই করে নিবেন। সকল
+                    তথ্য সর্বশেষ পরীক্ষার তথ্য অনুযায়ী হতে হবে। একবার আবেদন
+                    সাবমিট হয়ে গেলে পরিবর্তনের সুযোগ নেই। ভুল তথ্যের জন্য আপনার
+                    আবেদনটি বাতিল করা হবে।
+                  </Alert>
+                  <Title sx={{ textAlign: "center" }}>
+                    সনদপত্র/প্রসংশাপত্র গ্রহণের আবেদন ফরম।
                   </Title>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={6}>

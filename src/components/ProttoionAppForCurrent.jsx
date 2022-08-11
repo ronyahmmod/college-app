@@ -280,7 +280,7 @@ const ProttoionAppForCurrent = () => {
                 যারা এ কলেজ বর্তমানে অধ্যয়নরত তাদের আবেদন ফরম।
               </Title>
               <Grid container spacing={3}>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <Box
                     sx={{ display: "flex", flexDirection: "column", gap: 2 }}
                   >
@@ -294,7 +294,7 @@ const ProttoionAppForCurrent = () => {
                     ])}
                   </Box>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <Box
                     sx={{ display: "flex", flexDirection: "column", gap: 2 }}
                   >
