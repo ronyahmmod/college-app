@@ -250,7 +250,10 @@ const DocBodyIncorrect = ({ application }) => {
           {application && application.motherNameChanged && (
             <TableRow>
               <TableCell>
-                MOTHER NAME: <strong>{up(application.motherName)}</strong>
+                MOTHER NAME:{" "}
+                <strong>
+                  <u>{up(application.motherName)}</u>
+                </strong>
               </TableCell>
               <TableCell>
                 MOTHER NAME:{" "}

@@ -99,6 +99,7 @@ const ApplicationDetails = ({ id }) => {
       })
       .catch((error) => {
         setLoadedImage(null);
+        setLoading(false);
       });
   }, [updated, applicationDetails]);
   const DetailsMenuItem = ({ content }) => {
@@ -177,7 +178,7 @@ const ApplicationDetails = ({ id }) => {
               </Backdrop>
               <Link href={loadedImage} target="_blank">
                 <Tooltip title="Click to view new tab" arrow>
-                  <img src={loadedImage} alt={applicationDetails.name} />
+                  <img src={loadedImage} alt="Not founded." />
                 </Tooltip>
               </Link>
             </Box>
