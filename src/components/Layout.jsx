@@ -6,9 +6,9 @@ import { Link, Typography } from "@mui/material";
 
 const LayoutWrapper = styled("div")(({ theme }) => ({
   position: "relative",
-  left: AppConfig.panelWidth,
-  width: `calc(100% - ${AppConfig.panelWidth})`,
-  maxWidth: `calc(100% - ${AppConfig.panelWidth})`,
+  top: AppConfig.navbarHeight,
+  width: "100%",
+  maxWidth: "100%",
 }));
 
 const Copyright = styled("div")(({ theme }) => ({
@@ -23,7 +23,7 @@ const Copyright = styled("div")(({ theme }) => ({
 
 const Layout = ({ children, print }) => {
   return (
-    <LayoutWrapper sx={{ left: print ? 0 : AppConfig.panelWidth }}>
+    <LayoutWrapper sx={{ top: print ? 0 : AppConfig.navbarWidth }}>
       {children}
       <Copyright sx={{ displayPrint: "none" }}>
         <Typography textAlign="center" variant="body1">

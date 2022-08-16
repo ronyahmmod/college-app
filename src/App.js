@@ -25,8 +25,6 @@ import ProttoionAppForCorrection from "./components/ProttoionAppForCorrection";
 import AuthorizeForUser from "./components/AuthorizeForUser";
 import AuthorizeForAdmin from "./components/AuthorizeForAdmin";
 
-console.log(process.env.HI);
-
 function App() {
   const dispatch = useDispatch();
   const auth = getAuth();

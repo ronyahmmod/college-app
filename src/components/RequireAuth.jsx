@@ -1,12 +1,13 @@
 import React from "react";
-import { getAuth } from "firebase/auth";
 import { useLocation, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectLoggedInUser } from "../feature/user/userSlice";
 
 const RequireAuth = ({ children }) => {
-  const auth = getAuth();
+  const loggedInUser = useSelector(selectLoggedInUser);
   const location = useLocation();
 
-  if (!auth.currentUser) {
+  if (!loggedInUser) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
   return children;

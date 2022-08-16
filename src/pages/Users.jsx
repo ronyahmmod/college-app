@@ -13,6 +13,9 @@ import {
   TableBody,
   TablePagination,
   TextField,
+  Stack,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { green, grey, red } from "@mui/material/colors";
@@ -24,6 +27,7 @@ import {
   selectAllUsers,
   selectLoggedInUser,
   selectUserByFieldValue,
+  selectUserRole,
   selectUserStatus,
   setStatus,
 } from "../feature/user/userSlice";
@@ -31,27 +35,6 @@ import Loading from "../components/Loading";
 import Authorization from "../components/Authorization";
 import ReplayIcon from "@mui/icons-material/Replay";
 import { format } from "date-fns/esm";
-
-// function TablePaginationActions(props) {
-//     const theme = useTheme();
-//     const {count, page, rowsPerPage, onPageChange} = props;
-
-//     const handleFirstPageButtonClick = event => {
-//         onPageChange(event);
-//     }
-
-//     const handleBackButtonClick = event => {
-//         onPageChange(event, page -1)
-//     }
-
-//     const handleNextButtonClick = event => {
-//         onPageChange(event, page + 1)
-//     }
-
-//     const handleLastPageButtonClick = event => {
-//         onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1))
-//     }
-// }
 
 const renderUserStatus = (status) => {
   return (
@@ -81,6 +64,13 @@ const Users = () => {
       dispatch(fetchUsers());
     }
   }, [status, dispatch]);
+  // SETINGS FOR CHANGE USER ROLE MENU OPEN
+  const [anchorRoleMenu, setAnchorRoleMenu] = useState(false);
+  const openRoleMenu = Boolean(anchorRoleMenu);
+  const handleClickRoleMenu = (event) => setAnchorRoleMenu(event.currentTarget);
+  const handleCloseRoleMenu = () => setAnchorRoleMenu(null);
+  // END: SETINGS FOR CHANGE USER ROLE MENU OPEN
+  const userRole = useSelector(selectUserRole);
   const [search, setSearch] = useState("");
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
@@ -167,6 +157,7 @@ const Users = () => {
                             <TableCell>Role</TableCell>
                             <TableCell>Last logged in</TableCell>
                             <TableCell>Status</TableCell>
+                            <TableCell>Actions</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -193,6 +184,48 @@ const Users = () => {
                                     (user.status && user.status) || null
                                   )}
                                 </TableCell>
+                                {userRole === "super" && (
+                                  <TableCell>
+                                    <Stack direction="row" spacing={1}>
+                                      <Button
+                                        variant="contained"
+                                        id="role-change-button"
+                                        aria-controls={
+                                          openRoleMenu
+                                            ? "user-role-change-menu"
+                                            : "undefined"
+                                        }
+                                        aria-haspopup="true"
+                                        aria-expanded={
+                                          openRoleMenu ? true : undefined
+                                        }
+                                        onClick={handleClickRoleMenu}
+                                      >
+                                        Change Role
+                                      </Button>
+                                      <Menu
+                                        id="user-role-change-menu"
+                                        anchorEl={anchorRoleMenu}
+                                        open={openRoleMenu}
+                                        onClose={handleCloseRoleMenu}
+                                        MenuListProps={{
+                                          "aria-labelledby":
+                                            "role-change-button",
+                                        }}
+                                      >
+                                        <MenuItem onClick={handleCloseRoleMenu}>
+                                          User
+                                        </MenuItem>
+                                        <MenuItem onClick={handleCloseRoleMenu}>
+                                          Admin
+                                        </MenuItem>
+                                        <MenuItem onClick={handleCloseRoleMenu}>
+                                          Super Admin
+                                        </MenuItem>
+                                      </Menu>
+                                    </Stack>
+                                  </TableCell>
+                                )}
                               </TableRow>
                             ))}
                         </TableBody>

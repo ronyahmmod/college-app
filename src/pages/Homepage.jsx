@@ -1,9 +1,10 @@
 import React from "react";
-import { Box, Button, Divider, Typography } from "@mui/material";
+import { Alert, Avatar, Box, Button, Divider, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectLoggedInUser } from "../feature/user/userSlice";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import LogoURL from "../assets/logos/college-logo.png";
 const Homepage = () => {
   const navigate = useNavigate();
   const loggedInUser = useSelector(selectLoggedInUser);
@@ -15,11 +16,12 @@ const Homepage = () => {
         alignItems: "center",
         height: "100vh",
       }}
+      className="bg-teal-700"
     >
       <Box
         sx={{
           minHeight: "450",
-          width: 500,
+          width: 600,
           backgroundColor: "background.paper",
           display: "flex",
           alignItems: "center",
@@ -28,6 +30,11 @@ const Homepage = () => {
           borderRadius: 2,
         }}
       >
+        <Avatar
+          src={LogoURL}
+          sx={{ width: 60, height: 60 }}
+          alt="College Logo"
+        />
         <Typography
           variant="h2"
           sx={(theme) => ({
@@ -50,6 +57,12 @@ const Homepage = () => {
           JIBANNAGAR DEGREE COLLEGE
         </Typography>
         <Divider sx={{ width: "100%", my: 1 }} />
+        <Alert severity="warning" className="mb-2 text-justify">
+          Before you use this app please take your admit card, registration card
+          or any documents thats are need for specific services. If you are
+          fecing any problem while use this app please contact our developer
+          team. Contact No: +88-01406129808, FB: facebook.com/jdcjc2016.
+        </Alert>
         {loggedInUser ? (
           <Button
             variant="contained"

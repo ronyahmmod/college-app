@@ -55,6 +55,10 @@ export const userSlice = createSlice({
 });
 
 export const selectLoggedInUser = (state) => state.user.loggedInUser;
+export const selectUserRole = createSelector(
+  selectLoggedInUser,
+  (loggedInUser) => loggedInUser.role
+);
 export const selectUserStatus = (state) => state.user.status;
 export const selectAllUsers = (state) => state.user.users;
 export const { setLoggedInUser, setStatus } = userSlice.actions;

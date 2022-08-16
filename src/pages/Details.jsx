@@ -55,7 +55,7 @@ const Details = () => {
                       width: 80,
                     }}
                     src={loggedInUser.photoURL}
-                    alt={loggedInUser.id}
+                    alt={loggedInUser.id.toUpperCase()}
                   />
                 </Box>
                 <Box sx={{ mt: 2 }}>
