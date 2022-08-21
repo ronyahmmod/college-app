@@ -9,6 +9,7 @@ import {
   TableCell,
   TableRow,
 } from "@mui/material";
+import { format } from "date-fns/esm";
 import React from "react";
 import { useSelector } from "react-redux";
 import Layout from "../components/Layout";
@@ -17,6 +18,7 @@ import { selectLoggedInUser } from "../feature/user/userSlice";
 
 const Details = () => {
   const loggedInUser = useSelector(selectLoggedInUser);
+  console.log(loggedInUser);
 
   if (loggedInUser) {
     return (
@@ -55,7 +57,7 @@ const Details = () => {
                       width: 80,
                     }}
                     src={loggedInUser.photoURL}
-                    alt={loggedInUser.id.toUpperCase()}
+                    alt={loggedInUser.displayName.toUpperCase()}
                   />
                 </Box>
                 <Box sx={{ mt: 2 }}>
@@ -102,8 +104,12 @@ const Details = () => {
                       <TableRow>
                         <TableCell>Last Sign In</TableCell>
                         <TableCell>
-                          {loggedInUser.metadata.lastSignInTime &&
-                            loggedInUser.metadata.lastSignInTime}
+                          {loggedInUser.metadata?.lastSignInTime
+                            ? loggedInUser.metadata.lastSignInTime
+                            : format(
+                                new Date(loggedInUser.createdAt),
+                                "dd/MM/yyyy"
+                              )}
                         </TableCell>
                       </TableRow>
                       <TableRow>

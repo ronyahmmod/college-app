@@ -12,18 +12,15 @@ import { useDispatch } from "react-redux";
 import { setLoggedInUser } from "./feature/user/userSlice";
 import Applications from "./pages/Applications";
 import { createUser } from "./firebase/auth/auth";
-import AllreadyLoggedIn from "./components/AllreadyLoggedIn";
 import ApplicationForm from "./components/ApplicationForm";
 import Render from "./pages/Render";
-import RequireAuth from "./components/RequireAuth";
 import Users from "./pages/Users";
 import Details from "./pages/Details";
 import ProttoionCategories from "./pages/ProttoionCategories";
 import ProttoionAppForPassed from "./components/ProttoionAppForPassed";
 import ProttoionAppForCurrent from "./components/ProttoionAppForCurrent";
 import ProttoionAppForCorrection from "./components/ProttoionAppForCorrection";
-import AuthorizeForUser from "./components/AuthorizeForUser";
-import AuthorizeForAdmin from "./components/AuthorizeForAdmin";
+import Authenticate from "./components/Authenticate";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,23 +29,7 @@ function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const newUser = {
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          emailVerified: user.emailVerified,
-          isAnonymous: user.isAnonymous,
-          phoneNumber: user.phoneNumber,
-          photoURL: user.photoURL,
-          role: user.role || "user",
-          metadata: {
-            createdAt: user.metadata.createdAt,
-            creationTime: user.metadata.creationTime,
-            lastLoginAt: user.metadata.lastLoginAt,
-            lastSignInTime: user.metadata.lastSignInTime,
-          },
-        };
-        const savedUser = await createUser(newUser);
+        const savedUser = await createUser(user, dispatch);
         dispatch(setLoggedInUser(savedUser));
       } else {
         dispatch(setLoggedInUser(null));
@@ -57,93 +38,93 @@ function App() {
     return () => {
       unsubscribe();
     };
-  });
+  }, [auth, dispatch]);
 
   return (
     <Box sx={{ backgroundColor: "inherit" }}>
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route
-          path="/login"
-          element={
-            <AllreadyLoggedIn>
-              <Login />
-            </AllreadyLoggedIn>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <AllreadyLoggedIn>
-              <Register />
-            </AllreadyLoggedIn>
-          }
-        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route
           path="/dashboard"
           element={
-            <RequireAuth>
+            <Authenticate whose={["user", "super", "admin"]}>
               <Dashboard />
-            </RequireAuth>
+            </Authenticate>
           }
         >
           <Route index element={<Overview />} />
-          <Route path="applications" element={<Applications />} />
+          <Route
+            path="applications"
+            element={
+              <Authenticate whose={["user", "super", "admin"]}>
+                <Applications />
+              </Authenticate>
+            }
+          />
           <Route
             path="newapplication"
             element={
-              <AuthorizeForUser>
+              <Authenticate whose={["user", "super"]}>
                 <ApplicationForm />
-              </AuthorizeForUser>
+              </Authenticate>
             }
           />
           <Route
             path="render/:id/:type"
             element={
-              <AuthorizeForAdmin>
+              <Authenticate whose={["admin", "super"]}>
                 <Render />
-              </AuthorizeForAdmin>
+              </Authenticate>
             }
           />
           <Route
             path="users"
             element={
-              <AuthorizeForAdmin>
+              <Authenticate whose={["admin", "super"]}>
                 <Users />
-              </AuthorizeForAdmin>
+              </Authenticate>
             }
           />
-          <Route path="details" element={<Details />} />
+          <Route
+            path="details"
+            element={
+              <Authenticate whose={["user", "super", "admin"]}>
+                <Details />
+              </Authenticate>
+            }
+          />
           <Route
             path="prottoions"
             element={
-              <AuthorizeForUser>
+              <Authenticate whose={["user", "super"]}>
                 <ProttoionCategories />
-              </AuthorizeForUser>
+              </Authenticate>
             }
           />
           <Route
             path="prottoionforpassed"
             element={
-              <AuthorizeForUser>
+              <Authenticate whose={["user", "super"]}>
                 <ProttoionAppForPassed />
-              </AuthorizeForUser>
+              </Authenticate>
             }
           />
           <Route
             path="prottoionforcurrent"
             element={
-              <AuthorizeForUser>
+              <Authenticate whose={["user", "super"]}>
                 <ProttoionAppForCurrent />
-              </AuthorizeForUser>
+              </Authenticate>
             }
           />
           <Route
             path="prottoionforcorrection"
             element={
-              <AuthorizeForUser>
+              <Authenticate whose={["user", "super"]}>
                 <ProttoionAppForCorrection />
-              </AuthorizeForUser>
+              </Authenticate>
             }
           />
         </Route>

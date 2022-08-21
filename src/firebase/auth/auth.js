@@ -1,36 +1,45 @@
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-} from "firebase/firestore";
+import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "../../firebase.config";
+import { setError } from "../../feature/error/errorSlice";
 
-export const createUser = async (user) => {
+export const createUser = async (userAuth, dispatch) => {
   // step 1: check that email is already exist in the database
   // step 2: returen;
   // step 3: create user on the database
-  const q = query(collection(db, "users"), where("email", "==", user.email));
-  const querySnapshot = await getDocs(q);
-  let found = false;
-  let existsUser = null;
-  querySnapshot.forEach((doc) => {
-    if (doc.exists()) {
-      // console.log(`User  exists with this email: ${user.email}.`);
-      found = true;
-      existsUser = { id: doc.id, ...doc.data() };
-      return;
+  const userRef = doc(db, "users", userAuth.uid);
+  const userSnapshot = await getDoc(userRef);
+  const { email, displayName, photoURL, emailVerified } = userAuth;
+  const createdAt = new Date();
+  const role = "user";
+  if (!userSnapshot.exists()) {
+    try {
+      await setDoc(userRef, {
+        displayName,
+        email,
+        createdAt,
+        photoURL,
+        emailVerified,
+        role,
+      });
+    } catch (error) {
+      dispatch(
+        setError({
+          errorCode: error.errorCode,
+          errorMessage: error.errorMessage,
+        })
+      );
+      console.error(error);
     }
-  });
-  if (found) return existsUser;
-  else {
-    const newUserRef = doc(collection(db, "users"));
-    await setDoc(newUserRef, user);
-    const savedUserRef = doc(db, "users", newUserRef.id);
-    const savedUserSnap = await getDoc(savedUserRef);
-    return { id: savedUserSnap.id, ...savedUserSnap.data() };
   }
+  const savedUserSnap = await getDoc(userRef);
+
+  return {
+    ...savedUserSnap.data(),
+    createdAt: new Timestamp(
+      savedUserSnap.data().createdAt.seconds,
+      savedUserSnap.data().createdAt.nanoseconds
+    )
+      .toDate()
+      .toLocaleString(),
+  };
 };

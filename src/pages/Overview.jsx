@@ -6,6 +6,8 @@ import {
   Grid,
   Paper,
   Button,
+  Alert,
+  Link,
 } from "@mui/material";
 import ReplayIcon from "@mui/icons-material/Replay";
 import React, { useEffect, useState } from "react";
@@ -14,7 +16,11 @@ import Layout from "../components/Layout";
 import RecentApplications from "../components/RecentApplications";
 import TodayChart from "../components/TodayChart";
 import { useDispatch, useSelector } from "react-redux";
-import { selectLoggedInUser } from "../feature/user/userSlice";
+import {
+  selectLoggedInUser,
+  selectUserIsActivated,
+  selectUserRole,
+} from "../feature/user/userSlice";
 import {
   fetchApplications,
   selectApplicationStatus,
@@ -22,6 +28,7 @@ import {
   selectTodaysApplicationsByUserId,
   setStatus,
 } from "../feature/application/applicationSlice";
+import { useNavigate } from "react-router-dom";
 
 const Overview = () => {
   const status = useSelector(selectApplicationStatus);
@@ -34,10 +41,14 @@ const Overview = () => {
   const [open, setOpen] = useState(false);
 
   const loggedInUser = useSelector(selectLoggedInUser);
+  const userRole = useSelector(selectUserRole);
   const todaysApplications = useSelector(selectTodaysApplications);
   const todaysApplicationById = useSelector(
     selectTodaysApplicationsByUserId(loggedInUser && loggedInUser.id)
   );
+  const userIsActivated = useSelector(selectUserIsActivated);
+  const navigate = useNavigate();
+  console.log(userRole);
 
   if (loggedInUser && todaysApplications) {
     return (
@@ -51,17 +62,43 @@ const Overview = () => {
             p: 2,
           }}
         >
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Container maxWidth="xl">
+            <Grid container sx={{ my: 2 }}>
+              <Grid item xs={12}>
+                {!userIsActivated && (
+                  <Paper>
+                    <Alert severity="error">
+                      Your account is not activated yet. To activate please
+                      click{" "}
+                      <Link
+                        href="/dashboard/activateAcount"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          navigate("/dashboard/activateAcount");
+                        }}
+                      >
+                        here
+                      </Link>
+                      .
+                    </Alert>
+                  </Paper>
+                )}
+              </Grid>
+            </Grid>
             <Button
               variant="contained"
               color="secondary"
               endIcon={<ReplayIcon />}
               onClick={() => dispatch(setStatus("idle"))}
               disabled={status === "loading"}
-            ></Button>
+              size="small"
+              sx={{ mb: 1 }}
+            >
+              Reload
+            </Button>
             <Grid container spacing={3}>
               {/* Today Graph */}
-              {loggedInUser && loggedInUser.role !== "user" && (
+              {loggedInUser && userRole !== "user" && (
                 <>
                   <Grid item xs={12} md={8} lg={9}>
                     <Paper
