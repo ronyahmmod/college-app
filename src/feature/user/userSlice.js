@@ -105,6 +105,7 @@ export const selectUserIsActivated = (state) =>
 export const selectUserStatus = (state) => state.user.status;
 export const selectAllUsers = (state) => state.user.users;
 export const { setLoggedInUser, setStatus } = userSlice.actions;
+export const selectUserUpdateStatus = (state) => state.user.updateStatus;
 
 export const selectUserByFieldValue = (value) =>
   createSelector(selectAllUsers, (users) =>

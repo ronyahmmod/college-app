@@ -35,6 +35,7 @@ export const createUser = async (userAuth, dispatch) => {
 
   return {
     ...savedUserSnap.data(),
+    id: savedUserSnap.id,
     createdAt: new Timestamp(
       savedUserSnap.data().createdAt.seconds,
       savedUserSnap.data().createdAt.nanoseconds

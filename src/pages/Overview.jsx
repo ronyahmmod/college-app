@@ -8,6 +8,7 @@ import {
   Button,
   Alert,
   Link,
+  Typography,
 } from "@mui/material";
 import ReplayIcon from "@mui/icons-material/Replay";
 import React, { useEffect, useState } from "react";
@@ -29,7 +30,7 @@ import {
   setStatus,
 } from "../feature/application/applicationSlice";
 import { useNavigate } from "react-router-dom";
-
+import { HiOutlineArrowRight } from "react-icons/hi";
 const Overview = () => {
   const status = useSelector(selectApplicationStatus);
   const dispatch = useDispatch();
@@ -71,10 +72,10 @@ const Overview = () => {
                       Your account is not activated yet. To activate please
                       click{" "}
                       <Link
-                        href="/dashboard/activateAcount"
+                        href="/dashboard/updateMe"
                         onClick={(event) => {
                           event.preventDefault();
-                          navigate("/dashboard/activateAcount");
+                          navigate("/dashboard/UpdateMe");
                         }}
                       >
                         here
@@ -149,6 +150,64 @@ const Overview = () => {
                   />
                 </Paper>
               </Grid>
+
+              {/* Action For User and Super */}
+              <Grid item xs={12}>
+                <Paper
+                  sx={{
+                    padding: {
+                      xs: 2,
+                      md: 6,
+                    },
+                    display: "flex",
+                    flexDirection: { xs: "column", md: "row" },
+                    justifyContent: { xs: "center", md: "space-around" },
+                    alignItems: "center",
+                    gap: { xs: 2, md: 6 },
+                  }}
+                >
+                  <Box
+                    onClick={() => navigate("/dashboard/newapp")}
+                    className="p-6 bg-teal-700 hover:bg-teal-500 cursor-pointer flex items-center justify-center flex-col rounded-sm text-slate-50 gap-2 h-full w-full md:h-[250px] md:w-[250px] "
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: "32px",
+                        fontWeight: 300,
+                        textAlign: "center",
+                      }}
+                    >
+                      New Application
+                    </Typography>
+                    <HiOutlineArrowRight className="h-12 w-12 animate-pulse" />
+                  </Box>
+                  <Box className="p-6 bg-red-700 hover:bg-red-500 cursor-pointer flex items-center justify-center flex-col rounded-sm text-slate-50 gap-2 h-full w-full md:h-[250px] md:w-[250px] ">
+                    <Typography
+                      sx={{
+                        fontSize: "32px",
+                        fontWeight: 300,
+                        textAlign: "center",
+                      }}
+                    >
+                      All Applications
+                    </Typography>
+                    <HiOutlineArrowRight className="h-12 w-12 animate-pulse" />
+                  </Box>
+                  <Box className="p-6 bg-sky-700 hover:bg-sky-500 cursor-pointer flex items-center justify-center flex-col rounded-sm text-slate-50 gap-2 h-full w-full md:h-[250px] md:w-[250px] ">
+                    <Typography
+                      sx={{
+                        fontSize: "32px",
+                        fontWeight: 300,
+                        textAlign: "center",
+                      }}
+                    >
+                      History
+                    </Typography>
+                    <HiOutlineArrowRight className="h-12 w-12 animate-pulse" />
+                  </Box>
+                </Paper>
+              </Grid>
+              {/* END CONTAINER */}
             </Grid>
           </Container>
         </Box>

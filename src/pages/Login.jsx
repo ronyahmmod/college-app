@@ -17,10 +17,13 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setError } from "../feature/error/errorSlice";
+import { selectLoggedInUser } from "../feature/user/userSlice";
 
 const Login = () => {
+  const loggedInUser = useSelector(selectLoggedInUser);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const provider = new GoogleAuthProvider();
@@ -46,6 +49,9 @@ const Login = () => {
       resetForm();
     },
   });
+  if (loggedInUser) {
+    navigate("/dashboard");
+  }
   return (
     <Box
       sx={{

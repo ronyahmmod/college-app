@@ -21,6 +21,8 @@ import ProttoionAppForPassed from "./components/ProttoionAppForPassed";
 import ProttoionAppForCurrent from "./components/ProttoionAppForCurrent";
 import ProttoionAppForCorrection from "./components/ProttoionAppForCorrection";
 import Authenticate from "./components/Authenticate";
+import UpdateMe from "./pages/UpdateMe";
+import NewApplication from "./pages/NewApplicationForm/NewApplication";
 
 function App() {
   const dispatch = useDispatch();
@@ -68,6 +70,14 @@ function App() {
             element={
               <Authenticate whose={["user", "super"]}>
                 <ApplicationForm />
+              </Authenticate>
+            }
+          />
+          <Route
+            path="newapp"
+            element={
+              <Authenticate whose={["user", "super"]}>
+                <NewApplication />
               </Authenticate>
             }
           />
@@ -127,7 +137,16 @@ function App() {
               </Authenticate>
             }
           />
+          <Route
+            path="updateMe"
+            element={
+              <Authenticate whose={["user", "super", "admin"]}>
+                <UpdateMe />
+              </Authenticate>
+            }
+          />
         </Route>
+
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Box>

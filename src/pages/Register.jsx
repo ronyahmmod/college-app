@@ -11,10 +11,12 @@ import LockIcon from "@mui/icons-material/Lock";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setError } from "../feature/error/errorSlice";
+import { selectLoggedInUser } from "../feature/user/userSlice";
 
 const Register = () => {
+  const loggedInUser = useSelector(selectLoggedInUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -43,6 +45,9 @@ const Register = () => {
         });
     },
   });
+  if (loggedInUser) {
+    navigate("/dashboard");
+  }
   return (
     <Box
       sx={{

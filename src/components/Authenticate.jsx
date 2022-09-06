@@ -9,16 +9,15 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { selectLoggedInUser, selectUserRole } from "../feature/user/userSlice";
+import { selectLoggedInUser } from "../feature/user/userSlice";
 
 const Authenticate = ({ whose, children }) => {
   const loggedInUser = useSelector(selectLoggedInUser);
-  const userRole = useSelector(selectUserRole);
   const location = useLocation();
   const navigate = useNavigate();
   if (!loggedInUser) {
     return <Navigate to="/login" state={{ from: location }} replace />;
-  } else if (!whose.includes(userRole)) {
+  } else if (!whose.includes(loggedInUser.role)) {
     return (
       <Dialog open={true}>
         <DialogTitle sx={{ color: "red", fontSize: { xs: 12, md: 16 } }}>
