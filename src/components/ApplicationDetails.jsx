@@ -27,6 +27,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { selectLoggedInUser } from "../feature/user/userSlice";
 import { format } from "date-fns";
+import { renderApplicationType } from "../helper/render.helper";
 const ApplicationDetails = ({ id }) => {
   const applicationDetails = useSelector(selectApplicationById(id))[0];
   const allApplications = useSelector(selectAllApplications);
@@ -114,16 +115,24 @@ const ApplicationDetails = ({ id }) => {
           gap: 1,
         }}
       >
+        <strong>Date: {content.date}</strong>
         <strong>Dear Sir,</strong>
         <Typography>
-          I am <strong>{content.name.toUpperCase()}</strong>. I have passed{" "}
+          I am <strong>{content.name.toUpperCase()}</strong>, father name:{" "}
+          <strong>{content.fatherName.toUpperCase()}</strong>, mother name:{" "}
+          <strong>{content.motherName.toUpperCase()}</strong>. I have passed{" "}
           <strong>
             {(content.lastExamName && content.lastExamName.toUpperCase()) ||
               "------"}
           </strong>{" "}
           on <strong>{content.passingYear}</strong>. My roll number:{" "}
           <strong>{content.roll}</strong> and registration number:{" "}
-          <strong>{content.registration}</strong>. Please accept my request.
+          <strong>{content.registration}</strong>. My class roll:{" "}
+          <strong>{content.classRoll}</strong>. Please accept my{" "}
+          <strong>
+            {renderApplicationType(content.applicationType).toUpperCase()}
+          </strong>{" "}
+          application.
         </Typography>
         <Box
           sx={{
@@ -135,7 +144,8 @@ const ApplicationDetails = ({ id }) => {
           }}
         >
           <strong>Your sincerely</strong>
-          <strong>{content.name.toUpperCase()}</strong>
+          <br />
+          <strong>({content.name.toUpperCase()})</strong>
           <strong>{content.address || "-----"}</strong>
           <strong>{content.mobile || "xxxxx-xxxxxx"}</strong>
         </Box>

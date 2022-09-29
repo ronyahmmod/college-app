@@ -20,6 +20,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import { selectLoggedInUser } from "../feature/user/userSlice";
 import ServiceDialog from "../components/ServiceDialog";
 import { useNavigate } from "react-router-dom";
+import { renderApplicationType } from "../helper/render.helper";
 
 // const Rows = [
 //   { id: 1, col1: "Hello", col2: "World" },
@@ -86,6 +87,13 @@ const Applications = () => {
             (params.row.board && params.row.board.toUpperCase()) ||
             (params.row.examBoard && params.row.examBoard.toUpperCase()) ||
             "N/A",
+        },
+        {
+          field: "applicationType",
+          headerName: "Application Type",
+          width: 250,
+          valueGetter: (params) =>
+            renderApplicationType(params.row.applicationType),
         },
         {
           field: "status",
@@ -198,6 +206,13 @@ const Applications = () => {
             (params.row.board && params.row.board.toUpperCase()) ||
             (params.row.examBoard && params.row.examBoard.toUpperCase()) ||
             "N/A",
+        },
+        {
+          field: "applicationType",
+          headerName: "Application Type",
+          width: 250,
+          valueGetter: (params) =>
+            renderApplicationType(params.row.applicationType),
         },
         {
           field: "status",
