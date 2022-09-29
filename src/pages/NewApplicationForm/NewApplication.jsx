@@ -8,7 +8,6 @@ import MobileView from "./MobileView";
 import DesktopView from "./DesktopView";
 import ApplicationContext from "../../context/ApplicationContext";
 import { Constrains } from "./Types";
-import { useFormik } from "formik";
 import { Box } from "@mui/material";
 
 const steps = [
@@ -31,36 +30,6 @@ const steps = [
 ];
 
 const NewApplication = () => {
-  // FORM DATA USE FORMIK START
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      fatherName: "",
-      motherName: "",
-      gender: Constrains.gender.MALE,
-      presentAddress: "",
-      parmanentAddress: "",
-      mobileNumber: "",
-      altMobileNumber: "",
-      presentClass: Constrains.presentClass.HSC,
-      presentClassRoll: "",
-      presentGroup: Constrains.group.HUMANITIES,
-      presentSession: "",
-      presentAcademicYear: Constrains.academicYear.XI,
-      lastExamClass: Constrains.presentClass.HSC,
-      lastExamRoll: "",
-      lastRegistration: "",
-      lastExamYear: "",
-      lastExamGroup: Constrains.group.HUMANITIES,
-      lastExamBoard: Constrains.board.JESSORE,
-      lastExamResultType: Constrains.resultType.GPA_OUT_OF_FIVE,
-      lastExamResult: "",
-    },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values));
-    },
-  });
-  // FORM DATA END
   const initialState = {
     passed: false,
     applicationTypes: [],
@@ -73,9 +42,18 @@ const NewApplication = () => {
       ageCorrection: false,
     },
     addressIsSame: false,
+    formData: {
+      partOne: null,
+      partThree: null,
+    },
+    formErrors: {
+      partOne: null,
+      partThree: null,
+    },
   };
 
   const reducer = (state, action) => {
+    console.log(state);
     switch (action.type) {
       case "SET_PASSED": {
         return {
@@ -120,6 +98,16 @@ const NewApplication = () => {
           addressIsSame: action.payload.addressIsSame,
         };
       }
+
+      case "SET_FORM_PART_ONE": {
+        return {
+          ...state,
+          formData: {
+            ...state.formData,
+            partOne: action.payload,
+          },
+        };
+      }
       default:
         return state;
     }
@@ -144,13 +132,11 @@ const NewApplication = () => {
   return (
     <Layout>
       {/* MOBILE VIEW */}
-      <Box component="form" onSubmit={formik.handleSubmit}>
+      <Box component="form">
         <ApplicationContext.Provider
           value={{
             state,
             dispatch,
-            formFields: formik.values,
-            changeHandler: formik.handleChange,
           }}
         >
           <MobileView

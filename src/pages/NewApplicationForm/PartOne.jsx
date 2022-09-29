@@ -14,42 +14,115 @@ import {
 } from "@mui/material";
 import { Constrains } from "./Types";
 import ApplicationContext from "../../context/ApplicationContext";
-const PartOne = React.memo(() => {
+import { useFormik } from "formik";
+
+const customValidate = (state) => (values, props) => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = "শিক্ষার্থীর নাম অবশ্যই পূরণ করতে হবে!";
+  }
+  if (!values.fatherName) {
+    errors.fatherName = "পিতার নাম অবশ্যই পূরণ করতে হবে!";
+  }
+  if (!values.motherName) {
+    errors.motherName = "মাতার নাম অবশ্যই পূরণ করতে হবে!";
+  }
+  if (!values.gender) {
+    errors.gender = "লিঙ্গ নির্বাচন করতে হবে!";
+  }
+  if (!values.presentAddress) {
+    errors.presentAddress = "বর্তমান ঠিকানা উল্লেখ করতে হবে!";
+  }
+  if (!values.permanentAddress && !state.addressIsSame) {
+    errors.permanentAddress = "স্থায়ী ঠিকানা উল্লেখ করতে হবে!";
+  }
+
+  if (!values.mobileNumber) {
+    errors.mobileNumber = "মোবাইল নম্বর সংযুক্ত করতে হবে!";
+  } else if (
+    values.mobileNumber.length < 11 ||
+    values.mobileNumber.length > 11
+  ) {
+    errors.mobileNumber = "মোবাইল নম্বর ১১ সংখ্যার হতে হবে!";
+  }
+
+  return errors;
+};
+
+const PartOne = () => {
   console.log("Part one re render");
-  const { state, dispatch, formFields, changeHandler } =
-    useContext(ApplicationContext);
+  const { state, dispatch } = useContext(ApplicationContext);
+  // FORM PART-1 STATE
+  const formState = useFormik({
+    initialValues: {
+      name: "",
+      fatherName: "",
+      motherName: "",
+      gender: Constrains.gender.MALE,
+      presentAddress: "",
+      permanentAddress: "",
+      mobileNumber: "",
+      altMobileNumber: "",
+    },
+    validate: customValidate(state),
+  });
+  // END OF FORM PART-1 STATE
+  const {
+    name,
+    fatherName,
+    motherName,
+    gender,
+    presentAddress,
+    permanentAddress,
+    mobileNumber,
+    altMobileNumber,
+  } = formState.values;
+  const { handleChange, handleBlur, errors, touched } = formState;
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
       <TextField
         name="name"
         id="name"
-        value={formFields.name}
-        onChange={changeHandler}
+        value={name}
+        onChange={handleChange}
+        onBlur={handleBlur}
         placeholder="Enter name"
         label="আপনার নাম লিখুন"
         fullWidth
         required
+        error={errors.name && touched.name}
+        helperText={errors.name && touched.name ? errors.name : ""}
       />
       <TextField
         name="fatherName"
         id="fatherName"
-        value={formFields.fatherName}
-        onChange={changeHandler}
+        value={fatherName}
+        onChange={handleChange}
+        onBlur={handleBlur}
         placeholder="Enter father name"
         label="আপনার পিতার নাম লিখুন"
         fullWidth
         required
+        error={errors.fatherName && touched.fatherName}
+        helperText={
+          errors.fatherName && touched.fatherName ? errors.fatherName : ""
+        }
       />
       <TextField
         name="motherName"
         id="motherName"
-        value={formFields.motherName}
-        onChange={changeHandler}
+        value={motherName}
+        onChange={handleChange}
+        onBlur={handleBlur}
         placeholder="Enter mother name"
         label="আপনার মায়ের নাম লিখুন"
         fullWidth
         required
+        error={errors.motherName && touched.motherName}
+        helperText={
+          errors.motherName && touched.motherName ? errors.motherName : ""
+        }
       />
 
       <FormControl fullWidth required>
@@ -58,8 +131,11 @@ const PartOne = React.memo(() => {
           labelId="gender-label"
           name="gender"
           label="লিঙ্গ নির্বাচন করুন"
-          value={formFields.gender}
-          onChange={changeHandler}
+          value={gender}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={errors.gender && touched.gender}
+          helperText={errors.gender && touched.gender ? errors.gender : ""}
         >
           <MenuItem value={Constrains.gender.MALE}>Male</MenuItem>
           <MenuItem value={Constrains.gender.FEMALE}>Female</MenuItem>
@@ -92,25 +168,37 @@ const PartOne = React.memo(() => {
         id="presentAddress"
         placeholder="ফরম্যাটঃ গ্রাম/মহল্লা, ডাকঘর, পৌরসভা/ইউনিয়ন/সিটি কর্পোরেশন, ওয়ার্ড নম্বর, জেলার নাম"
         label="বর্তমান ঠিকানা"
-        helperText=" EXAMPLE: VILLAGE: JIBANNAGAR HASPATAL PARA, POST OFFICE: JIBANAGAR, POUROSHOVA: JIBANNAGAR, WORD NO: 07, CHUADANGA"
         required
         multiline
         fullWidth
-        value={formFields.presentAddress}
-        onChange={changeHandler}
+        value={presentAddress}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={errors.presentAddress && touched.presentAddress}
+        helperText={
+          errors.presentAddress && touched.presentAddress
+            ? errors.presentAddress
+            : "EXAMPLE: VILLAGE: JIBANNAGAR HASPATAL PARA, POST OFFICE: JIBANAGAR, POUROSHOVA: JIBANNAGAR, WORD NO: 07, CHUADANGA"
+        }
       />
       <TextField
-        name="parmanentAddress"
-        id="parmanentAddress"
+        name="permanentAddress"
+        id="permanentAddress"
         placeholder="ফরম্যাটঃ গ্রাম/মহল্লা, ডাকঘর, পৌরসভা/ইউনিয়ন/সিটি কর্পোরেশন, ওয়ার্ড নম্বর, জেলার নাম"
         label="স্থায়ী ঠিকানা"
-        helperText=" EXAMPLE: VILLAGE: JIBANNAGAR HASPATAL PARA, POST OFFICE: JIBANAGAR, POUROSHOVA: JIBANNAGAR, WORD NO: 07, CHUADANGA"
         fullWidth
         required
         multiline
         disabled={state.addressIsSame}
-        value={formFields.parmanentAddress}
-        onChange={changeHandler}
+        value={state.addressIsSame ? presentAddress : permanentAddress}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={errors.permanentAddress && touched.permanentAddress}
+        helperText={
+          errors.permanentAddress && touched.permanentAddress
+            ? errors.permanentAddress
+            : "EXAMPLE: VILLAGE: JIBANNAGAR HASPATAL PARA, POST OFFICE: JIBANAGAR, POUROSHOVA: JIBANNAGAR, WORD NO: 07, CHUADANGA"
+        }
       />
       <Divider />
       <TextField
@@ -120,8 +208,13 @@ const PartOne = React.memo(() => {
         required
         placeholder="মোবাইল নম্বর যুক্ত করুন"
         fullWidth
-        value={formFields.mobileNumber}
-        onChange={changeHandler}
+        value={mobileNumber}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={errors.mobileNumber && touched.mobileNumber}
+        helperText={
+          errors.mobileNumber && touched.mobileNumber ? errors.mobileNumber : ""
+        }
       />
       <TextField
         name="altMobileNumber"
@@ -129,11 +222,12 @@ const PartOne = React.memo(() => {
         label="বিকল্প মোবাইল নম্বর"
         fullWidth
         placeholder="বিকল্প মোবাইল নম্বর যুক্ত করুন"
-        value={formFields.altMobileNumber}
-        onChange={changeHandler}
+        value={altMobileNumber}
+        onChange={handleChange}
+        onBlur={handleBlur}
       />
     </Box>
   );
-});
+};
 
 export default PartOne;

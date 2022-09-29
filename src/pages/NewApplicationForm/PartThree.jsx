@@ -14,9 +14,45 @@ import { Constrains } from "./Types";
 import { useContext } from "react";
 import ApplicationContext from "../../context/ApplicationContext";
 import PartProttoion from "./PartProttoion";
+import { useFormik } from "formik";
 
 const PartThree = React.memo(() => {
-  const { state, formFields, changeHandler } = useContext(ApplicationContext);
+  // FORM PART-2 STATE
+  const formState = useFormik({
+    initialValues: {
+      presentClass: Constrains.presentClass.HSC,
+      presentClassRoll: "",
+      presentGroup: Constrains.group.HUMANITIES,
+      presentSession: "",
+      presentAcademicYear: Constrains.academicYear.XI,
+      lastExamClass: Constrains.presentClass.HSC,
+      lastExamRoll: "",
+      lastExamRegistration: "",
+      lastExamYear: "",
+      lastExamGroup: Constrains.group.HUMANITIES,
+      lastExamBoard: Constrains.board.JESSORE,
+      lastExamResultType: Constrains.resultType.GPA_OUT_OF_FIVE,
+      lastExamResult: "",
+    },
+  });
+  // END OF FORM PART-2 STATE
+  const {
+    presentClass,
+    presentClassRoll,
+    presentGroup,
+    presentSession,
+    presentAcademicYear,
+    lastExamClass,
+    lastExamRoll,
+    lastExamRegistration,
+    lastExamYear,
+    lastExamGroup,
+    lastExamBoard,
+    lastExamResultType,
+    lastExamResult,
+  } = formState.values;
+  const { handleChange } = formState;
+  const { state } = useContext(ApplicationContext);
   console.log("Part three re render");
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -33,8 +69,8 @@ const PartThree = React.memo(() => {
               labelId="present-class-label"
               label="বর্তমান শ্রেণি নির্বাচন করুন"
               name="presentClass"
-              value={formFields.presentClass}
-              onChange={changeHandler}
+              value={presentClass}
+              onChange={handleChange}
             >
               <MenuItem value={Constrains.presentClass.HSC}>HSC</MenuItem>
               <MenuItem value={Constrains.presentClass.HSCBM}>HSC BM</MenuItem>
@@ -58,8 +94,8 @@ const PartThree = React.memo(() => {
             placeholder="ক্লাস রোল প্রদান করুন"
             fullWidth
             required
-            value={formFields.presentClassRoll}
-            onChange={changeHandler}
+            value={presentClassRoll}
+            onChange={handleChange}
           />
 
           <FormControl fullWidth required>
@@ -70,7 +106,7 @@ const PartThree = React.memo(() => {
               labelId="present-group-label"
               label="বর্তমান গ্রুপ/সাবজেক্ট/ট্রেড নির্বাচন করুন"
               name="presentGroup"
-              value={formFields.presentGroup}
+              value={presentGroup}
             >
               <MenuItem value={Constrains.group.SCIENCE}>SCIENCE</MenuItem>
               <MenuItem value={Constrains.group.BUSINESS_STUDIES}>
@@ -115,8 +151,8 @@ const PartThree = React.memo(() => {
             helperText="Example: 2019-2020"
             required
             fullWidth
-            value={formFields.presentSession}
-            onChange={changeHandler}
+            value={presentSession}
+            onChange={handleChange}
           />
 
           <FormControl fullWidth required>
@@ -127,8 +163,8 @@ const PartThree = React.memo(() => {
               name="presentAcademicYear"
               labelId="present-academic-year-label"
               label="বর্তমান এ্যাকাডেমিক বর্ষ"
-              value={formFields.presentAcademicYear}
-              onChange={changeHandler}
+              value={presentAcademicYear}
+              onChange={handleChange}
             >
               <MenuItem value={Constrains.academicYear.XI}>XI</MenuItem>
               <MenuItem value={Constrains.academicYear.XII}>XII</MenuItem>
@@ -163,8 +199,8 @@ const PartThree = React.memo(() => {
               labelId="last-exam-class-label"
               label="সর্বশেষ পরীক্ষার শ্রেণি নির্বাচন করুন"
               name="lastExamClass"
-              value={formFields.lastExamClass}
-              onChange={changeHandler}
+              value={lastExamClass}
+              onChange={handleChange}
             >
               <MenuItem value={Constrains.presentClass.HSC}>HSC</MenuItem>
               <MenuItem value={Constrains.presentClass.HSCBM}>HSC BM</MenuItem>
@@ -187,8 +223,8 @@ const PartThree = React.memo(() => {
             placeholder="সর্বশেষ পরীক্ষার রোল"
             required
             fullWidth
-            value={formFields.lastExamRoll}
-            onChange={changeHandler}
+            value={lastExamRoll}
+            onChange={handleChange}
           />
           <TextField
             name="lastRegistration"
@@ -197,8 +233,8 @@ const PartThree = React.memo(() => {
             placeholder="সর্বশেষ পরীক্ষার রেজিস্ট্রেশন"
             required
             fullWidth
-            value={formFields.lastRegistration}
-            onChange={changeHandler}
+            value={lastExamRegistration}
+            onChange={handleChange}
           />
           <TextField
             name="lastExamYear"
@@ -208,8 +244,8 @@ const PartThree = React.memo(() => {
             helperText="Example: 2010"
             required
             fullWidth
-            value={formFields.lastExamYear}
-            onChange={changeHandler}
+            value={lastExamYear}
+            onChange={handleChange}
           />
           <FormControl fullWidth required>
             <InputLabel id="last-exam-group-label">
@@ -219,8 +255,8 @@ const PartThree = React.memo(() => {
               labelId="last-exam-group-label"
               label="গ্রুপ/সাবজেক্ট/ট্রেড নির্বাচন করুন"
               name="lastExamGroup"
-              value={formFields.lastExamGroup}
-              onChange={changeHandler}
+              value={lastExamGroup}
+              onChange={handleChange}
             >
               <MenuItem value={Constrains.group.SCIENCE}>SCIENCE</MenuItem>
               <MenuItem value={Constrains.group.BUSINESS_STUDIES}>
@@ -265,8 +301,8 @@ const PartThree = React.memo(() => {
               labelId="last-exam-board-label"
               label="বোর্ড/বিশ্ববিদ্যালয় নির্বাচন করুন"
               name="lastExamBoard"
-              value={formFields.lastExamBoard}
-              onChange={changeHandler}
+              value={lastExamBoard}
+              onChange={handleChange}
             >
               <MenuItem value={Constrains.board.JESSORE}>JESSORE</MenuItem>
               <MenuItem value={Constrains.board.TECHNICAL}>TECHNICAL</MenuItem>
@@ -287,8 +323,8 @@ const PartThree = React.memo(() => {
               labelId="last-exam-result-type-label"
               label="ফলাফলের ধরণ নির্বাচন করুন"
               name="lastExamResultType"
-              value={formFields.lastExamResultType}
-              onChange={changeHandler}
+              value={lastExamResultType}
+              onChange={handleChange}
             >
               <MenuItem value={Constrains.resultType.GPA_OUT_OF_FIVE}>
                 GPA OUT OF 5
@@ -310,8 +346,8 @@ const PartThree = React.memo(() => {
             label="পরীক্ষার ফলাফল"
             required
             fullWidth
-            value={formFields.lastExamResult}
-            onChange={changeHandler}
+            value={lastExamResult}
+            onChange={handleChange}
           />
         </>
       )}

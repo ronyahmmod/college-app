@@ -22,7 +22,8 @@ import ProttoionAppForCurrent from "./components/ProttoionAppForCurrent";
 import ProttoionAppForCorrection from "./components/ProttoionAppForCorrection";
 import Authenticate from "./components/Authenticate";
 import UpdateMe from "./pages/UpdateMe";
-import NewApplication from "./pages/NewApplicationForm/NewApplication";
+// import NewApplication from "./pages/NewApplicationForm/NewApplication";
+import NewApplicationV2 from "./pages/NewApplicationForm/NewApplicationV2";
 
 function App() {
   const dispatch = useDispatch();
@@ -77,7 +78,7 @@ function App() {
             path="newapp"
             element={
               <Authenticate whose={["user", "super"]}>
-                <NewApplication />
+                <NewApplicationV2 />
               </Authenticate>
             }
           />

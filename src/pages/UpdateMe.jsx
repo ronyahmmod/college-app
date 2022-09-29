@@ -95,7 +95,7 @@ export const EditableTextField = ({
 };
 
 export const EditableUploadField = ({ multiple, initialValue }) => {
-  const [files, setFiles] = useState(multiple ? [] : initialValue);
+  // const [files, setFiles] = useState(multiple ? [] : initialValue);
   return (
     <Box>
       {/* MAIN WRAPPER */}
