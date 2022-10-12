@@ -27,7 +27,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { selectLoggedInUser } from "../feature/user/userSlice";
 import { format } from "date-fns";
-import { renderApplicationType } from "../helper/render.helper";
+import { renderApplicationType, renderGroup } from "../helper/render.helper";
 const ApplicationDetails = ({ id }) => {
   const applicationDetails = useSelector(selectApplicationById(id))[0];
   const allApplications = useSelector(selectAllApplications);
@@ -125,10 +125,12 @@ const ApplicationDetails = ({ id }) => {
             {(content.lastExamName && content.lastExamName.toUpperCase()) ||
               "------"}
           </strong>{" "}
-          on <strong>{content.passingYear}</strong>. My roll number:{" "}
+          on <strong>{content.passingYear}</strong> of{" "}
+          <strong>{renderGroup(content.group)}</strong> group. My roll number:{" "}
           <strong>{content.roll}</strong> and registration number:{" "}
           <strong>{content.registration}</strong>. My class roll:{" "}
-          <strong>{content.classRoll}</strong>. Please accept my{" "}
+          <strong>{content.classRoll}</strong> and result:{" "}
+          <strong>{content.result}</strong> Please accept my{" "}
           <strong>
             {renderApplicationType(content.applicationType).toUpperCase()}
           </strong>{" "}
