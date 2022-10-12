@@ -564,7 +564,7 @@ const ProttoionAppForCorrection = () => {
                           onChange={handleSelectFatherNameChange}
                         />
                       }
-                      label="Fathe name"
+                      label="Father name"
                     />
                     <FormControlLabel
                       control={

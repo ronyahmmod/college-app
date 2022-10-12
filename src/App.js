@@ -25,6 +25,7 @@ import ProttoionAppForCorrection from "./components/ProttoionAppForCorrection";
 import AuthorizeForUser from "./components/AuthorizeForUser";
 import AuthorizeForAdmin from "./components/AuthorizeForAdmin";
 import EditCertificateApp from "./pages/EditCertificateApp";
+import EditProttoionForCorrectionApp from "./pages/EditProttoionForCorrectionApp";
 
 function App() {
   const dispatch = useDispatch();
@@ -119,6 +120,14 @@ function App() {
             element={
               <AuthorizeForAdmin>
                 <EditCertificateApp />
+              </AuthorizeForAdmin>
+            }
+          />
+          <Route
+            path="editprottoionforcorrectionapp/:id"
+            element={
+              <AuthorizeForAdmin>
+                <EditProttoionForCorrectionApp />
               </AuthorizeForAdmin>
             }
           />
