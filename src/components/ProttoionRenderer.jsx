@@ -133,7 +133,7 @@ const DocBody = ({ application }) => {
         রেজিস্ট্রেশন নম্বরঃ <strong>{application.registration}</strong> এবং
         পরীক্ষার সালঃ <strong>{application.passingYear}</strong>। তার শ্রেণি রোল
         নম্বরঃ <strong>{application.classRoll}</strong>। আমার জানামতে অত্র কলেজে
-        অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত ছিল না।
+        অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত নন।
       </Typography>
 
       <Typography

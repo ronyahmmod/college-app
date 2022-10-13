@@ -17,11 +17,11 @@ import ReplayIcon from "@mui/icons-material/Replay";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import BlockIcon from "@mui/icons-material/Block";
 import InfoIcon from "@mui/icons-material/Info";
+import EditIcon from "@mui/icons-material/Edit";
 import { selectLoggedInUser } from "../feature/user/userSlice";
 import ServiceDialog from "../components/ServiceDialog";
 import { useNavigate } from "react-router-dom";
 import { renderApplicationType } from "../helper/render.helper";
-
 // const Rows = [
 //   { id: 1, col1: "Hello", col2: "World" },
 //   { id: 2, col1: "DataGridPro", col2: "is Awesome" },
@@ -107,6 +107,37 @@ const Applications = () => {
           type: "actions",
           width: 150,
           getActions: (params) => [
+            <GridActionsCellItem
+              icon={<EditIcon />}
+              label="Details"
+              onClick={() => {
+                switch (params.row.applicationType) {
+                  case "certificate":
+                  case "testimonial":
+                    navigate(`/dashboard/editcertificateapp/${params.id}`);
+                    break;
+                  case "psis":
+                    navigate(
+                      `/dashboard/editprottoionforcorrectionapp/${params.id}`
+                    );
+                    break;
+                  case "pscs":
+                    navigate(
+                      `/dashboard/editprottoionforcurrentapp/${params.id}`
+                    );
+                    break;
+                  case "psps":
+                    navigate(
+                      `/dashboard/editprottoionforpassedapp/${params.id}`
+                    );
+                    break;
+                  default:
+                    alert("Nothing selected");
+                    break;
+                }
+              }}
+              color="primary"
+            />,
             <GridActionsCellItem
               icon={<InfoIcon />}
               label="Details"
@@ -312,11 +343,12 @@ const Applications = () => {
                   <Box sx={{ height: 400, maxWidth: "100%" }}>
                     {status === "succeded" && Boolean(loggedInUser) && (
                       <DataGrid
-                        // initialState={{
-                        //   sorting: {
-                        //     sortModel: [{ field: "date", sort: "asc" }],
-                        //   },
-                        // }}
+                        initialState={{
+                          // sorting: {
+                          //   sortModel: [{ field: "date", sort: "dsc" }],
+                          // },
+                          pinnedColumns: { left: ["actions"] },
+                        }}
                         rows={
                           loggedInUser.role === "user"
                             ? userApplications
