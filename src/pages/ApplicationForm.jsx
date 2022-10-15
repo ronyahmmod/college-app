@@ -28,11 +28,25 @@ import { db } from "../firebase.config";
 import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "../firebase.config";
 import { grey } from "@mui/material/colors";
+import { selectCertType } from "../feature/ui/uiSlice";
+import { resulation } from "../utils/resulation";
+const initialCertType = (certType) => {
+  if (certType === 0) {
+    return "certificate";
+  } else if (certType === 1) {
+    return "testimonial";
+  } else if (!certType) {
+    return "";
+  } else {
+    return "";
+  }
+};
 
 const ApplicationForm = () => {
   const loggedInUser = useSelector(selectLoggedInUser);
   const theme = useTheme();
   const [loading, setLoading] = useState(false);
+  const certType = useSelector(selectCertType);
   const [file, setFile] = useState({
     file: null,
     fileName: "",
@@ -63,7 +77,7 @@ const ApplicationForm = () => {
       passingYear: "",
       board: "",
       admitCard: "",
-      applicationType: "",
+      applicationType: initialCertType(certType),
       classRoll: "",
       lastExamName: "",
       group: "",
@@ -85,6 +99,8 @@ const ApplicationForm = () => {
         studentId: loggedInUser.id,
         status: "submitted",
         fileExtension: file.file.name.split(".").pop(),
+        fee: resulation.fees
+          .certificate /* ALERT: BECAUSE CERTIFICATE and TESTIMONIAL FEES ARE SAME */,
         remarks: "",
       });
 
@@ -369,6 +385,7 @@ const ApplicationForm = () => {
                             required
                             value={applicationType}
                             onChange={handleChange}
+                            disabled={certType === 0 || certType === 1}
                           >
                             <MenuItem value="certificate">Certificate</MenuItem>
                             <MenuItem value="testimonial">Testimonial</MenuItem>

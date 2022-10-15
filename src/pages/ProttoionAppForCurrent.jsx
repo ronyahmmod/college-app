@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FormComposer from "../utils/FormComposer";
 import { useFormik } from "formik";
-import Layout from "./Layout";
+import Layout from "../components/Layout";
 import {
   Container,
   Grid,
@@ -15,13 +15,14 @@ import {
   Typography,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import Title from "./Title";
 import { useTheme } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { selectLoggedInUser } from "../feature/user/userSlice";
 import { doc, collection, setDoc, Timestamp } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "../firebase.config";
+import { resulation } from "../utils/resulation";
+import Title from "../components/Title";
 
 // name, fatherName, motherName, gender, classRoll, readingClass, session, group, readingYear, mobile, address,admit
 const ProttoionAppForCurrent = () => {
@@ -75,6 +76,7 @@ const ProttoionAppForCurrent = () => {
         fileExtension: file.file.name.split(".").pop(),
         remarks: "",
         applicationType: "pscs",
+        fee: resulation.fees.prottoion,
       });
 
       const storageRef = ref(

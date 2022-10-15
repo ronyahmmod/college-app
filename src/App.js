@@ -13,15 +13,15 @@ import { setLoggedInUser } from "./feature/user/userSlice";
 import Applications from "./pages/Applications";
 import { createUser } from "./firebase/auth/auth";
 import AllreadyLoggedIn from "./components/AllreadyLoggedIn";
-import ApplicationForm from "./components/ApplicationForm";
 import Render from "./pages/Render";
 import RequireAuth from "./components/RequireAuth";
 import Users from "./pages/Users";
 import Details from "./pages/Details";
+import ApplicationForm from "./pages/ApplicationForm";
 import ProttoionCategories from "./pages/ProttoionCategories";
-import ProttoionAppForPassed from "./components/ProttoionAppForPassed";
-import ProttoionAppForCurrent from "./components/ProttoionAppForCurrent";
-import ProttoionAppForCorrection from "./components/ProttoionAppForCorrection";
+import ProttoionAppForPassed from "./pages/ProttoionAppForPassed";
+import ProttoionAppForCurrent from "./pages/ProttoionAppForCurrent";
+import ProttoionAppForCorrection from "./pages/ProttoionAppForCorrection";
 import AuthorizeForUser from "./components/AuthorizeForUser";
 import AuthorizeForAdmin from "./components/AuthorizeForAdmin";
 import EditCertificateApp from "./pages/EditCertificateApp";
@@ -38,19 +38,13 @@ function App() {
       if (user) {
         const newUser = {
           uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          emailVerified: user.emailVerified,
-          isAnonymous: user.isAnonymous,
-          phoneNumber: user.phoneNumber,
-          photoURL: user.photoURL,
+          email: user.email || "Unknown",
+          displayName: user.displayName || "Unknown",
+          emailVerified: user.emailVerified || false,
+          isAnonymous: user.isAnonymous || false,
+          phoneNumber: user.phoneNumber || "Unknown",
+          photoURL: user.photoURL || undefined,
           role: user.role || "user",
-          metadata: {
-            createdAt: user.metadata.createdAt,
-            creationTime: user.metadata.creationTime,
-            lastLoginAt: user.metadata.lastLoginAt,
-            lastSignInTime: user.metadata.lastSignInTime,
-          },
         };
         const savedUser = await createUser(newUser);
         dispatch(setLoggedInUser(savedUser));

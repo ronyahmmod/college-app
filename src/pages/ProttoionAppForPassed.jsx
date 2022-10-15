@@ -17,9 +17,7 @@ import {
   Backdrop,
   CircularProgress,
 } from "@mui/material";
-import Layout from "./Layout";
 import { grey } from "@mui/material/colors";
-import Title from "./Title";
 import { useTheme } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { selectLoggedInUser } from "../feature/user/userSlice";
@@ -27,6 +25,9 @@ import { useFormik } from "formik";
 import { doc, collection, setDoc, Timestamp } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import { storage, db } from "../firebase.config";
+import { resulation } from "../utils/resulation";
+import Title from "../components/Title";
+import Layout from "../components/Layout";
 
 const ProttoionAppForPassed = () => {
   const loggedInUser = useSelector(selectLoggedInUser);
@@ -85,6 +86,7 @@ const ProttoionAppForPassed = () => {
         fileExtension: file.file.name.split(".").pop(),
         remarks: "",
         applicationType: "psps",
+        fee: resulation.fees.prottoion,
       });
 
       const storageRef = ref(

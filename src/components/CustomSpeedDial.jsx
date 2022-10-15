@@ -3,8 +3,11 @@ import { SpeedDial, SpeedDialIcon, SpeedDialAction } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCertType } from "../feature/ui/uiSlice";
 const CustomSpeedDial = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <SpeedDial
       ariaLabel="Application Spped Dial"
@@ -15,6 +18,7 @@ const CustomSpeedDial = () => {
         icon={<AddIcon />}
         tooltipTitle="Create a application for testimonial or certificate"
         onClick={() => {
+          dispatch(setCertType({ certType: null }));
           navigate("newapplication");
         }}
       />
@@ -22,6 +26,7 @@ const CustomSpeedDial = () => {
         icon={<PostAddIcon />}
         tooltipTitle="Create a application for prottoion sonod"
         onClick={() => {
+          dispatch(setCertType({ certType: null }));
           navigate("prottoions");
         }}
       />

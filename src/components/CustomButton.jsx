@@ -2,17 +2,22 @@ import React from "react";
 import { Box, Paper, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCertType } from "../feature/ui/uiSlice";
 
-const CustomButton = ({
-  color,
-  backgroundColor,
-  title,
-  description,
-  Icon,
-  path,
-}) => {
+const navigateTo = (path, tag, dispatch, navigate) => {
+  if (tag === 0) {
+    dispatch(setCertType({ certType: 0 }));
+  } else if (tag === 1) {
+    dispatch(setCertType({ certType: 1 }));
+  }
+  navigate(path);
+};
+
+const CustomButton = ({ color, backgroundColor, title, Icon, path, tag }) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <Paper
       sx={{
@@ -30,16 +35,13 @@ const CustomButton = ({
           color: color,
         },
       }}
-      onClick={() => navigate(path)}
+      onClick={() => navigateTo(path, tag, dispatch, navigate)}
     >
       <Box>
-        <Icon
-          sx={{ height: "200px", width: "200px", "&:hover": { color: color } }}
-        />
+        <Icon sx={{ "&:hover": { color: color } }} />
       </Box>
       <Box>
-        <Typography variant="h5">{title}</Typography>
-        <Typography>{description}</Typography>
+        <Typography variant="body">{title}</Typography>
       </Box>
     </Paper>
   );

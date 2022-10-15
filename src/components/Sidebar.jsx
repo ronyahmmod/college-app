@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AppConfig from "../app.config";
 import { styled } from "@mui/material/styles";
 import { Box, Avatar } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import HomeIcon from "@mui/icons-material/Home";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
@@ -17,6 +17,7 @@ import { selectLoggedInUser } from "../feature/user/userSlice";
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import SidebarMenuItem from "./SidebarMenuItem";
+import { setCertType } from "../feature/ui/uiSlice";
 
 // Sidebar Wraper
 const SidebarWrapper = styled("div")(({ theme }) => ({
@@ -33,6 +34,7 @@ const SidebarWrapper = styled("div")(({ theme }) => ({
 const Sidebar = () => {
   const loggedInUser = useSelector(selectLoggedInUser);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [activeMenu, setActiveMenu] = useState("home");
 
   const logoutHandler = () => () => {
@@ -45,6 +47,7 @@ const Sidebar = () => {
   const openApplicationsHandler = () => () => {
     navigate("applications");
     setActiveMenu("applications");
+    dispatch(setCertType({ certType: null }));
   };
   return (
     <SidebarWrapper sx={{ displayPrint: "none" }}>
@@ -75,8 +78,8 @@ const Sidebar = () => {
               {/* Profile */}
 
               <Avatar
-                src={loggedInUser.photoURL}
-                alt={loggedInUser.displayName}
+                src={loggedInUser.photoURL || "?"}
+                alt={loggedInUser.displayName || "?"}
                 onClick={() => navigate("/dashboard/details")}
               />
             </Box>
@@ -90,6 +93,7 @@ const Sidebar = () => {
               clickHandler={() => {
                 navigate("/dashboard/");
                 setActiveMenu("home");
+                dispatch(setCertType({ certType: null }));
               }}
             />
             {loggedInUser && loggedInUser.role !== "user" && (
@@ -103,6 +107,7 @@ const Sidebar = () => {
                   clickHandler={() => {
                     navigate("/dashboard/users");
                     setActiveMenu("users");
+                    dispatch(setCertType({ certType: null }));
                   }}
                 />
                 <SidebarMenuItem Icon={PatternIcon} />

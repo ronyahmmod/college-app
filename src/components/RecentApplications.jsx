@@ -48,11 +48,7 @@ export default function RecentApplications({ applications }) {
                 <TableCell>{row.name}</TableCell>
                 <TableCell>{row.applicationType}</TableCell>
                 <TableCell>{row.status}</TableCell>
-                <TableCell align="right">
-                  {row.status === "psis" || "psps" || "pscs"
-                    ? "BDT 100.00"
-                    : "BDT 200.00"}
-                </TableCell>
+                <TableCell align="right">{row.fee || "OLD APP"}</TableCell>
               </TableRow>
             ))}
           </TableBody>

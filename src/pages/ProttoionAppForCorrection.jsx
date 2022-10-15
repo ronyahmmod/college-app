@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import Layout from "./Layout";
+import Layout from "../components/Layout";
 import FormComposer from "../utils/FormComposer";
 import {
   Container,
@@ -21,12 +21,13 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
-import Title from "./Title";
+import Title from "../components/Title";
 import { useSelector } from "react-redux";
 import { selectLoggedInUser } from "../feature/user/userSlice";
 import { collection, doc, setDoc, Timestamp } from "firebase/firestore";
 import { db, storage } from "../firebase.config";
 import { ref, uploadBytes } from "firebase/storage";
+import { resulation } from "../utils/resulation";
 
 const ProttoionAppForCorrection = () => {
   const prottoion = new FormComposer("prottoionforcorrection");
@@ -114,6 +115,7 @@ const ProttoionAppForCorrection = () => {
         fatherNameChanged: selectFatherName,
         nameChanged: selectName,
         motherNameChanged: selectMotherName,
+        fee: resulation.fees.prottoion,
       });
       const storageRef = ref(
         storage,
