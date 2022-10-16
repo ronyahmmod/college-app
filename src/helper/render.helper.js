@@ -169,6 +169,8 @@ export const renderApplicationType = (appType) => {
       return "Certificate";
     case "testimonial":
       return "Testimonial";
+    case "certificate-testimonial":
+      return "Bothe Certificate & Testimonial";
     case "psis":
       return "Prottoion For Correction";
     case "pscs":

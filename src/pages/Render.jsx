@@ -20,7 +20,11 @@ const Render = () => {
     if (status === "idle") dispatch(fetchApplications());
   }, [id, status, dispatch]);
 
-  if (application && application.applicationType === "testimonial") {
+  if (
+    application &&
+    (application.applicationType === "testimonial" ||
+      application.applicationType === "certificate-testimonial")
+  ) {
     return (
       <TestimonialRenderer application={application} id={id} type={type} />
     );

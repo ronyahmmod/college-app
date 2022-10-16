@@ -12,6 +12,7 @@ import Title from "./Title";
 import { format } from "date-fns";
 
 import { useNavigate } from "react-router-dom";
+import { renderApplicationType, up } from "../helper/render.helper";
 
 export default function RecentApplications({ applications }) {
   const navigate = useNavigate();
@@ -46,8 +47,10 @@ export default function RecentApplications({ applications }) {
                 </TableCell>
                 <TableCell>{row.id}</TableCell>
                 <TableCell>{row.name}</TableCell>
-                <TableCell>{row.applicationType}</TableCell>
-                <TableCell>{row.status}</TableCell>
+                <TableCell>
+                  {renderApplicationType(row.applicationType)}
+                </TableCell>
+                <TableCell>{up(row.status)}</TableCell>
                 <TableCell align="right">{row.fee || "OLD APP"}</TableCell>
               </TableRow>
             ))}

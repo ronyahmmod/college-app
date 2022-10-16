@@ -165,6 +165,11 @@ const Applications = () => {
                   navigate(`/dashboard/render/${params.id}/testimonial`);
                 } else if (
                   params.row.status === "Done" &&
+                  params.row.applicationType === "certificate-testimonial"
+                ) {
+                  navigate(`/dashboard/render/${params.id}/testimonial`);
+                } else if (
+                  params.row.status === "Done" &&
                   (params.row.applicationType === "psps" ||
                     params.row.applicationType === "pscs" ||
                     params.row.applicationType === "psis")

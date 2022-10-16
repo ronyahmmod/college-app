@@ -10,6 +10,8 @@ const navigateTo = (path, tag, dispatch, navigate) => {
     dispatch(setCertType({ certType: 0 }));
   } else if (tag === 1) {
     dispatch(setCertType({ certType: 1 }));
+  } else if (tag === 2) {
+    dispatch(setCertType({ certType: 2 }));
   }
   navigate(path);
 };
@@ -24,6 +26,7 @@ const CustomButton = ({ color, backgroundColor, title, Icon, path, tag }) => {
         cursor: "pointer",
         display: "flex",
         alignItems: "center",
+        width: 300,
         gap: 2,
         p: 2,
         flexGrow: 1,

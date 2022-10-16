@@ -30,15 +30,28 @@ import { storage } from "../firebase.config";
 import { grey } from "@mui/material/colors";
 import { selectCertType } from "../feature/ui/uiSlice";
 import { resulation } from "../utils/resulation";
+
 const initialCertType = (certType) => {
   if (certType === 0) {
     return "certificate";
   } else if (certType === 1) {
     return "testimonial";
+  } else if (certType === 2) {
+    return "certificate-testimonial";
   } else if (!certType) {
     return "";
   } else {
     return "";
+  }
+};
+
+const defineFee = (applicationType) => {
+  if (applicationType === "testimonial") {
+    return resulation.fees.testimonial;
+  } else if (applicationType === "certificate") {
+    return resulation.fees.certificate;
+  } else if (applicationType === "certificate-testimonial") {
+    return resulation.fees.certificate + resulation.fees.testimonial;
   }
 };
 
@@ -99,8 +112,9 @@ const ApplicationForm = () => {
         studentId: loggedInUser.id,
         status: "submitted",
         fileExtension: file.file.name.split(".").pop(),
-        fee: resulation.fees
-          .certificate /* ALERT: BECAUSE CERTIFICATE and TESTIMONIAL FEES ARE SAME */,
+        fee: defineFee(
+          values.applicationType
+        ) /* ALERT: BECAUSE CERTIFICATE and TESTIMONIAL FEES ARE SAME */,
         remarks: "",
       });
 
@@ -203,9 +217,10 @@ const ApplicationForm = () => {
                 >
                   <Alert severity="warning" sx={{ color: grey[700], mb: 3 }}>
                     আবেদন করার পূর্বে অবশ্যই সকল তথ্য যাচাই-বাছাই করে নিবেন। সকল
-                    তথ্য সর্বশেষ পরীক্ষার তথ্য অনুযায়ী হতে হবে। একবার আবেদন
-                    সাবমিট হয়ে গেলে পরিবর্তনের সুযোগ নেই। ভুল তথ্যের জন্য আপনার
-                    আবেদনটি বাতিল করা হবে।
+                    তথ্য সর্বশেষ পরীক্ষার তথ্য অনুযায়ী ইংরেজিতে পূরণ করতে হবে।
+                    একবার আবেদন সাবমিট হয়ে গেলে পরিবর্তনের সুযোগ নেই। ভুল তথ্যের
+                    জন্য আপনার আবেদনটি বাতিল করা হবে। Testimonial এর সাথে মূল
+                    মার্কশিট এবং ভর্তি মার্কশিট পাওয়া যাবে।
                   </Alert>
                   <Title sx={{ textAlign: "center" }}>
                     সনদপত্র/প্রসংশাপত্র গ্রহণের আবেদন ফরম।
@@ -225,6 +240,7 @@ const ApplicationForm = () => {
                           type="text"
                           placeholder="Place your name"
                           label="Students name"
+                          helperText="ছাত্র/ছাত্রীর নাম। যেমনঃ MD. MILLAT HOSSAIN"
                           value={name}
                           onChange={handleChange}
                           fullWidth
@@ -235,6 +251,7 @@ const ApplicationForm = () => {
                           type="text"
                           placeholder="Place your father name"
                           label="Students father name"
+                          helperText="ছাত্র/ছাত্রীর পিতার নাম। যেমনঃ MD. ABDUR RAHMAN"
                           value={fatherName}
                           onChange={handleChange}
                           fullWidth
@@ -245,6 +262,7 @@ const ApplicationForm = () => {
                           type="text"
                           placeholder="Place your mother name"
                           label="Students mother name"
+                          helperText="ছাত্র/ছাত্রীর মাতার নাম। যেমনঃ HARISA KHATUN"
                           value={motherName}
                           onChange={handleChange}
                           fullWidth
@@ -263,6 +281,50 @@ const ApplicationForm = () => {
                             <MenuItem value="male">MALE</MenuItem>
                             <MenuItem value="female">FEMALE</MenuItem>
                             <MenuItem value="other">OTHER</MenuItem>
+                          </Select>
+                        </FormControl>
+                        <FormControl fullWidth required>
+                          <InputLabel id="last-exam">Last Exam Name</InputLabel>
+                          <Select
+                            labelId="last-exam"
+                            label="Last Exam Name"
+                            name="lastExamName"
+                            required
+                            value={lastExamName}
+                            onChange={handleChange}
+                          >
+                            {/* <MenuItem value="ssc">SSC</MenuItem> */}
+                            <MenuItem value="hsc">HSC</MenuItem>
+                            <MenuItem value="degree">DEGREE</MenuItem>
+                            <MenuItem value="honours">HONOURS</MenuItem>
+                            <MenuItem value="bm">HSC BM</MenuItem>
+                            <MenuItem value="bou">OPEN UNIVERSITY</MenuItem>
+                          </Select>
+                        </FormControl>
+                        <FormControl fullWidth required>
+                          <InputLabel id="group">
+                            Last Group/Subject/Trade
+                          </InputLabel>
+                          <Select
+                            labelId="group"
+                            label="Last Group/Subject/Trade Name"
+                            name="group"
+                            required
+                            value={group}
+                            onChange={handleChange}
+                          >
+                            <MenuItem value="sc">SCIENCE</MenuItem>
+                            <MenuItem value="hu">HUMANITIES</MenuItem>
+                            <MenuItem value="bs">BUSINESS STUDIES</MenuItem>
+                            <MenuItem value="ba">BA</MenuItem>
+                            <MenuItem value="bss">BSS</MenuItem>
+                            <MenuItem value="bbs">BBS</MenuItem>
+                            <MenuItem value="pol">POLITICAL SCIENCE</MenuItem>
+                            <MenuItem value="ban">BANGLA</MenuItem>
+                            <MenuItem value="hrm">
+                              HUMAN RESOURCE MANAGEMENT
+                            </MenuItem>
+                            <MenuItem value="co">COMPUTER OPERATION</MenuItem>
                           </Select>
                         </FormControl>
                         <TextField
@@ -295,6 +357,19 @@ const ApplicationForm = () => {
                           fullWidth
                           required
                         />
+                      </Box>
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          width: "100%",
+                          gap: 2,
+                          mb: 2,
+                        }}
+                      >
                         <TextField
                           name="session"
                           type="text"
@@ -350,19 +425,6 @@ const ApplicationForm = () => {
                             <MenuItem value="division">DIVISION</MenuItem>
                           </Select>
                         </FormControl>
-                      </Box>
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          width: "100%",
-                          gap: 2,
-                          mb: 2,
-                        }}
-                      >
                         <TextField
                           name="result"
                           type="text"
@@ -385,10 +447,17 @@ const ApplicationForm = () => {
                             required
                             value={applicationType}
                             onChange={handleChange}
-                            disabled={certType === 0 || certType === 1}
+                            disabled={
+                              certType === 0 || certType === 1 || certType === 2
+                            }
                           >
                             <MenuItem value="certificate">Certificate</MenuItem>
-                            <MenuItem value="testimonial">Testimonial</MenuItem>
+                            <MenuItem value="testimonial">
+                              Testimonial & Marksheets
+                            </MenuItem>
+                            <MenuItem value="certificate-testimonial">
+                              Certificate & Testimonial, Marksheet
+                            </MenuItem>
                             {/* <MenuItem value="prottoion">Prottoion</MenuItem> */}
                           </Select>
                         </FormControl>
@@ -402,50 +471,6 @@ const ApplicationForm = () => {
                           placeholder="Enter your class roll"
                           fullWidth
                         />
-                        <FormControl fullWidth required>
-                          <InputLabel id="last-exam">Last Exam Name</InputLabel>
-                          <Select
-                            labelId="last-exam"
-                            label="Last Exam Name"
-                            name="lastExamName"
-                            required
-                            value={lastExamName}
-                            onChange={handleChange}
-                          >
-                            {/* <MenuItem value="ssc">SSC</MenuItem> */}
-                            <MenuItem value="hsc">HSC</MenuItem>
-                            <MenuItem value="degree">DEGREE</MenuItem>
-                            <MenuItem value="honours">HONOURS</MenuItem>
-                            <MenuItem value="bm">HSC BM</MenuItem>
-                            <MenuItem value="bou">OPEN UNIVERSITY</MenuItem>
-                          </Select>
-                        </FormControl>
-                        <FormControl fullWidth required>
-                          <InputLabel id="group">
-                            Last Group/Subject/Trade
-                          </InputLabel>
-                          <Select
-                            labelId="group"
-                            label="Last Group/Subject/Trade Name"
-                            name="group"
-                            required
-                            value={group}
-                            onChange={handleChange}
-                          >
-                            <MenuItem value="sc">SCIENCE</MenuItem>
-                            <MenuItem value="hu">HUMANITIES</MenuItem>
-                            <MenuItem value="bs">BUSINESS STUDIES</MenuItem>
-                            <MenuItem value="ba">BA</MenuItem>
-                            <MenuItem value="bss">BSS</MenuItem>
-                            <MenuItem value="bbs">BBS</MenuItem>
-                            <MenuItem value="pol">POLITICAL SCIENCE</MenuItem>
-                            <MenuItem value="ban">BANGLA</MenuItem>
-                            <MenuItem value="hrm">
-                              HUMAN RESOURCE MANAGEMENT
-                            </MenuItem>
-                            <MenuItem value="co">COMPUTER OPERATION</MenuItem>
-                          </Select>
-                        </FormControl>
 
                         <TextField
                           name="mobile"
