@@ -28,6 +28,7 @@ import EditCertificateApp from "./pages/EditCertificateApp";
 import EditProttoionForCorrectionApp from "./pages/EditProttoionForCorrectionApp";
 import EditProttoionForCurrentApp from "./pages/EditProttoionForCurrentApp";
 import EditProttoionForPassedApp from "./pages/EditProttoionForPassedApp";
+import StudentRegistrationForm from "./pages/StudentRegistrationForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -93,6 +94,14 @@ function App() {
               <AuthorizeForUser>
                 <ApplicationForm />
               </AuthorizeForUser>
+            }
+          />
+          <Route
+            path="student-reg-form"
+            element={
+              <AuthorizeForAdmin>
+                <StudentRegistrationForm />
+              </AuthorizeForAdmin>
             }
           />
           <Route

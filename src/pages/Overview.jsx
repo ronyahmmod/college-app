@@ -23,6 +23,7 @@ import {
   setStatus,
 } from "../feature/application/applicationSlice";
 import { userServices } from "../components/userServices";
+import { adminServices } from "../components/adminServices";
 import Services from "../components/Services";
 
 const Overview = () => {
@@ -87,7 +88,12 @@ const Overview = () => {
                 </>
               )}
 
-              {/* TODO: Services */}
+              {/* TODO: ADMIN SERVICES */}
+              {loggedInUser.role !== "user" && (
+                <Services services={adminServices} title="Services" />
+              )}
+
+              {/* TODO: USER SERVICES */}
               {loggedInUser.role === "user" && (
                 <Services services={userServices} title="Services" />
               )}
