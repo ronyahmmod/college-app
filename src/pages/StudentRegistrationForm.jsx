@@ -1,4 +1,6 @@
+import React, { useState } from "react";
 import {
+  Alert,
   Box,
   Button,
   ButtonGroup,
@@ -12,18 +14,28 @@ import {
   TextField,
 } from "@mui/material";
 import { Formik } from "formik";
-import React from "react";
 import Layout from "../components/Layout";
 import Title from "../components/Title";
+import { collection, setDoc, doc } from "firebase/firestore";
+import { db } from "../firebase.config";
+import TimeoutAlert from "../components/TimeoutAlert";
+import { useSelector } from "react-redux";
+import { selectLoggedInUser } from "../feature/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const StudentRegistrationForm = () => {
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState(null);
+  const [wait, setWait] = useState(false);
+  const loggedInUser = useSelector(selectLoggedInUser);
+  const navigate = useNavigate();
   return (
     <Layout>
       <Container maxWidth="xl" sx={{ my: 3 }}>
         <Formik
           initialValues={{
             studentName: "",
-            studnetNameBan: "",
+            studentNameBan: "",
             fatherName: "",
             fatherNameBan: "",
             motherName: "",
@@ -37,12 +49,43 @@ const StudentRegistrationForm = () => {
             mobile: "",
             gurdianMobile: "",
           }}
-          onSubmit={(values) => {
-            alert(JSON.stringify(values));
+          onSubmit={async (values, { resetForm }) => {
+            try {
+              const docRef = doc(collection(db, "students"));
+              setWait(true);
+              await setDoc(docRef, {
+                ...values,
+                voterNumber: `${values.classRoll}-${
+                  values.class
+                }-${values.session.split("-").join("")}-${values.readingYear}`,
+                createdAt: Date.now(),
+                submittedBy: loggedInUser,
+              });
+              setSaved(true);
+              setWait(false);
+              resetForm();
+              setError(null);
+            } catch (error) {
+              setError(error);
+              setSaved(false);
+              setWait(false);
+              //   console.log(error);
+            }
           }}
         >
           {({ values, handleChange, handleSubmit }) => (
             <Paper sx={{ p: 2 }} component="form" onSubmit={handleSubmit}>
+              {saved && (
+                <TimeoutAlert ms={3000} severity="success">
+                  Data saved successfully.
+                </TimeoutAlert>
+              )}
+              {error && (
+                <Alert severity="error">
+                  Error occured try again latter. Error message: {error.message}
+                </Alert>
+              )}
+              {wait && <Alert severity="info">Please wait</Alert>}
               <Title>Student Registration Form</Title>
               <Grid container spacing={2} sx={{ my: 2 }}>
                 <Grid item sm={6}>
@@ -54,7 +97,7 @@ const StudentRegistrationForm = () => {
                       name="studentName"
                       label="Student's name in english"
                       placeholder="Student name in english"
-                      value={values.studnetName}
+                      value={values.studentName}
                       onChange={handleChange}
                       required
                       fullWidth
@@ -95,6 +138,16 @@ const StudentRegistrationForm = () => {
                         <MenuItem value="bou">OPEN UNIVERSITY</MenuItem>
                       </Select>
                     </FormControl>
+
+                    <TextField
+                      name="classRoll"
+                      label="Class Roll"
+                      placeholder="Class Roll"
+                      value={values.classRoll}
+                      onChange={handleChange}
+                      required
+                      fullWidth
+                    />
                     <FormControl fullWidth required>
                       <InputLabel id="group">
                         Last Group/Subject/Trade
@@ -131,26 +184,6 @@ const StudentRegistrationForm = () => {
                       fullWidth
                       required
                     />
-                    <FormControl fullWidth required>
-                      <InputLabel id="reading-year-label">
-                        Current year
-                      </InputLabel>
-                      <Select
-                        labelId="reading-year-label"
-                        label="Current year"
-                        name="readingYear"
-                        required
-                        value={values.readingYear}
-                        onChange={handleChange}
-                      >
-                        <MenuItem value="xi">XI</MenuItem>
-                        <MenuItem value="xii">XII</MenuItem>
-                        <MenuItem value="1st">1ST</MenuItem>
-                        <MenuItem value="2nd">2ND</MenuItem>
-                        <MenuItem value="3rd">3RD</MenuItem>
-                        <MenuItem value="4th">4th</MenuItem>
-                      </Select>
-                    </FormControl>
                   </Box>
                 </Grid>
                 <Grid
@@ -159,11 +192,12 @@ const StudentRegistrationForm = () => {
                   sx={{ display: "flex", flexDirection: "column", gap: 2 }}
                 >
                   {/* PART-2 */}
+
                   <TextField
                     name="studentNameBan"
                     label="Student's name in bangla"
                     placeholder="Student name in bangla"
-                    value={values.studnetNameBan}
+                    value={values.studentNameBan}
                     onChange={handleChange}
                     required
                     fullWidth
@@ -186,7 +220,26 @@ const StudentRegistrationForm = () => {
                     required
                     fullWidth
                   />
-
+                  <FormControl fullWidth required>
+                    <InputLabel id="reading-year-label">
+                      Current year
+                    </InputLabel>
+                    <Select
+                      labelId="reading-year-label"
+                      label="Current year"
+                      name="readingYear"
+                      required
+                      value={values.readingYear}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="xi">XI</MenuItem>
+                      <MenuItem value="xii">XII</MenuItem>
+                      <MenuItem value="1st">1ST</MenuItem>
+                      <MenuItem value="2nd">2ND</MenuItem>
+                      <MenuItem value="3rd">3RD</MenuItem>
+                      <MenuItem value="4th">4th</MenuItem>
+                    </Select>
+                  </FormControl>
                   <TextField
                     name="mobile"
                     type="text"
@@ -213,11 +266,18 @@ const StudentRegistrationForm = () => {
                 <Grid item sm={12}>
                   {/* BUTTONS */}
                   <ButtonGroup>
-                    <Button variant="contained" type="submit">
+                    <Button variant="contained" type="submit" disabled={wait}>
                       Submit
                     </Button>
                     <Button variant="contained" color="error" type="reset">
                       Cancle
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => navigate("/dashboard/all-students")}
+                    >
+                      Student List
                     </Button>
                   </ButtonGroup>
                 </Grid>

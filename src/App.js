@@ -29,6 +29,7 @@ import EditProttoionForCorrectionApp from "./pages/EditProttoionForCorrectionApp
 import EditProttoionForCurrentApp from "./pages/EditProttoionForCurrentApp";
 import EditProttoionForPassedApp from "./pages/EditProttoionForPassedApp";
 import StudentRegistrationForm from "./pages/StudentRegistrationForm";
+import Students from "./pages/Students";
 
 function App() {
   const dispatch = useDispatch();
@@ -101,6 +102,14 @@ function App() {
             element={
               <AuthorizeForAdmin>
                 <StudentRegistrationForm />
+              </AuthorizeForAdmin>
+            }
+          />
+          <Route
+            path="all-students"
+            element={
+              <AuthorizeForAdmin>
+                <Students />
               </AuthorizeForAdmin>
             }
           />
