@@ -20,6 +20,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { renderGroup, up } from "../helper/render.helper";
 import DeleteMenu from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { useNavigate } from "react-router-dom";
 
 function upString(params) {
   return up(params.row.class);
@@ -116,8 +117,10 @@ const Students = () => {
   const [students, setStudents] = useState(null);
   const [pageSize, setPageSize] = useState(10);
   const [selectionModel, setSelectionModel] = useState([]);
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
+
   const disableActionButton = (selectionModel) => {
     if (selectionModel.length > 0 && selectionModel.length < 2) {
       return false;
@@ -189,7 +192,7 @@ const Students = () => {
   }, [status]);
   return (
     <Layout>
-      <Container maxWidth="xl" sx={{ my: 3 }}>
+      <Container maxWidth="lg" sx={{ my: 3 }}>
         {/* Delete Alert */}
         <Dialog
           open={open}
@@ -216,6 +219,7 @@ const Students = () => {
           </DialogActions>
         </Dialog>
         {/* End */}
+
         <Paper sx={{ p: 2 }}>
           <Grid container spacing={2}>
             <Grid item sm={12}>
@@ -227,7 +231,16 @@ const Students = () => {
                 >
                   Delete
                 </Button>
-                <Button endIcon={<EditIcon />}>Edit</Button>
+                <Button
+                  endIcon={<EditIcon />}
+                  onClick={() =>
+                    navigate(
+                      `/dashboard/edit-student-form/${selectionModel[0]}`
+                    )
+                  }
+                >
+                  Edit
+                </Button>
                 <Button>Details</Button>
               </ButtonGroup>
             </Grid>

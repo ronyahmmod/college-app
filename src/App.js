@@ -30,6 +30,8 @@ import EditProttoionForCurrentApp from "./pages/EditProttoionForCurrentApp";
 import EditProttoionForPassedApp from "./pages/EditProttoionForPassedApp";
 import StudentRegistrationForm from "./pages/StudentRegistrationForm";
 import Students from "./pages/Students";
+import EditStudentForm from "./pages/EditStudentForm";
+import PrintVoterList from "./pages/PrintVoterList";
 
 function App() {
   const dispatch = useDispatch();
@@ -102,6 +104,22 @@ function App() {
             element={
               <AuthorizeForAdmin>
                 <StudentRegistrationForm />
+              </AuthorizeForAdmin>
+            }
+          />
+          <Route
+            path="edit-student-form/:id"
+            element={
+              <AuthorizeForAdmin>
+                <EditStudentForm />
+              </AuthorizeForAdmin>
+            }
+          />
+          <Route
+            path="print-voter-list"
+            element={
+              <AuthorizeForAdmin>
+                <PrintVoterList />
               </AuthorizeForAdmin>
             }
           />
