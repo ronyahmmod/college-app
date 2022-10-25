@@ -25,6 +25,7 @@ import {
 import { userServices } from "../components/userServices";
 import { adminServices } from "../components/adminServices";
 import Services from "../components/Services";
+import RegistrationStatus from "../components/RegistrationStatus";
 
 const Overview = () => {
   const status = useSelector(selectApplicationStatus);
@@ -87,6 +88,9 @@ const Overview = () => {
                   </Grid>
                 </>
               )}
+
+              {/* TODO: REGISTRATION STATUS */}
+              {loggedInUser.role !== "user" && <RegistrationStatus />}
 
               {/* TODO: ADMIN SERVICES */}
               {loggedInUser.role !== "user" && (

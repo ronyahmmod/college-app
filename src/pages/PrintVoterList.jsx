@@ -38,11 +38,11 @@ const PrintVoterList = () => {
           let q = null;
           if (filter) {
             console.log(filter);
-
             q = query(
               studentsRef,
-              where("class", "==", filter.class || "hsc"),
-              where("group", "==", filter.group || "hu")
+              where("class", "==", filter.class),
+              where("group", "==", filter.group),
+              where("readingYear", "==", filter.readingYear)
             );
           } else {
             q = query(studentsRef, orderBy("class", "desc"));
