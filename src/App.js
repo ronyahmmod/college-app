@@ -32,6 +32,7 @@ import StudentRegistrationForm from "./pages/StudentRegistrationForm";
 import Students from "./pages/Students";
 import EditStudentForm from "./pages/EditStudentForm";
 import PrintVoterList from "./pages/PrintVoterList";
+import ApplicationRenderer from "./components/ApplicationRenderer";
 
 function App() {
   const dispatch = useDispatch();
@@ -106,6 +107,10 @@ function App() {
                 <StudentRegistrationForm />
               </AuthorizeForAdmin>
             }
+          />
+          <Route
+            path="print-application/:id"
+            element={<ApplicationRenderer />}
           />
           <Route
             path="edit-student-form/:id"

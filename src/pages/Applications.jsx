@@ -18,6 +18,7 @@ import ApprovalIcon from "@mui/icons-material/Approval";
 import BlockIcon from "@mui/icons-material/Block";
 import InfoIcon from "@mui/icons-material/Info";
 import EditIcon from "@mui/icons-material/Edit";
+import PrintIcon from "@mui/icons-material/Print";
 import { selectLoggedInUser } from "../feature/user/userSlice";
 import ServiceDialog from "../components/ServiceDialog";
 import { useNavigate } from "react-router-dom";
@@ -105,7 +106,7 @@ const Applications = () => {
         {
           field: "actions",
           type: "actions",
-          width: 150,
+          width: 200,
           getActions: (params) => [
             <GridActionsCellItem
               icon={<EditIcon />}
@@ -136,6 +137,14 @@ const Applications = () => {
                     break;
                 }
               }}
+              color="primary"
+            />,
+            <GridActionsCellItem
+              icon={<PrintIcon />}
+              label="Print Application"
+              onClick={() =>
+                navigate(`/dashboard/print-application/${params.id}`)
+              }
               color="primary"
             />,
             <GridActionsCellItem
@@ -257,6 +266,21 @@ const Applications = () => {
           valueGetter: (params) => params.row.status.toUpperCase(),
         },
         { field: "remarks", headerName: "Remarks", width: 300 },
+        {
+          field: "actions",
+          type: "actions",
+          width: 150,
+          getActions: (params) => [
+            <GridActionsCellItem
+              icon={<PrintIcon />}
+              label="Print Application"
+              onClick={() =>
+                navigate(`/dashboard/print-application/${params.id}`)
+              }
+              color="primary"
+            />,
+          ],
+        },
       ];
     }
   };

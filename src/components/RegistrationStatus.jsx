@@ -14,19 +14,6 @@ import {
 import { db } from "../firebase.config";
 import Title from "./Title";
 
-// const count = (snapshot) => {
-//   let countData = 0;
-//   snapshot.forEach((doc) => {
-//     countData = countData + 1;
-//   });
-//   return countData;
-// };
-
-// const renderCustomAxisTick = ({ x, y, payload }) => {
-//   // console.log(payload);
-//   return <Typography>{payload.value.substring(0, 6)}</Typography>;
-// };
-
 const formatTick = (value) => {
   return value.substring(0, 6).toUpperCase();
 };
