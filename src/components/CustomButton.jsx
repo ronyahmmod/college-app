@@ -38,7 +38,7 @@ const CustomButton = ({ color, backgroundColor, title, Icon, path, tag }) => {
           color: color,
         },
       }}
-      onClick={() => navigateTo(path, tag, dispatch, navigate)}
+      onClick={() => navigateTo(`/dashboard/${path}`, tag, dispatch, navigate)}
     >
       <Box>
         <Icon sx={{ "&:hover": { color: color } }} />

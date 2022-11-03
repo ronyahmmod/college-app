@@ -115,6 +115,7 @@ const Applications = () => {
                 switch (params.row.applicationType) {
                   case "certificate":
                   case "testimonial":
+                  case "certificate-testimonial":
                     navigate(`/dashboard/editcertificateapp/${params.id}`);
                     break;
                   case "psis":
@@ -298,6 +299,7 @@ const Applications = () => {
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchApplications());
+      // throw new Error("Fuck", { cause: "Minus" });
     }
     setStableUser(loggedInUser);
   }, [status, dispatch, loggedInUser]);

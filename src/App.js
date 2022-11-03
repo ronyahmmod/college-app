@@ -41,6 +41,7 @@ function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
+        // throw new Error("User not found");
         const newUser = {
           uid: user.uid,
           email: user.email || "Unknown",

@@ -38,6 +38,8 @@ export const renderGroup = (group, lang) => {
       return "মানব সম্পদ উন্নয়ন ট্রেড";
     case group === "co" && lang === "bn":
       return "কম্পিউটার অপারেশন ট্রেড";
+    case group === "sec" && lang === "bn":
+      return "সেক্রেটারিয়েল সায়েন্স";
     case group === "sc":
       return "SCIENCE";
     case group === "hu":
@@ -58,6 +60,8 @@ export const renderGroup = (group, lang) => {
       return "HUMAN RESOURCE MANAGEMENT";
     case group === "co":
       return "COMPUTER OPERATION";
+    case group === "sec":
+      return "SECRETERIAL SCIENCE";
     default:
       return "N/A";
   }

@@ -300,6 +300,9 @@ const EditCertificateApp = () => {
                                   <MenuItem value="testimonial">
                                     Testimonial
                                   </MenuItem>
+                                  <MenuItem value="certificate-testimonial">
+                                    Certificate & Testimonial, Marksheet
+                                  </MenuItem>
                                   {/* <MenuItem value="prottoion">Prottoion</MenuItem> */}
                                 </Select>
                               </FormControl>

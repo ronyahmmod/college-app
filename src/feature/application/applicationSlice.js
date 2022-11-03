@@ -5,13 +5,22 @@ import {
 } from "@reduxjs/toolkit";
 import { format } from "date-fns";
 // import { getMilliseconds, toDate } from "date-fns";
-import { collection, getDocs, Timestamp } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  Timestamp,
+} from "firebase/firestore";
 import { db } from "../../firebase.config";
 
 export const fetchApplications = createAsyncThunk(
   "application/fetchApplications",
   async () => {
-    const querySnapshot = await getDocs(collection(db, "applications"));
+    const applicationsRef = collection(db, "applications");
+    const querySnapshot = await getDocs(
+      query(applicationsRef, orderBy("date", "desc"))
+    );
     const data = [];
     querySnapshot.forEach((doc) => {
       if (doc.data().payslipDate) {
@@ -84,13 +93,10 @@ export const selectApplicationByPayslip = (payslip) => {
 };
 
 // sorted applications by application date
-export const selectSortedApplicationByAppDate = createSelector(
-  selectAllApplications,
-  (allApplications) =>
-    allApplications.slice().sort((a, b) => b.date.localeCompare(a.date))
-);
+export const selectSortedApplicationByAppDate = (state) =>
+  state.application.applications;
 export const selectApplicationsByUserId = (id) =>
-  createSelector(selectSortedApplicationByAppDate, (applications) =>
+  createSelector(selectAllApplications, (applications) =>
     applications.filter((app) => app.studentId === id)
   );
 
