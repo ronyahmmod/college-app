@@ -22,6 +22,9 @@ import {
   selectTodaysApplicationsByUserId,
   setStatus,
 } from "../feature/application/applicationSlice";
+import { userServices } from "../components/userServices";
+import { adminServices } from "../components/adminServices";
+import Services from "../components/Services";
 
 const Overview = () => {
   const status = useSelector(selectApplicationStatus);
@@ -52,13 +55,6 @@ const Overview = () => {
           }}
         >
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Button
-              variant="contained"
-              color="secondary"
-              endIcon={<ReplayIcon />}
-              onClick={() => dispatch(setStatus("idle"))}
-              disabled={status === "loading"}
-            ></Button>
             <Grid container spacing={3}>
               {/* Today Graph */}
               {loggedInUser && loggedInUser.role !== "user" && (
@@ -92,8 +88,26 @@ const Overview = () => {
                 </>
               )}
 
+              {/* TODO: ADMIN SERVICES */}
+              {loggedInUser.role !== "user" && (
+                <Services services={adminServices} title="Services" />
+              )}
+
+              {/* TODO: USER SERVICES */}
+              {loggedInUser.role === "user" && (
+                <Services services={userServices} title="Services" />
+              )}
+
               {/* Current Applications */}
+
               <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  endIcon={<ReplayIcon />}
+                  onClick={() => dispatch(setStatus("idle"))}
+                  disabled={status === "loading"}
+                ></Button>
                 <Paper
                   sx={{
                     p: 2,
