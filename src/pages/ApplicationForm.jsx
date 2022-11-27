@@ -30,6 +30,7 @@ import { storage } from "../firebase.config";
 import { grey } from "@mui/material/colors";
 import { selectCertType } from "../feature/ui/uiSlice";
 import { resulation } from "../utils/resulation";
+import Group from "../components/Group";
 
 const initialCertType = (certType) => {
   if (certType === 0) {
@@ -301,32 +302,7 @@ const ApplicationForm = () => {
                             <MenuItem value="bou">OPEN UNIVERSITY</MenuItem>
                           </Select>
                         </FormControl>
-                        <FormControl fullWidth required>
-                          <InputLabel id="group">
-                            Last Group/Subject/Trade
-                          </InputLabel>
-                          <Select
-                            labelId="group"
-                            label="Last Group/Subject/Trade Name"
-                            name="group"
-                            required
-                            value={group}
-                            onChange={handleChange}
-                          >
-                            <MenuItem value="sc">SCIENCE</MenuItem>
-                            <MenuItem value="hu">HUMANITIES</MenuItem>
-                            <MenuItem value="bs">BUSINESS STUDIES</MenuItem>
-                            <MenuItem value="ba">BA</MenuItem>
-                            <MenuItem value="bss">BSS</MenuItem>
-                            <MenuItem value="bbs">BBS</MenuItem>
-                            <MenuItem value="pol">POLITICAL SCIENCE</MenuItem>
-                            <MenuItem value="ban">BANGLA</MenuItem>
-                            <MenuItem value="hrm">
-                              HUMAN RESOURCE MANAGEMENT
-                            </MenuItem>
-                            <MenuItem value="co">COMPUTER OPERATION</MenuItem>
-                          </Select>
-                        </FormControl>
+                        <Group changeHandler={handleChange} value={group} />
                         <TextField
                           name="roll"
                           type="text"

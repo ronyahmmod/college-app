@@ -29,6 +29,10 @@ import EditProttoionForCorrectionApp from "./pages/EditProttoionForCorrectionApp
 import EditProttoionForCurrentApp from "./pages/EditProttoionForCurrentApp";
 import EditProttoionForPassedApp from "./pages/EditProttoionForPassedApp";
 import StudentRegistrationForm from "./pages/StudentRegistrationForm";
+import Students from "./pages/Students";
+import EditStudentForm from "./pages/EditStudentForm";
+import PrintVoterList from "./pages/PrintVoterList";
+import ApplicationRenderer from "./components/ApplicationRenderer";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,6 +41,7 @@ function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
+        // throw new Error("User not found");
         const newUser = {
           uid: user.uid,
           email: user.email || "Unknown",
@@ -101,6 +106,34 @@ function App() {
             element={
               <AuthorizeForAdmin>
                 <StudentRegistrationForm />
+              </AuthorizeForAdmin>
+            }
+          />
+          <Route
+            path="print-application/:id"
+            element={<ApplicationRenderer />}
+          />
+          <Route
+            path="edit-student-form/:id"
+            element={
+              <AuthorizeForAdmin>
+                <EditStudentForm />
+              </AuthorizeForAdmin>
+            }
+          />
+          <Route
+            path="print-voter-list"
+            element={
+              <AuthorizeForAdmin>
+                <PrintVoterList />
+              </AuthorizeForAdmin>
+            }
+          />
+          <Route
+            path="all-students"
+            element={
+              <AuthorizeForAdmin>
+                <Students />
               </AuthorizeForAdmin>
             }
           />

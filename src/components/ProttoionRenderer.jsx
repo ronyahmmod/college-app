@@ -133,7 +133,7 @@ const DocBody = ({ application }) => {
         রেজিস্ট্রেশন নম্বরঃ <strong>{application.registration}</strong> এবং
         পরীক্ষার সালঃ <strong>{application.passingYear}</strong>। তার শ্রেণি রোল
         নম্বরঃ <strong>{application.classRoll}</strong>। আমার জানামতে অত্র কলেজে
-        অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত নন।
+        অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত নয়।
       </Typography>
 
       <Typography
@@ -163,7 +163,7 @@ const DocBodyPresent = ({ application }) => {
         শিক্ষার্থী। তার শ্রেণি রোল নম্বরঃ{" "}
         <strong>{application.classRoll}</strong> এবং একাডেমিক বর্ষঃ{" "}
         <strong>{up(application.readingYear)}</strong>। আমার জানামতে অত্র কলেজে
-        অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত ছিল না।
+        অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত নয়।
       </Typography>
 
       <Typography
@@ -271,7 +271,7 @@ const DocBodyIncorrect = ({ application }) => {
       >
         {" "}
         আমার জানামতে অত্র কলেজে অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত
-        ছিল না। আমি তার সার্বিক মঙ্গল কামনা করি।
+        নয়। আমি তার সার্বিক মঙ্গল কামনা করি।
       </Typography>
     </Box>
   );

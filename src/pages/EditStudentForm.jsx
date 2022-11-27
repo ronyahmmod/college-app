@@ -1,68 +1,99 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Box,
   Button,
   ButtonGroup,
   Container,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   TextField,
 } from "@mui/material";
 import { Formik } from "formik";
 import Layout from "../components/Layout";
 import Title from "../components/Title";
-import { collection, setDoc, doc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase.config";
 import TimeoutAlert from "../components/TimeoutAlert";
 import { useSelector } from "react-redux";
 import { selectLoggedInUser } from "../feature/user/userSlice";
-import { useNavigate } from "react-router-dom";
-import Group from "../components/Group";
-import Classes from "../components/Classes";
-import Years from "../components/Years";
+import { useNavigate, useParams } from "react-router-dom";
 
-const StudentRegistrationForm = () => {
+const EditStudentForm = () => {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState(null);
   const [wait, setWait] = useState(false);
+  const [student, setStudent] = useState(null);
   const loggedInUser = useSelector(selectLoggedInUser);
   const navigate = useNavigate();
+  const { id } = useParams();
+  console.log(id);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const docRef = doc(db, "students", id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setStudent({ id: docSnap.id, ...docSnap.data() });
+        }
+      } catch (error) {
+        setError(error);
+      }
+    }
+    loadData();
+  }, [id]);
+
+  console.log(error);
+
+  if (!student) {
+    return (
+      <Layout>
+        <Container maxWidth="lg" sx={{ my: 3 }}>
+          <Paper>
+            <Alert severity="error">
+              There is no student found. Try again or go back to list.
+            </Alert>
+          </Paper>
+        </Container>
+      </Layout>
+    );
+  }
   return (
     <Layout>
       <Container maxWidth="lg" sx={{ my: 3 }}>
         <Formik
           initialValues={{
-            studentName: "",
-            studentNameBan: "",
-            fatherName: "",
-            fatherNameBan: "",
-            motherName: "",
-            motherNameBan: "",
-            class: "",
-            classRoll: "",
-            session: "",
-            readingYear: "",
-            group: "",
-            address: "",
-            mobile: "",
-            gurdianMobile: "",
+            studentName: student.studentName,
+            studentNameBan: student.studentNameBan,
+            fatherName: student.fatherName,
+            fatherNameBan: student.fatherNameBan,
+            motherName: student.motherName,
+            motherNameBan: student.motherNameBan,
+            class: student.class,
+            classRoll: student.classRoll,
+            session: student.session,
+            readingYear: student.readingYear,
+            group: student.group,
+            address: student.address,
+            mobile: student.mobile,
+            gurdianMobile: student.gurdianMobile,
           }}
           onSubmit={async (values, { resetForm }) => {
             try {
-              const docRef = doc(collection(db, "students"));
+              const docRef = doc(db, "students", id);
               setWait(true);
-              await setDoc(docRef, {
+              await updateDoc(docRef, {
                 ...values,
-                voterNumber: `${values.classRoll}-${
-                  values.class
-                }-${values.session.split("-").join("")}-${values.readingYear}`,
-                createdAt: Date.now(),
-                submittedBy: loggedInUser,
+                editedBy: loggedInUser,
+                timestamp: serverTimestamp(),
               });
               setSaved(true);
               setWait(false);
-              resetForm();
               setError(null);
             } catch (error) {
               setError(error);
@@ -72,11 +103,11 @@ const StudentRegistrationForm = () => {
             }
           }}
         >
-          {({ values, handleChange, handleSubmit, resetForm }) => (
+          {({ values, handleChange, handleSubmit }) => (
             <Paper sx={{ p: 2 }} component="form" onSubmit={handleSubmit}>
               {saved && (
                 <TimeoutAlert ms={3000} severity="success">
-                  Data saved successfully.
+                  Data update successfully.
                 </TimeoutAlert>
               )}
               {error && (
@@ -85,7 +116,9 @@ const StudentRegistrationForm = () => {
                 </Alert>
               )}
               {wait && <Alert severity="info">Please wait</Alert>}
-              <Title>Student Registration Form</Title>
+              <Title>
+                Student edit form of voter number: {student.voterNumber}
+              </Title>
               <Grid container spacing={2} sx={{ my: 2 }}>
                 <Grid item sm={6}>
                   {/* PART-1 */}
@@ -119,10 +152,24 @@ const StudentRegistrationForm = () => {
                       required
                       fullWidth
                     />
-                    <Classes
-                      changeHandler={handleChange}
-                      value={values.class}
-                    />
+                    <FormControl fullWidth required>
+                      <InputLabel id="class-name-label">Class Name</InputLabel>
+                      <Select
+                        labelId="class-name-label"
+                        label="Class Name"
+                        name="class"
+                        required
+                        value={values.class}
+                        onChange={handleChange}
+                      >
+                        {/* <MenuItem value="ssc">SSC</MenuItem> */}
+                        <MenuItem value="hsc">HSC</MenuItem>
+                        <MenuItem value="degree">DEGREE</MenuItem>
+                        <MenuItem value="honours">HONOURS</MenuItem>
+                        <MenuItem value="bm">HSC BM</MenuItem>
+                        <MenuItem value="bou">OPEN UNIVERSITY</MenuItem>
+                      </Select>
+                    </FormControl>
 
                     <TextField
                       name="classRoll"
@@ -133,7 +180,32 @@ const StudentRegistrationForm = () => {
                       required
                       fullWidth
                     />
-                    <Group changeHandler={handleChange} value={values.group} />
+                    <FormControl fullWidth required>
+                      <InputLabel id="group">
+                        Last Group/Subject/Trade
+                      </InputLabel>
+                      <Select
+                        labelId="group"
+                        label="Last Group/Subject/Trade Name"
+                        name="group"
+                        required
+                        value={values.group}
+                        onChange={handleChange}
+                      >
+                        <MenuItem value="sc">SCIENCE</MenuItem>
+                        <MenuItem value="hu">HUMANITIES</MenuItem>
+                        <MenuItem value="bs">BUSINESS STUDIES</MenuItem>
+                        <MenuItem value="ba">BA</MenuItem>
+                        <MenuItem value="bss">BSS</MenuItem>
+                        <MenuItem value="bbs">BBS</MenuItem>
+                        <MenuItem value="pol">POLITICAL SCIENCE</MenuItem>
+                        <MenuItem value="ban">BANGLA</MenuItem>
+                        <MenuItem value="hrm">
+                          HUMAN RESOURCE MANAGEMENT
+                        </MenuItem>
+                        <MenuItem value="co">COMPUTER OPERATION</MenuItem>
+                      </Select>
+                    </FormControl>
                     <TextField
                       name="session"
                       type="text"
@@ -180,10 +252,26 @@ const StudentRegistrationForm = () => {
                     required
                     fullWidth
                   />
-                  <Years
-                    changeHandler={handleChange}
-                    value={values.readingYear}
-                  />
+                  <FormControl fullWidth required>
+                    <InputLabel id="reading-year-label">
+                      Current year
+                    </InputLabel>
+                    <Select
+                      labelId="reading-year-label"
+                      label="Current year"
+                      name="readingYear"
+                      required
+                      value={values.readingYear}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="xi">XI</MenuItem>
+                      <MenuItem value="xii">XII</MenuItem>
+                      <MenuItem value="1st">1ST</MenuItem>
+                      <MenuItem value="2nd">2ND</MenuItem>
+                      <MenuItem value="3rd">3RD</MenuItem>
+                      <MenuItem value="4th">4th</MenuItem>
+                    </Select>
+                  </FormControl>
                   <TextField
                     name="mobile"
                     type="text"
@@ -211,14 +299,9 @@ const StudentRegistrationForm = () => {
                   {/* BUTTONS */}
                   <ButtonGroup>
                     <Button variant="contained" type="submit" disabled={wait}>
-                      Submit
+                      Update
                     </Button>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      type="reset"
-                      onClick={resetForm}
-                    >
+                    <Button variant="contained" color="error" type="reset">
                       Cancle
                     </Button>
                     <Button
@@ -239,4 +322,4 @@ const StudentRegistrationForm = () => {
   );
 };
 
-export default StudentRegistrationForm;
+export default EditStudentForm;
