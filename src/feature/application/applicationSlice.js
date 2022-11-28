@@ -48,6 +48,7 @@ export const fetchApplications = createAsyncThunk(
         });
       }
     });
+    // console.log(data);
     return data;
   }
 );
@@ -103,11 +104,20 @@ export const selectApplicationsByUserId = (id) =>
 export const selectTodaysApplications = createSelector(
   selectSortedApplicationByAppDate,
   (applications) =>
-    applications.filter(
-      (app) =>
-        format(new Date(app.date), "yyyy-MM-dd") ===
-        format(new Date(), "yyyy-MM-dd")
-    )
+    applications.filter((app) => {
+      // console.log(app);
+      // return (
+      //   format(Date.parse(app.date), "yyyy-MM-dd") ===
+      //   format(new Date(), "yyyy-MM-dd")
+      // );
+      // return true;
+      // console.log(new Date(app.date).getDate(), new Date().getDate());
+      const appDate = app.date.split(",")[0].split("/").reverse().join("-");
+      const today = format(new Date(), "yyyy-MM-dd");
+      // console.log(appDate, today);
+      // console.log(isEqual(appDate, today));
+      return appDate === today;
+    })
 );
 
 export const selectTodaysApplicationsByUserId = (id) =>
