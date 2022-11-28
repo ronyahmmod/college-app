@@ -9,8 +9,6 @@ import TableRow from "@mui/material/TableRow";
 import { Backdrop, CircularProgress } from "@mui/material";
 import Title from "./Title";
 
-import { format } from "date-fns";
-
 import { useNavigate } from "react-router-dom";
 import { renderApplicationType, up } from "../helper/render.helper";
 
@@ -42,14 +40,7 @@ export default function RecentApplications({ applications }) {
           <TableBody>
             {rows.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>
-                  {format(
-                    new Date(
-                      row.date.split(",")[0].split("/").reverse().join("-")
-                    ),
-                    "dd-MM-yyyy"
-                  )}
-                </TableCell>
+                <TableCell>{row.date}</TableCell>
                 <TableCell>{row.id}</TableCell>
                 <TableCell>{row.name}</TableCell>
                 <TableCell>
