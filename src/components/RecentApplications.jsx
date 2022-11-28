@@ -43,7 +43,12 @@ export default function RecentApplications({ applications }) {
             {rows.map((row) => (
               <TableRow key={row.id}>
                 <TableCell>
-                  {format(new Date(row.date), "yyyy-MM-dd")}
+                  {format(
+                    new Date(
+                      row.date.split(",")[0].split("/").reverse().join("-")
+                    ),
+                    "dd-MM-yyyy"
+                  )}
                 </TableCell>
                 <TableCell>{row.id}</TableCell>
                 <TableCell>{row.name}</TableCell>

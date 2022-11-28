@@ -43,6 +43,7 @@ const parsingData = (applications) => {
 // ];
 
 const TodayChart = ({ applications }) => {
+  console.log(applications);
   const theme = useTheme();
   let data = null;
   if (applications) {

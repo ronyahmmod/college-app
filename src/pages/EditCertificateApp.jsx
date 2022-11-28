@@ -47,6 +47,7 @@ const EditCertificateApp = () => {
   }, [id]);
 
   //   UPDATE APPLICATION
+  console.log(updating);
 
   async function updateData(values) {
     setUpdating(true);
