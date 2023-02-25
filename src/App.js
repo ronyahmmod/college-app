@@ -61,7 +61,7 @@ function App() {
     return () => {
       unsubscribe();
     };
-  });
+  }, []);
 
   return (
     <Box sx={{ backgroundColor: "inherit" }}>

@@ -9,6 +9,7 @@ import {
   renderApplicationType,
   renderExamination,
   renderGroup,
+  renderResultType,
   up,
 } from "../helper/render.helper";
 import CollegeLogoURL from "../assets/logos/college-logo.png";
@@ -80,10 +81,10 @@ function renderEdu(type, app) {
         <Grid item sm={6}>
           <Box>
             <Typography>
-              Class: <i>{up(app.readingClass)}</i>
+              Exam name: <i>{up(renderExamination(app.lastExamName))}</i>
             </Typography>
             <Typography>
-              Group: <i>{renderGroup(app.group)}</i>
+              Passing Group: <i>{renderGroup(app.group)}</i>
             </Typography>
             <Typography>
               Class roll: <i>{app.classRoll}</i>
@@ -93,7 +94,20 @@ function renderEdu(type, app) {
         <Grid item sm={6}>
           <Box>
             <Typography>
-              Accademic year: <i>{up(app.readingYear)}</i>
+              Board roll: <i>{up(app.roll)}</i>
+            </Typography>
+            <Typography>
+              Registration: <i>{up(app.registration)}</i>
+            </Typography>
+            <Typography>
+              Passing year: <i>{up(app.passingYear)}</i>
+            </Typography>
+            <Typography>
+              Result: <i>{up(app.result)}</i>{" "}
+              {up(renderResultType(app.resultType))}
+            </Typography>
+            <Typography>
+              Board: <i>{up(app.board)}</i>
             </Typography>
             <Typography>
               Session: <i>{up(app.session)}</i>
@@ -413,9 +427,10 @@ const ApplicationRenderer = () => {
                   </Box>
                   <Box>
                     <Typography>
-                      <i>Issued by</i>
+                      <u>
+                        <i>Issued by</i>
+                      </u>
                     </Typography>
-                    <Typography>(OFFICE STAFF)</Typography>
                   </Box>
                   <Box>
                     <Typography>
