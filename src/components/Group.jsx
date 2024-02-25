@@ -13,6 +13,8 @@ const groups = [
   { name: "hrm", value: "HUMAN RESOURCE MANAGEMENT" },
   { name: "co", value: "COMPUTER OPERATION" },
   { name: "sec", value: "SECRETERIEL SCIENCE" },
+  { name: "dtb", value: "DIGITAL TECHNOLOGY IN BUSINESS" },
+  { name: "hrd", value: "HUMAN RESOURCE DEVELOPMENT" },
 ];
 const Group = ({ changeHandler, value, ...otherProps }) => {
   return (

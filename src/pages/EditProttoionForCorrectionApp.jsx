@@ -278,6 +278,12 @@ const EditProttoionForCorrectionApp = () => {
                                   <MenuItem value="co">
                                     COMPUTER OPERATION
                                   </MenuItem>
+                                  <MenuItem value="dtb">
+                                    DIGITAL TECHNOLOGY IN BUSINESS
+                                  </MenuItem>
+                                  <MenuItem value="hrd">
+                                    HUMAN RESOURCE DEVELOPMENT
+                                  </MenuItem>
                                 </Select>
                               </FormControl>
 
@@ -414,6 +420,12 @@ const EditProttoionForCorrectionApp = () => {
                                         </MenuItem>
                                         <MenuItem value="co">
                                           COMPUTER OPERATION
+                                        </MenuItem>
+                                        <MenuItem value="dtb">
+                                          DIGITAL TECHNOLOGY IN BUSINESS
+                                        </MenuItem>
+                                        <MenuItem value="hrd">
+                                          HUMAN RESOURCE DEVELOPMENT
                                         </MenuItem>
                                       </Select>
                                     </FormControl>

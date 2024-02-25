@@ -62,6 +62,10 @@ export const renderGroup = (group, lang) => {
       return "COMPUTER OPERATION";
     case group === "sec":
       return "SECRETERIAL SCIENCE";
+    case group === "dtb":
+      return "DIGITAL TECHNOLOGY IN BUSINESS";
+    case group === "hrd":
+      return "HUMAN RESOURCE DEVELOPMENT";
     default:
       return "N/A";
   }
@@ -140,6 +144,8 @@ export const renderGroupText = (group) => {
       return "subject";
     case "hrm":
     case "co":
+    case "dtb":
+    case "hrd":
       return "trade";
     default:
       return "group";
