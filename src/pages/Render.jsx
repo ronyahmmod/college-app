@@ -36,7 +36,7 @@ const Render = () => {
   ) {
     return <ProttoionRenderer application={application} id={id} type={type} />;
   } else {
-    console.log(application);
+    // console.log(application);
     return <Loading />;
   }
 };

@@ -202,6 +202,8 @@ const ProttoionAppForCurrent = () => {
         { itemKey: "ban", value: "BANGLA" },
         { itemKey: "hrm", value: "HUMAN RESOURCE MANAGEMENT" },
         { itemKey: "co", value: "COMPUTER OPERATION" },
+        { itemKey: "dtb", value: "DIGITAL TECHNOLOGY IN BUSINESS" },
+        { itemKey: "hrd", value: "HUMAN RESOURCE DEVELOPMENT" },
       ],
       true,
       true,

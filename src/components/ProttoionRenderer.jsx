@@ -133,7 +133,7 @@ const DocBody = ({ application }) => {
         রেজিস্ট্রেশন নম্বরঃ <strong>{application.registration}</strong> এবং
         পরীক্ষার সালঃ <strong>{application.passingYear}</strong>। তার শ্রেণি রোল
         নম্বরঃ <strong>{application.classRoll}</strong>। আমার জানামতে অত্র কলেজে
-        অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত নয়।
+        অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত ছিল না।
       </Typography>
 
       <Typography
@@ -162,8 +162,8 @@ const DocBodyPresent = ({ application }) => {
         <strong>{renderGroup(application.group, "bn")}</strong> -এর একজন
         শিক্ষার্থী। তার শ্রেণি রোল নম্বরঃ{" "}
         <strong>{application.classRoll}</strong> এবং একাডেমিক বর্ষঃ{" "}
-        <strong>{up(application.readingYear)}</strong>। আমার জানামতে অত্র কলেজে
-        অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত নয়।
+        <strong>{up(application.readingYear)}</strong>। আমার জানামতে সে কলেজ
+        পরিপন্থি কোন কার্যকলাপে জড়িত নয়।
       </Typography>
 
       <Typography
@@ -175,10 +175,16 @@ const DocBodyPresent = ({ application }) => {
   );
 };
 const DocBodyIncorrect = ({ application }) => {
+  console.log(application);
   return (
     <Box sx={{ my: 3 }}>
       <Typography
-        sx={{ textAlign: "justify", lineHeight: 1.8, textIndent: 40 }}
+        sx={{
+          textAlign: "justify",
+          lineHeight: 1.8,
+          textIndent: 40,
+          fontSize: 13,
+        }}
       >
         এই মর্মে প্রত্যয়ন করা যাচ্ছে যে, নামঃ{" "}
         <strong>{up(application.name)}</strong>, পিতার নামঃ{" "}
@@ -189,8 +195,27 @@ const DocBodyIncorrect = ({ application }) => {
         শ্রেণির <strong>{application.session}</strong> শিক্ষাবর্ষের{" "}
         <strong>{renderGroup(application.group, "bn")}</strong> -এর একজন
         শিক্ষার্থী। তার শ্রেণি রোল নম্বরঃ{" "}
-        <strong>{application.classRoll}</strong> এবং একাডেমিক বর্ষঃ{" "}
-        <strong>{up(application.readingYear)}</strong>।
+        <strong>{application.classRoll}</strong>।
+        {application.passed && (
+          <Typography
+            sx={{
+              my: 3,
+              fontSize: 12,
+              fontWeight: "600",
+              textTransform: "uppercase",
+            }}
+          >
+            অত্র কলেজ হতে উত্তীর্ণ হওয়া সর্বশেষ পরীক্ষার তথ্যঃ Exam name:{" "}
+            {up(renderExamination(application.examName))}, roll:{" "}
+            {application.examRoll}, registration: {application.examRegistration}
+            , session: {application.examSession}, group/subject/trade:{" "}
+            {up(renderGroup(application.examGroup))}, result:{" "}
+            {application.examResult}{" "}
+            {up(renderResultType(application.examResultType))}, year:{" "}
+            {application.examYear}, board/university:{" "}
+            {up(application.examBoard)}
+          </Typography>
+        )}
         <Typography sx={{ my: 2 }}>
           তার ড্যকুমেন্ট সংশোধন সংক্রান্ত তথ্যাদি নিচে দেয়া হলোঃ
         </Typography>
@@ -270,8 +295,8 @@ const DocBodyIncorrect = ({ application }) => {
         sx={{ textAlign: "justify", lineHeight: 1.8, textIndent: 40 }}
       >
         {" "}
-        আমার জানামতে অত্র কলেজে অধ্যয়নকালে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত
-        নয়। আমি তার সার্বিক মঙ্গল কামনা করি।
+        আমার জানামতে সে কলেজ পরিপন্থি কোন কার্যকলাপে জড়িত নয়। আমি তার সার্বিক
+        মঙ্গল কামনা করি।
       </Typography>
     </Box>
   );
